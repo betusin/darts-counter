@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 
 class TripleSegments extends StatelessWidget {
 
-  final double widthOfScreen;
+  final double widthOfWholeBoard;
 
-  TripleSegments({super.key, required this.widthOfScreen});
+  TripleSegments({super.key, required this.widthOfWholeBoard});
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +24,9 @@ class TripleSegments extends StatelessWidget {
     for (int i = 0; i < 20; i++){
       Color col = (i%2 == 0) ? dartboardGreen : dartboardRed;
       segments.add(Segment(
-          widthOfScreen: widthOfScreen,
+          widthOfScreen: widthOfWholeBoard,
           color: col,
-          size: widthOfScreen - tripleSegmentOffset,
+          size: widthOfWholeBoard - tripleSegmentOffset,
           offset: i,
           value: segmentValueMapper[i+1]! * 3));
     }

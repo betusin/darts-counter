@@ -6,6 +6,8 @@ const Color dartboardWhite = Color(0xfff9dfbc);
 const Color dartboardBlack = Colors.black;
 const Color highlightYellow = Color(0xbdffe545);
 
+// TODO maybe calculate these values to percentage of screen width ?
+// now it will probably look very weird on a big screen (tablet) - maybe not
 const double innerSegmentOffset = 120;
 const double tripleSegmentOffset = 60;
 const double textFromCircleOffset = 10;

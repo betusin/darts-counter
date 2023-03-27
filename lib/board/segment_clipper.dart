@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 class SegmentClipper extends CustomClipper<Path> {
 
-  final double widthOfScreen;
+  final double widthOfWholeBoard;
   final int offset;
 
   double _x1 = 0.0;
@@ -12,7 +12,7 @@ class SegmentClipper extends CustomClipper<Path> {
   double _x2 = 0.0;
   double _y2 = 0.0;
 
-  SegmentClipper({required this.widthOfScreen, required this.offset});
+  SegmentClipper({required this.widthOfWholeBoard, required this.offset});
 
   @override
   Path getClip(Size size) {
@@ -24,7 +24,7 @@ class SegmentClipper extends CustomClipper<Path> {
     Path path = Path()
       ..moveTo(radius, radius) //move to middle of rect
       ..lineTo(_x1, _y1)  //line to left corner
-      ..arcToPoint(Offset(_x2, _y2), radius: Radius.circular(widthOfScreen)) //arc to right corner
+      ..arcToPoint(Offset(_x2, _y2), radius: Radius.circular(widthOfWholeBoard)) //arc to right corner
       ..lineTo(radius, radius) //line back to middle
       ..close();
 
