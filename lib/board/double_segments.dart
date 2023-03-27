@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 
 class DoubleSegments extends StatelessWidget {
 
-  final double widthOfScreen;
+  final double widthOfWholeBoard;
 
-  DoubleSegments({super.key, required this.widthOfScreen});
+  DoubleSegments({super.key, required this.widthOfWholeBoard});
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +22,10 @@ class DoubleSegments extends StatelessWidget {
    List<Segment> segments = [];
 
    for (int i = 0; i < 20; i++){
-      Color col = (i%2 == 0) ? dartboardGreen : dartboardRed;
       segments.add(Segment(
-        widthOfScreen: widthOfScreen,
-        color: col,
-        size: widthOfScreen,
+        widthOfScreen: widthOfWholeBoard,
+        color: (i%2 == 0) ? dartboardGreen : dartboardRed,
+        size: widthOfWholeBoard,
         offset: i,
         value: segmentValueMapper[i+1]! * 2,));
    }

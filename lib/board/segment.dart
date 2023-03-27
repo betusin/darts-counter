@@ -18,7 +18,7 @@ class Segment extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentScore = context.read<CurrentScoreNotifier>();
     return ClipPath(
-      clipper: SegmentClipper(widthOfScreen: widthOfScreen, offset: offset),
+      clipper: SegmentClipper(widthOfWholeBoard: widthOfScreen, offset: offset),
       child: Container(
         height: size,
         width: size,

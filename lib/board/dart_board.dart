@@ -11,7 +11,7 @@ class DartBoard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double widthOfScreen = MediaQuery.of(context).size.width - 4;
+    double widthOfBoard = MediaQuery.of(context).size.width - 4;
     return Scaffold(
       appBar: AppBar(title: Text('Dart board')),
       body: Padding(
@@ -28,9 +28,9 @@ class DartBoard extends StatelessWidget {
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
-                        DoubleSegments(widthOfScreen: widthOfScreen),
-                        TripleSegments(widthOfScreen: widthOfScreen),
-                        InnerSegments(widthOfScreen: widthOfScreen),
+                        DoubleSegments(widthOfWholeBoard: widthOfBoard),
+                        TripleSegments(widthOfWholeBoard: widthOfBoard),
+                        InnerSegments(widthOfWholeBoard: widthOfBoard),
                         BullsEye(),
                       ]
                     ),
