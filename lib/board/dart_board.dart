@@ -23,21 +23,20 @@ class DartBoard extends StatelessWidget {
             Expanded(child: Container()),
             Center(
                 child: CustomPaint(
-                  foregroundPainter: BorderPainter(),
-                  child: RepaintBoundary(  // repaint boundary so BorderPainter isn't called everytime other widget is repainting
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        DoubleSegments(widthOfWholeBoard: widthOfBoard),
-                        TripleSegments(widthOfWholeBoard: widthOfBoard),
-                        InnerSegments(widthOfWholeBoard: widthOfBoard),
-                        BullsEye(),
-                      ]
-                    ),
-                  ),
-                )
+              foregroundPainter: BorderPainter(),
+              child: RepaintBoundary(
+                // repaint boundary so BorderPainter isn't called everytime other widget is repainting
+                child: Stack(alignment: Alignment.center, children: [
+                  DoubleSegments(widthOfWholeBoard: widthOfBoard),
+                  TripleSegments(widthOfWholeBoard: widthOfBoard),
+                  InnerSegments(widthOfWholeBoard: widthOfBoard),
+                  BullsEye(),
+                ]),
+              ),
+            )),
+            SizedBox(
+              height: 20,
             ),
-            SizedBox(height: 20,),
           ],
         ),
       ),
