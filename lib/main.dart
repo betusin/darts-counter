@@ -36,6 +36,7 @@ class MyApp extends StatelessWidget {
             blendLevel: 15,
             subThemesData: const FlexSubThemesData(
               blendOnLevel: 20,
+              appBarBackgroundSchemeColor: SchemeColor.primary,
             ),
             visualDensity: FlexColorScheme.comfortablePlatformDensity,
             // To use the Playground font, add GoogleFonts package and uncomment
