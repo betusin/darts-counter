@@ -20,7 +20,7 @@ class InnerSegments extends StatelessWidget {
 
     for (int i = 0; i < 20; i++) {
       Color col = (i % 2 == 0)
-          ? Theme.of(context).colorScheme.secondaryContainer
+          ? Theme.of(context).colorScheme.tertiary
           : dartboardBlack;
       segments.add(Segment(
           widthOfScreen: widthOfWholeBoard,
