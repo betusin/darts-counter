@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
             visualDensity: FlexColorScheme.comfortablePlatformDensity,
             // To use the playground font, add GoogleFonts package and uncomment
             // fontFamily: GoogleFonts.notoSans().fontFamily,
+            swapColors: true,
           ),
           darkTheme: FlexThemeData.dark(
             colors: const FlexSchemeColor(
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
             visualDensity: FlexColorScheme.comfortablePlatformDensity,
             // To use the Playground font, add GoogleFonts package and uncomment
             // fontFamily: GoogleFonts.notoSans().fontFamily,
+            swapColors: true,
           ),
           themeMode: ThemeMode.system,
           home: MainPage(),
