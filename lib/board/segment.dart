@@ -33,7 +33,7 @@ class Segment extends StatelessWidget {
             overlayColor: MaterialStateProperty.resolveWith<Color?>(
               (Set<MaterialState> states) {
                 if (states.contains(MaterialState.pressed)) {
-                  return highlightYellow;
+                  return Theme.of(context).highlightColor;
                 }
                 return null;
               },
