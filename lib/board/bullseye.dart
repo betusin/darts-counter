@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../current_score_notifier.dart';
 
 class BullsEye extends StatelessWidget {
-
   const BullsEye({super.key});
 
   @override
@@ -22,7 +21,7 @@ class BullsEye extends StatelessWidget {
               shape: MaterialStateProperty.all(CircleBorder()),
               backgroundColor: MaterialStateProperty.all(dartboardGreen),
               overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                    (Set<MaterialState> states) {
+                (Set<MaterialState> states) {
                   if (states.contains(MaterialState.pressed)) {
                     return highlightYellow;
                   }
@@ -30,7 +29,9 @@ class BullsEye extends StatelessWidget {
                 },
               ),
             ),
-            onPressed: (){currentScore.setScore(25);},
+            onPressed: () {
+              currentScore.setScore(25);
+            },
             child: null,
           ),
         ),
@@ -42,7 +43,7 @@ class BullsEye extends StatelessWidget {
               shape: MaterialStateProperty.all(CircleBorder()),
               backgroundColor: MaterialStateProperty.all(dartboardRed),
               overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                    (Set<MaterialState> states) {
+                (Set<MaterialState> states) {
                   if (states.contains(MaterialState.pressed)) {
                     return highlightYellow;
                   }
@@ -50,7 +51,9 @@ class BullsEye extends StatelessWidget {
                 },
               ),
             ),
-            onPressed: (){currentScore.setScore(50);},
+            onPressed: () {
+              currentScore.setScore(50);
+            },
             child: null,
           ),
         ),

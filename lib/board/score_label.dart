@@ -8,6 +8,9 @@ class ScoreLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentScore = context.watch<CurrentScoreNotifier>();
-    return Text(currentScore.getScore(), style: TextStyle(fontSize: 55),);
+    return Text(
+      currentScore.getScore(),
+      style: TextStyle(fontSize: 55),
+    );
   }
 }
