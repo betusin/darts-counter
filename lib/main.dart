@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'Flutter Demo',
           theme: FlexThemeData.light(
-            scheme: FlexScheme.amber,
+            scheme: FlexScheme.mallardGreen,
             surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
             blendLevel: 9,
             subThemesData: const FlexSubThemesData(
@@ -31,9 +31,10 @@ class MyApp extends StatelessWidget {
             // fontFamily: GoogleFonts.notoSans().fontFamily,
           ),
           darkTheme: FlexThemeData.dark(
-            scheme: FlexScheme.amber,
+            scheme: FlexScheme.mallardGreen,
             surfaceMode: FlexSurfaceMode.levelSurfacesLowScaffold,
             blendLevel: 15,
+            appBarStyle: FlexAppBarStyle.primary,
             subThemesData: const FlexSubThemesData(
               blendOnLevel: 20,
               appBarBackgroundSchemeColor: SchemeColor.primary,
