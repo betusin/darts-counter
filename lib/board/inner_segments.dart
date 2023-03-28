@@ -11,15 +11,17 @@ class InnerSegments extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
-      children: _buildInnerSegments(),
+      children: _buildInnerSegments(context),
     );
   }
 
-  List<Widget> _buildInnerSegments() {
+  List<Widget> _buildInnerSegments(BuildContext context) {
     List<Segment> segments = [];
 
     for (int i = 0; i < 20; i++) {
-      Color col = (i % 2 == 0) ? dartboardWhite : dartboardBlack;
+      Color col = (i % 2 == 0)
+          ? Theme.of(context).colorScheme.secondaryContainer
+          : dartboardBlack;
       segments.add(Segment(
           widthOfScreen: widthOfWholeBoard,
           color: col,

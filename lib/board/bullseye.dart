@@ -19,11 +19,12 @@ class BullsEye extends StatelessWidget {
           child: ElevatedButton(
             style: ButtonStyle(
               shape: MaterialStateProperty.all(CircleBorder()),
-              backgroundColor: MaterialStateProperty.all(dartboardGreen),
+              backgroundColor: MaterialStateProperty.all(
+                  Theme.of(context).colorScheme.secondary),
               overlayColor: MaterialStateProperty.resolveWith<Color?>(
                 (Set<MaterialState> states) {
                   if (states.contains(MaterialState.pressed)) {
-                    return highlightYellow;
+                    return Theme.of(context).highlightColor;
                   }
                   return null;
                 },
@@ -41,11 +42,12 @@ class BullsEye extends StatelessWidget {
           child: ElevatedButton(
             style: ButtonStyle(
               shape: MaterialStateProperty.all(CircleBorder()),
-              backgroundColor: MaterialStateProperty.all(dartboardRed),
+              backgroundColor: MaterialStateProperty.all(
+                  Theme.of(context).colorScheme.primary),
               overlayColor: MaterialStateProperty.resolveWith<Color?>(
                 (Set<MaterialState> states) {
                   if (states.contains(MaterialState.pressed)) {
-                    return highlightYellow;
+                    return Theme.of(context).highlightColor;
                   }
                   return null;
                 },
