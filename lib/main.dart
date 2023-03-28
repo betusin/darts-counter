@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
             colors: const FlexSchemeColor(
               primary: Color(0xff8bc34a),
               primaryContainer: Color(0xffb7dc94),
-              secondary: Color(0xffac3306),
+              secondary: Color(0xffda3420),
               secondaryContainer: Color(0xffffdbcf),
               tertiary: Color(0xfffeeec4),
               tertiaryContainer: Color(0xffe4c26b),
