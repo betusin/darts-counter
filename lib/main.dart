@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
               primaryContainer: Color(0xffb7dc94),
               secondary: Color(0xffee5444),
               secondaryContainer: Color(0xffc36142),
-              tertiary: Color(0xffe6c982),
+              tertiary: Color(0xffedd9a7),
               tertiaryContainer: Color(0xffc09c42),
               appBarColor: Color(0xffc36142),
               error: Color(0xffcf6679),
