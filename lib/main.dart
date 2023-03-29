@@ -1,9 +1,13 @@
 import 'package:dartboard/board/dart_board.dart';
 import 'package:dartboard/current_score_notifier.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+void main() async{
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 

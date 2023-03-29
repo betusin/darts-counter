@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "753588309269",
+    "project_id": "dart-counter-6bf03",
+    "storage_bucket": "dart-counter-6bf03.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:753588309269:android:c7d98ed1e29d6da5886d1c",
+        "android_client_info": {
+          "package_name": "com.example.dartboard"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "753588309269-07kc02b6rt0de8gm1gl5f2mpvi3ghl84.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDftK7Hxzm5TtGoRkucLt7Q-t8mUyN_I2g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "753588309269-07kc02b6rt0de8gm1gl5f2mpvi3ghl84.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
