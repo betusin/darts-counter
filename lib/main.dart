@@ -17,16 +17,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider<CurrentScoreNotifier>(
-      create: (_) => CurrentScoreNotifier(),
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: DartBoard(),
-      )
-    );
+        create: (_) => CurrentScoreNotifier(),
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: DartBoard(),
+        ));
   }
 }

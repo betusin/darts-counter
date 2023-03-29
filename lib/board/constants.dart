@@ -20,5 +20,3 @@ const TextStyle textInsideBoardStyle = TextStyle(
   fontSize: 12,
   fontWeight: FontWeight.w700,
 );
-
-
