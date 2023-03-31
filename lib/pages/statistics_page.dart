@@ -1,5 +1,4 @@
 import 'package:dartboard/widgets/statistics_graph.dart';
-import 'package:dartboard/widgets/statistics_row.dart';
 import 'package:flutter/material.dart';
 
 class StatisticsPage extends StatelessWidget {
@@ -7,14 +6,6 @@ class StatisticsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, String> statistics = {
-      "180sThrown": "10",
-      "140sThrown": "37",
-      "120sThrown": "79",
-      "100checkouts": "6",
-      "Accuracy": "24%"
-    };
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Your Statistics"),
@@ -22,28 +13,36 @@ class StatisticsPage extends StatelessWidget {
       body: Column(
         children: [
           StatisticsGraph(),
-          StatisticsRow(
-            name: "180sThrown",
-            value: statistics["180sThrown"],
-          ),
-          StatisticsRow(
-            name: "140sThrown",
-            value: statistics["140sThrown"],
-          ),
-          StatisticsRow(
-            name: "120sThrown",
-            value: statistics["120sThrown"],
-          ),
-          StatisticsRow(
-            name: "100checkouts",
-            value: statistics["100checkouts"],
-          ),
-          StatisticsRow(
-            name: "Accuracy",
-            value: statistics["Accuracy"],
-          ),
+          _buildDataTable(),
         ],
       ),
+    );
+  }
+
+  DataTable _buildDataTable() {
+    final Map<String, String> dummyStatistics = {
+      "180s Thrown": "10",
+      "140s Thrown": "37",
+      "120s Thrown": "79",
+      "100+ Checkouts": "6",
+      "Checkout accuracy": "24%"
+    };
+
+    final rows = dummyStatistics.entries.map((entry) {
+      return DataRow(
+        cells: [DataCell(Text(entry.key)), DataCell(Text(entry.value))],
+      );
+    }).toList();
+
+    return DataTable(
+      columns: const [
+        DataColumn(label: Text("Statistic name")),
+        DataColumn(
+          label: Text("Value"),
+          numeric: true,
+        ),
+      ],
+      rows: rows,
     );
   }
 }
