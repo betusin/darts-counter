@@ -1,3 +1,4 @@
+import 'package:dartboard/pages/statistics_page.dart';
 import 'package:dartboard/widgets/text_row.dart';
 import 'package:flutter/material.dart';
 
@@ -16,9 +17,10 @@ class ProfileBar extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Avatar(name: name, surname: surname),
+            _buildStatisticsButton(context),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -30,5 +32,19 @@ class ProfileBar extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  IconButton _buildStatisticsButton(BuildContext context) {
+    return IconButton(
+        onPressed: () {
+          final pageToPush =
+              MaterialPageRoute(builder: (_) => StatisticsPage());
+          Navigator.of(context).push(pageToPush);
+        },
+        icon: Icon(
+          Icons.align_vertical_bottom_rounded,
+          color: Theme.of(context).colorScheme.onBackground,
+          size: 36,
+        ));
   }
 }
