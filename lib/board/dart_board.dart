@@ -12,33 +12,30 @@ class DartBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double widthOfBoard = MediaQuery.of(context).size.width - 4;
-    return Scaffold(
-      appBar: AppBar(title: Text('Dart board')),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 2.0),
-        child: Column(
-          children: [
-            Expanded(child: Container()),
-            ScoreLabel(),
-            Expanded(child: Container()),
-            Center(
-                child: CustomPaint(
-              foregroundPainter: BorderPainter(),
-              child: RepaintBoundary(
-                // repaint boundary so BorderPainter isn't called everytime other widget is repainting
-                child: Stack(alignment: Alignment.center, children: [
-                  DoubleSegments(widthOfWholeBoard: widthOfBoard),
-                  TripleSegments(widthOfWholeBoard: widthOfBoard),
-                  InnerSegments(widthOfWholeBoard: widthOfBoard),
-                  BullsEye(),
-                ]),
-              ),
-            )),
-            SizedBox(
-              height: 20,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 2.0),
+      child: Column(
+        children: [
+          Expanded(child: Container()),
+          ScoreLabel(),
+          Expanded(child: Container()),
+          Center(
+              child: CustomPaint(
+            foregroundPainter: BorderPainter(),
+            child: RepaintBoundary(
+              // repaint boundary so BorderPainter isn't called everytime other widget is repainting
+              child: Stack(alignment: Alignment.center, children: [
+                DoubleSegments(widthOfWholeBoard: widthOfBoard),
+                TripleSegments(widthOfWholeBoard: widthOfBoard),
+                InnerSegments(widthOfWholeBoard: widthOfBoard),
+                BullsEye(),
+              ]),
             ),
-          ],
-        ),
+          )),
+          SizedBox(
+            height: 20,
+          ),
+        ],
       ),
     );
   }
