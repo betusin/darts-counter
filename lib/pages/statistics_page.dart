@@ -21,7 +21,7 @@ class StatisticsPage extends StatelessWidget {
       ),
       body: Column(
         children: [
-          STatisticsGraph(),
+          StatisticsGraph(),
           StatisticsRow(
             name: "180sThrown",
             value: statistics["180sThrown"],
