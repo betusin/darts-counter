@@ -2,7 +2,7 @@ import 'package:dartboard/board/dart_board.dart';
 import 'package:dartboard/pages/local_game.dart';
 import 'package:dartboard/pages/online_game.dart';
 import 'package:dartboard/pages/settings.dart';
-import 'package:dartboard/widgets/icon_text_button.dart';
+import 'package:dartboard/widgets/grid_redirect_button.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/profile_bar.dart';
