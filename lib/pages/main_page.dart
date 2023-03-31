@@ -1,6 +1,8 @@
 import 'package:dartboard/board/dart_board.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/profile_bar.dart';
+
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
 
@@ -13,6 +15,10 @@ class MainPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
+            ProfileBar(
+              name: "John",
+              surname: "Doe",
+            ),
             TextButton(
                 onPressed: () {
                   final pageToPush =
