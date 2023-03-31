@@ -1,4 +1,8 @@
 import 'package:dartboard/board/dart_board.dart';
+import 'package:dartboard/pages/local_game.dart';
+import 'package:dartboard/pages/online_game.dart';
+import 'package:dartboard/pages/settings.dart';
+import 'package:dartboard/widgets/icon_text_button.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/profile_bar.dart';
@@ -19,18 +23,35 @@ class MainPage extends StatelessWidget {
               name: "John",
               surname: "Doe",
             ),
-            TextButton(
-                onPressed: () {
-                  final pageToPush =
-                      MaterialPageRoute(builder: (_) => DartBoard());
-                  Navigator.of(context).push(pageToPush);
-                },
-                child: Text("New Local Game")),
-            TextButton(onPressed: () {}, child: Text("New Online Game")),
-            TextButton(onPressed: () {}, child: Text("Settings")),
-            TextButton(onPressed: () {}, child: Text("Exit App")),
+            _buildButtons(context),
           ],
         ),
+      ),
+    );
+  }
+
+  Expanded _buildButtons(BuildContext context) {
+    return Expanded(
+      child: GridView.count(
+        crossAxisCount: 2,
+        children: const [
+          GridRedirectButton(
+              pageToRedirect: LocalGame(),
+              text: "New Local Game",
+              iconData: Icons.add_box_outlined),
+          GridRedirectButton(
+              pageToRedirect: OnlineGame(),
+              text: "New Online Game",
+              iconData: Icons.add_box),
+          GridRedirectButton(
+              pageToRedirect: Settings(),
+              text: "Settings",
+              iconData: Icons.settings),
+          GridRedirectButton(
+              pageToRedirect: DartBoard(),
+              text: "Exit App",
+              iconData: Icons.exit_to_app),
+        ],
       ),
     );
   }
