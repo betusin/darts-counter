@@ -23,10 +23,6 @@ class MyApp extends StatelessWidget {
         create: (_) => CurrentScoreNotifier(),
         child: MaterialApp(
           title: 'Flutter Demo',
-          // This theme was made for FlexColorScheme version 6.1.1. Make sure
-// you use same or higher version, but still same major version. If
-// you use a lower version, some properties may not be supported. In
-// that case you can also remove them after copying the theme to your app.
           theme: FlexThemeData.light(
             colors: const FlexSchemeColor(
               primary: Color(0xff8bc34a),
@@ -45,9 +41,6 @@ class MyApp extends StatelessWidget {
               blendOnColors: false,
             ),
             visualDensity: FlexColorScheme.comfortablePlatformDensity,
-            // To use the playground font, add GoogleFonts package and uncomment
-            // fontFamily: GoogleFonts.notoSans().fontFamily,
-            swapColors: true,
           ),
           darkTheme: FlexThemeData.dark(
             colors: const FlexSchemeColor(
@@ -67,9 +60,6 @@ class MyApp extends StatelessWidget {
               appBarBackgroundSchemeColor: SchemeColor.primary,
             ),
             visualDensity: FlexColorScheme.comfortablePlatformDensity,
-            // To use the Playground font, add GoogleFonts package and uncomment
-            // fontFamily: GoogleFonts.notoSans().fontFamily,
-            swapColors: true,
           ),
           themeMode: ThemeMode.system,
           home: MainPage(),

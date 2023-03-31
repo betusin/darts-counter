@@ -20,8 +20,8 @@ class TripleSegments extends StatelessWidget {
 
     for (int i = 0; i < 20; i++) {
       Color col = (i % 2 == 0)
-          ? Theme.of(context).colorScheme.secondary
-          : Theme.of(context).colorScheme.primary;
+          ? Theme.of(context).colorScheme.primary
+          : Theme.of(context).colorScheme.secondary;
 
       segments.add(Segment(
           widthOfScreen: widthOfWholeBoard,

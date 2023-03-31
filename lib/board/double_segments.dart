@@ -21,8 +21,8 @@ class DoubleSegments extends StatelessWidget {
       segments.add(Segment(
         widthOfScreen: widthOfWholeBoard,
         color: (i % 2 == 0)
-            ? Theme.of(context).colorScheme.secondary
-            : Theme.of(context).colorScheme.primary,
+            ? Theme.of(context).colorScheme.primary
+            : Theme.of(context).colorScheme.secondary,
         size: widthOfWholeBoard,
         offset: i,
         value: segmentValueMapper[i + 1]! * 2,

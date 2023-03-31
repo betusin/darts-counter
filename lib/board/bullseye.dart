@@ -20,7 +20,7 @@ class BullsEye extends StatelessWidget {
             style: ButtonStyle(
               shape: MaterialStateProperty.all(CircleBorder()),
               backgroundColor: MaterialStateProperty.all(
-                  Theme.of(context).colorScheme.secondary),
+                  Theme.of(context).colorScheme.primary),
               overlayColor: MaterialStateProperty.resolveWith<Color?>(
                 (Set<MaterialState> states) {
                   if (states.contains(MaterialState.pressed)) {
@@ -43,7 +43,7 @@ class BullsEye extends StatelessWidget {
             style: ButtonStyle(
               shape: MaterialStateProperty.all(CircleBorder()),
               backgroundColor: MaterialStateProperty.all(
-                  Theme.of(context).colorScheme.primary),
+                  Theme.of(context).colorScheme.secondary),
               overlayColor: MaterialStateProperty.resolveWith<Color?>(
                 (Set<MaterialState> states) {
                   if (states.contains(MaterialState.pressed)) {
