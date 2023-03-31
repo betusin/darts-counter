@@ -48,9 +48,10 @@ class MainPage extends StatelessWidget {
               text: "Settings",
               iconData: Icons.settings),
           GridRedirectButton(
-              pageToRedirect: DartBoard(),
-              text: "Exit App",
-              iconData: Icons.exit_to_app),
+            exit: true,
+            text: "Exit App",
+            iconData: Icons.exit_to_app,
+          ),
         ],
       ),
     );
