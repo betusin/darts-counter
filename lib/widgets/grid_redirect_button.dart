@@ -23,6 +23,7 @@ class GridRedirectButton extends StatelessWidget {
           onPressed: () {
             if (exit) {
               SystemNavigator.pop();
+              return;
             }
             final pageToPush =
                 MaterialPageRoute(builder: (_) => pageToRedirect!);
