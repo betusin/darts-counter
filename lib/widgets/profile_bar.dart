@@ -34,17 +34,28 @@ class ProfileBar extends StatelessWidget {
     );
   }
 
-  IconButton _buildStatisticsButton(BuildContext context) {
-    return IconButton(
-        onPressed: () {
-          final pageToPush =
-              MaterialPageRoute(builder: (_) => StatisticsPage());
-          Navigator.of(context).push(pageToPush);
-        },
-        icon: Icon(
-          Icons.align_vertical_bottom_rounded,
-          color: Theme.of(context).colorScheme.onBackground,
-          size: 36,
-        ));
+  TextButton _buildStatisticsButton(BuildContext context) {
+    final color = Theme.of(context).colorScheme.onBackground;
+    return TextButton(
+      onPressed: () {
+        final pageToPush = MaterialPageRoute(builder: (_) => StatisticsPage());
+        Navigator.of(context).push(pageToPush);
+      },
+      child: Column(
+        children: [
+          Icon(
+            Icons.align_vertical_bottom_rounded,
+            color: color,
+            size: 36,
+          ),
+          Text(
+            "Statistics",
+            style: TextStyle(
+              color: color,
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
