@@ -2,7 +2,7 @@ import 'package:dartboard/board/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../current_score_notifier.dart';
+import '../model/current_score_notifier.dart';
 
 class BullsEye extends StatelessWidget {
   const BullsEye({super.key});

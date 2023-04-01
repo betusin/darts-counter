@@ -1,4 +1,4 @@
-import 'package:dartboard/current_score_notifier.dart';
+import 'package:dartboard/model/current_score_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

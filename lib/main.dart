@@ -1,12 +1,13 @@
 import 'package:dartboard/board/dart_board.dart';
-import 'package:dartboard/current_score_notifier.dart';
+import 'package:dartboard/model/current_score_notifier.dart';
+import 'package:dartboard/pages/main_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: DartBoard(),
+          home: MainPage(),
         ));
   }
 }
