@@ -1,8 +1,6 @@
-import 'package:dartboard/board/constants.dart';
+import 'package:dartboard/board/highlighting_button.dart';
 import 'package:dartboard/board/segment_clipper.dart';
-import 'package:dartboard/model/current_score_notifier.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class Segment extends StatelessWidget {
   final double widthOfScreen;
@@ -21,29 +19,12 @@ class Segment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final currentScore = context.read<CurrentScoreNotifier>();
     return ClipPath(
       clipper: SegmentClipper(widthOfWholeBoard: widthOfScreen, offset: offset),
       child: Container(
         height: size,
         width: size,
-        child: ElevatedButton(
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(color),
-            overlayColor: MaterialStateProperty.resolveWith<Color?>(
-              (Set<MaterialState> states) {
-                if (states.contains(MaterialState.pressed)) {
-                  return highlightYellow;
-                }
-                return null;
-              },
-            ),
-          ),
-          onPressed: () {
-            currentScore.setScore(value);
-          },
-          child: null,
-        ),
+        child: HighlightingButton(backgroundColor: color, value: value),
       ),
     );
   }
