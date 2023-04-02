@@ -21,7 +21,7 @@ class DartBoard extends StatelessWidget {
         Expanded(child: Container()),
         Center(
             child: CustomPaint(
-          foregroundPainter: BorderPainter(radius: widthOfScreen - boardFromSideOffset),
+          foregroundPainter: BorderPainter(radius: (widthOfScreen - boardFromSideOffset) / 2),
           child: RepaintBoundary(
             // repaint boundary so BorderPainter isn't called everytime other widget is repainting
             child: Stack(alignment: Alignment.center, children: [

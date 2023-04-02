@@ -20,7 +20,6 @@ class BorderPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double radius = (size.width - boardFromSideOffset) / 2;
     canvas.translate(
         size.width / 2,
         size.height /
