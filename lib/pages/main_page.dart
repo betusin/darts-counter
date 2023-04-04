@@ -30,30 +30,27 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  Expanded _buildButtons(BuildContext context) {
-    return Expanded(
-      child: GridView.count(
-        crossAxisCount: 2,
-        children: const [
-          GridRedirectButton(
-              pageToRedirect: LocalGame(),
-              text: "New Local Game",
-              iconData: Icons.add_box_outlined),
-          GridRedirectButton(
-              pageToRedirect: OnlineGame(),
-              text: "New Online Game",
-              iconData: Icons.add_box),
-          GridRedirectButton(
-              pageToRedirect: Settings(),
-              text: "Settings",
-              iconData: Icons.settings),
-          GridRedirectButton(
-            exit: true,
-            text: "Exit App",
-            iconData: Icons.exit_to_app,
-          ),
-        ],
-      ),
+  Column _buildButtons(BuildContext context) {
+    return Column(
+      children: const [
+        GridRedirectButton(
+            pageToRedirect: LocalGame(),
+            text: "New Local Game",
+            iconData: Icons.add_box_outlined),
+        GridRedirectButton(
+            pageToRedirect: OnlineGame(),
+            text: "New Online Game",
+            iconData: Icons.add_box),
+        GridRedirectButton(
+            pageToRedirect: Settings(),
+            text: "Settings",
+            iconData: Icons.settings),
+        GridRedirectButton(
+          exit: true,
+          text: "Exit App",
+          iconData: Icons.exit_to_app,
+        ),
+      ],
     );
   }
 }
