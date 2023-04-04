@@ -32,7 +32,7 @@ class GridRedirectButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 8.0),
+              padding: const EdgeInsets.all(8.0),
               child: Icon(
                 iconData,
                 size: 44,
