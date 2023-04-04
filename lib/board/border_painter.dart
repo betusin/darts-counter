@@ -14,9 +14,12 @@ class BorderPainter extends CustomPainter {
   final TextPainter _textPainter =
       TextPainter(textDirection: TextDirection.ltr);
 
+  final double radius;
+
+  BorderPainter({required this.radius});
+
   @override
   void paint(Canvas canvas, Size size) {
-    final double radius = size.width / 2;
     canvas.translate(
         size.width / 2,
         size.height /

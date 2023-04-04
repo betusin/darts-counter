@@ -1,4 +1,3 @@
-import 'package:dartboard/board/dart_board.dart';
 import 'package:dartboard/model/current_score_notifier.dart';
 import 'package:dartboard/pages/main_page.dart';
 import 'package:firebase_core/firebase_core.dart';
