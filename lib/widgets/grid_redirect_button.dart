@@ -29,20 +29,18 @@ class GridRedirectButton extends StatelessWidget {
                 MaterialPageRoute(builder: (_) => pageToRedirect!);
             Navigator.of(context).push(pageToPush);
           },
-          child: Center(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: Icon(
-                    iconData,
-                    size: 44,
-                  ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Icon(
+                  iconData,
+                  size: 44,
                 ),
-                Text(text),
-              ],
-            ),
+              ),
+              Text(text),
+            ],
           )),
     );
   }
