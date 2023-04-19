@@ -91,7 +91,7 @@ class MyApp extends StatelessWidget {
       },
       '/exit': (context) {
         SystemNavigator.pop();
-        return Placeholder();
+        return Text("Exiting App");
       },
     };
   }
