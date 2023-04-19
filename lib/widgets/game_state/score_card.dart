@@ -27,9 +27,9 @@ class ScoreCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Text(playerName),
-          Text("$currentScore", style: TextStyle(fontSize: 50),),
-          CurrentVisitPanel(first: currentVisit.getFirst(), second: currentVisit.getSecond(), third: currentVisit.getThird(), isBusted: currentVisit.isBusted,),
-          Text("Ø: ${currentAvg.toStringAsFixed(2)}", style: TextStyle(fontWeight: FontWeight.bold),)
+          Text("$currentScore", style: TextStyle(fontSize: 50)),
+          CurrentVisitPanel(visit: currentVisit),
+          Text("Ø: ${currentAvg.toStringAsFixed(2)}", style: TextStyle(fontWeight: FontWeight.bold))
         ],
       ),
     );
