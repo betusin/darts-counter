@@ -11,7 +11,7 @@ class Avatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => {Navigator.pushReplacementNamed(context, '/profile')},
+      onPressed: () => {Navigator.pushNamed(context, '/profile')},
       child: Container(
         width: _AVATAR_SIZE,
         height: _AVATAR_SIZE,

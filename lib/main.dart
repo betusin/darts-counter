@@ -44,6 +44,9 @@ class MyApp extends StatelessWidget {
           },
           '/profile': (context) {
             return ProfileScreen(
+              appBar: AppBar(
+                title: Text("Profile"),
+              ),
               actions: [
                 SignedOutAction((context) {
                   Navigator.pushReplacementNamed(context, '/sign-in');
