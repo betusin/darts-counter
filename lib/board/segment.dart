@@ -8,6 +8,7 @@ class Segment extends StatelessWidget {
   final double size;
   final int offset;
   final int value;
+  final bool isDouble;
 
   const Segment(
       {super.key,
@@ -15,7 +16,8 @@ class Segment extends StatelessWidget {
       required this.color,
       required this.size,
       required this.offset,
-      required this.value});
+      required this.value,
+      this.isDouble = false});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +26,7 @@ class Segment extends StatelessWidget {
       child: Container(
         height: size,
         width: size,
-        child: HighlightingButton(backgroundColor: color, value: value),
+        child: HighlightingButton(backgroundColor: color, value: value, isDouble: isDouble,),
       ),
     );
   }
