@@ -1,5 +1,6 @@
 import 'package:dartboard/model/current_score_notifier.dart';
 import 'package:dartboard/pages/main_page.dart';
+import 'package:dartboard/pages/statistics_page.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
@@ -32,33 +33,40 @@ class MyApp extends StatelessWidget {
         initialRoute: (FirebaseAuth.instance.currentUser == null)
             ? "/sign-in"
             : "/main_page",
-        routes: {
-          '/sign-in': (context) {
-            return SignInScreen(
-              actions: [
-                AuthStateChangeAction<SignedIn>((context, state) {
-                  Navigator.pushReplacementNamed(context, '/profile');
-                }),
-              ],
-            );
-          },
-          '/profile': (context) {
-            return ProfileScreen(
-              appBar: AppBar(
-                title: Text("Profile"),
-              ),
-              actions: [
-                SignedOutAction((context) {
-                  Navigator.pushReplacementNamed(context, '/sign-in');
-                }),
-              ],
-            );
-          },
-          '/main_page': (context) {
-            return MainPage();
-          },
-        },
+        routes: _getAppRoutes(),
       ),
     );
+  }
+
+  _getAppRoutes() {
+    return {
+      '/sign-in': (context) {
+        return SignInScreen(
+          actions: [
+            AuthStateChangeAction<SignedIn>((context, state) {
+              Navigator.pushReplacementNamed(context, '/profile');
+            }),
+          ],
+        );
+      },
+      '/profile': (context) {
+        return ProfileScreen(
+          appBar: AppBar(
+            title: Text("Profile"),
+          ),
+          actions: [
+            SignedOutAction((context) {
+              Navigator.pushReplacementNamed(context, '/sign-in');
+            }),
+          ],
+        );
+      },
+      '/main_page': (context) {
+        return MainPage();
+      },
+      '/statistics': (context) {
+        return StatisticsPage();
+      },
+    };
   }
 }

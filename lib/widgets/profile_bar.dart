@@ -1,4 +1,3 @@
-import 'package:dartboard/pages/statistics_page.dart';
 import 'package:dartboard/widgets/text_row.dart';
 import 'package:flutter/material.dart';
 
@@ -37,10 +36,7 @@ class ProfileBar extends StatelessWidget {
   TextButton _buildStatisticsButton(BuildContext context) {
     final color = Theme.of(context).colorScheme.onBackground;
     return TextButton(
-      onPressed: () {
-        final pageToPush = MaterialPageRoute(builder: (_) => StatisticsPage());
-        Navigator.of(context).push(pageToPush);
-      },
+      onPressed: () => Navigator.pushNamed(context, "/statistics"),
       child: Column(
         children: [
           Icon(
