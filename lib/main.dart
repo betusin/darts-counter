@@ -56,7 +56,8 @@ class MyApp extends StatelessWidget {
           },
           actions: [
             AuthStateChangeAction<SignedIn>((context, state) {
-              Navigator.pushReplacementNamed(context, '/main_page');
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/main_page', (Route<dynamic> route) => false);
             }),
           ],
         );
