@@ -4,7 +4,7 @@ import 'package:dartboard/pages/main_page.dart';
 import 'package:dartboard/pages/online_game.dart';
 import 'package:dartboard/pages/settings.dart';
 import 'package:dartboard/pages/statistics_page.dart';
-import 'package:dartboard/widgets/grid_redirect_button.dart';
+import 'package:dartboard/widgets/new_local_without_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
@@ -48,11 +48,7 @@ class MyApp extends StatelessWidget {
       '/sign-in': (context) {
         return SignInScreen(
           headerBuilder: (context, constraints, _) {
-            return GridRedirectButton(
-              routeName: "/game/local",
-              text: "New Local Game",
-              iconData: Icons.add_box_outlined,
-            );
+            return NewLocalWithoutSignIn();
           },
           actions: [
             AuthStateChangeAction<SignedIn>((context, state) {
