@@ -1,4 +1,4 @@
-import 'package:dartboard/model/current_score_notifier.dart';
+import 'package:dartboard/model/game_notifier.dart';
 import 'package:dartboard/pages/main_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<CurrentScoreNotifier>(
-        create: (_) => CurrentScoreNotifier(),
+    return ChangeNotifierProvider<GameNotifier>(
+        create: (_) => GameNotifier(),
         child: MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(

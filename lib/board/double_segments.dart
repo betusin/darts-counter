@@ -25,6 +25,7 @@ class DoubleSegments extends StatelessWidget {
         size: widthOfWholeBoard,
         offset: i,
         value: segmentValueMapper[i + 1]! * 2,
+        isDouble: true,
       ));
     }
     return segments;
