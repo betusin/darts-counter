@@ -16,7 +16,7 @@ class GameButtonBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           ElevatedButton(
-              onPressed: (){currentGame.stepBack();},
+              onPressed: currentGame.stepBack,
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
               child: Text('Undo'),
           ),

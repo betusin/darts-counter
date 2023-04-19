@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../model/game_notifier.dart';
 
 class CurrentVisitPanel extends StatelessWidget {
 
   final String first;
   final String second;
   final String third;
+  final bool isBusted;
 
-  const CurrentVisitPanel({super.key, required this.first, required this.second, required this.third});
+  const CurrentVisitPanel({super.key, required this.first, required this.second, required this.third, required this.isBusted});
 
   @override
   Widget build(BuildContext context) {
-    final currentScore = context.watch<GameNotifier>();
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -33,7 +29,7 @@ class CurrentVisitPanel extends StatelessWidget {
       color: Colors.black,
       child: Text(text,
         style: TextStyle(
-          color: Colors.white,
+          color: isBusted ? Colors.red : Colors.white,
           fontSize: 30,
           fontWeight: FontWeight.bold
         ),

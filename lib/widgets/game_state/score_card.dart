@@ -6,29 +6,29 @@ import '../../model/game_notifier.dart';
 
 class ScoreCard extends StatelessWidget {
 
-  final String name;
+  final int index;
 
-  final bool isFirst;
-
-  const ScoreCard({super.key, required this.name, this.isFirst = false});
+  const ScoreCard({super.key, required this.index});
 
   @override
   Widget build(BuildContext context) {
     final currentGame = context.watch<GameNotifier>();
-    final currentScore = isFirst ? currentGame.getPlayer1Score() : currentGame.getPlayer2Score();
-    final currentAvg = isFirst ? currentGame.getPlayer1Average() : currentGame.getPlayer2Average();
-    final currentVisit = isFirst ? currentGame.getPlayer1CurrentVisit() : currentGame.getPlayer2CurrentVisit();
+    final currentScore = currentGame.getScore(index);
+    final currentAvg = currentGame.getAverage(index);
+    final currentVisit = currentGame.getVisit(index);
+    final playerName = currentGame.getName(index);
+    final isMyTurn = currentGame.isMyTurn(index);
 
     return Container(
       alignment: Alignment.center,
-      color: (isFirst && currentGame.leg.player1Turn) || (!isFirst && !currentGame.leg.player1Turn) ? Colors.yellow : Colors.green,
+      color: isMyTurn ? Colors.yellow : Colors.green,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(name),
+          Text(playerName),
           Text("$currentScore", style: TextStyle(fontSize: 50),),
-          CurrentVisitPanel(first: currentVisit.getFirst(), second: currentVisit.getSecond(), third: currentVisit.getThird(),),
+          CurrentVisitPanel(first: currentVisit.getFirst(), second: currentVisit.getSecond(), third: currentVisit.getThird(), isBusted: currentVisit.isBusted,),
           Text("Ø: ${currentAvg.toStringAsFixed(2)}", style: TextStyle(fontWeight: FontWeight.bold),)
         ],
       ),

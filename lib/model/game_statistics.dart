@@ -1,5 +1,4 @@
 import 'package:dartboard/model/visit.dart';
-import 'package:flutter/cupertino.dart';
 
 class GameStatistics{
 
@@ -14,6 +13,11 @@ class GameStatistics{
   int allScore = 0;
 
   void updateStats(Visit visit) {
+    if (visit.isBusted) { //busted visit - add nothing just recalculate average
+      throws += visit.getDarts();
+      average = (allScore / throws) * 3;
+      return;
+    }
     final scoreThrown = visit.getTotal();
     throws += visit.getDarts();
     allScore += scoreThrown;
@@ -31,6 +35,11 @@ class GameStatistics{
   }
 
   void rollBackStats(Visit visit){
+    if (visit.isBusted) { //busted visit - add nothing just recalculate average
+      throws -= visit.getDarts();
+      average = (allScore / throws) * 3;
+      return;
+    }
     final scoreThrown = visit.getTotal();
     throws -= visit.getDarts();
     allScore -= scoreThrown;

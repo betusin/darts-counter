@@ -7,16 +7,6 @@ player1 is the one who is starting
  */
 class Leg {
 
-  bool player1Turn = true;
-  int _player1Score = 501;
-  int _player2Score = 501;
-
-  Visit player1CurrentVisit = Visit();
-  Visit player2CurrentVisit = Visit();
-
-  final GameStatistics player1stats = GameStatistics();
-  final GameStatistics player2stats = GameStatistics();
-  //--------------------------------------------------------------------------------
   bool legEnded = false;
   int numberOfPlayers = 2;
   int currentPlayer = 0;  //index of player currently throwing
@@ -28,89 +18,65 @@ class Leg {
   Leg({int players = 2}){
     numberOfPlayers = players;
     scores = List.filled(players, 501);
-    stats = List.filled(players, GameStatistics());
+    stats = List.generate(players, (index) => GameStatistics());
   }
 
   void endTurn(){
     stats[currentPlayer].updateStats(currentVisit);
     lastVisit = currentVisit;
     currentVisit = Visit();
-
     currentPlayer = _getNextPlayer();
   }
 
   void addNewScore(int score, bool isDouble) {
+    if (legEnded) return;
     currentVisit.addThrow(score);
     scores[currentPlayer] -= score;
-    if () {
-
+    if (scores[currentPlayer] == 0 && isDouble) {       //check for game end
+      legEnded = true;
+      stats[currentPlayer].updateStats(currentVisit);
+      return;
     }
-
-    if (player1Turn) {
-      player1CurrentVisit.addThrow(score);
-      _player1Score -= score;
-      if (_player1Score == 0 && isDouble) {
-        legEnded = true;
-        player1stats.updateCheckoutsHit();
-        player1stats.updateStats(player1CurrentVisit);
-      }
-      if (player1CurrentVisit.isFull()){
-        endTurn();
-      }
+    if (scores[currentPlayer] <= 1) {    // bust
+      currentVisit.isBusted = true;
+      scores[currentPlayer] += currentVisit.getTotal();
+      endTurn();
+      return;
     }
-    else {
-      player2CurrentVisit.addThrow(score);
-      _player2Score -= score;
-      if (_player2Score == 0 && isDouble) {
-        legEnded = true;
-        player2stats.updateCheckoutsHit();
-        player2stats.updateStats(player2CurrentVisit);
-      }
-      if (player2CurrentVisit.isFull()){
-        endTurn();
-      }
+    if (currentVisit.isFull()) {
+      endTurn();
     }
   }
 
-  //crazy function, prob has to be refactored
   void stepBack() {
-    if (player1Turn) {
-      _player1Score += player1CurrentVisit.getLast();
-      if (!player1CurrentVisit.removeThrow()) { //trying to rollback when no darts thrown this turn -> rollback turn
-        if (player2CurrentVisit.isEmpty()) return;
-        player2stats.rollBackStats(player2CurrentVisit);
-        _player2Score += player2CurrentVisit.getLast();
-        player2CurrentVisit.removeThrow();
-        player1Turn = false;
-        return;
+    if (legEnded) legEnded = false;
+    scores[currentPlayer] += currentVisit.getLast();
+    if (!currentVisit.removeThrow()) {
+      if (lastVisit.isEmpty()) return;
+      stats[_getPreviousPlayer()].rollBackStats(lastVisit);
+      scores[_getPreviousPlayer()] += lastVisit.getLast();
+      if (lastVisit.isBusted) {
+        lastVisit.isBusted = false;
+        scores[_getPreviousPlayer()] -= lastVisit.getTotal();
       }
+      lastVisit.removeThrow();
+      currentVisit = lastVisit;
+      lastVisit = Visit();
+      currentPlayer = _getPreviousPlayer();
     }
-    else {
-      _player2Score += player2CurrentVisit.getLast();
-      if (!player2CurrentVisit.removeThrow()) {
-        if (player1CurrentVisit.isEmpty()) return;
-        player1stats.rollBackStats(player1CurrentVisit);
-        _player1Score += player1CurrentVisit.getLast();
-        player1CurrentVisit.removeThrow();
-        player1Turn = true;
-        return;
-      }
-    }
+
   }
-  int getPlayer1CurrentScore() {
-    return _player1Score;
+  int getCurrentScore(int playerIndex) {
+    return scores[playerIndex];
   }
 
-  int getPlayer2CurrentScore() {
-    return _player2Score;
+  double getCurrentAverage(int playerIndex) {
+    return stats[playerIndex].average;
   }
 
-  double getPlayer1CurrentAverage() {
-    return player1stats.average;
-  }
-
-  double getPlayer2CurrentAverage() {
-    return player2stats.average;
+  //TODO REFACTOR TO SUPPORT MORE PLAYERS
+  Visit getCurrentVisit(int index) {
+    return (index == currentPlayer) ? currentVisit : lastVisit;
   }
 
   int _getNextPlayer() {
@@ -121,5 +87,8 @@ class Leg {
     return (currentPlayer - 1) % numberOfPlayers;
   }
 
+  bool isMyTurn(int index) {
+    return currentPlayer == index;
+  }
 
 }
