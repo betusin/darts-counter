@@ -1,4 +1,3 @@
-import 'package:dartboard/board/dart_board.dart';
 import 'package:dartboard/pages/local_game.dart';
 import 'package:dartboard/pages/online_game.dart';
 import 'package:dartboard/pages/settings.dart';
@@ -36,17 +35,20 @@ class MainPage extends StatelessWidget {
         crossAxisCount: 2,
         children: const [
           GridRedirectButton(
-              pageToRedirect: LocalGame(),
-              text: "New Local Game",
-              iconData: Icons.add_box_outlined),
+            pageToRedirect: LocalGame(),
+            text: "New Local Game",
+            iconData: Icons.add_box_outlined,
+          ),
           GridRedirectButton(
-              pageToRedirect: OnlineGame(),
-              text: "New Online Game",
-              iconData: Icons.add_box),
+            pageToRedirect: OnlineGame(),
+            text: "New Online Game",
+            iconData: Icons.add_box,
+          ),
           GridRedirectButton(
-              pageToRedirect: Settings(),
-              text: "Settings",
-              iconData: Icons.settings),
+            pageToRedirect: Settings(),
+            text: "Settings",
+            iconData: Icons.settings,
+          ),
           GridRedirectButton(
             exit: true,
             text: "Exit App",
