@@ -1,6 +1,3 @@
-import 'package:dartboard/pages/local_game.dart';
-import 'package:dartboard/pages/online_game.dart';
-import 'package:dartboard/pages/settings.dart';
 import 'package:dartboard/widgets/grid_redirect_button.dart';
 import 'package:flutter/material.dart';
 
@@ -35,22 +32,22 @@ class MainPage extends StatelessWidget {
         crossAxisCount: 2,
         children: const [
           GridRedirectButton(
-            pageToRedirect: LocalGame(),
+            routeName: "/game/local",
             text: "New Local Game",
             iconData: Icons.add_box_outlined,
           ),
           GridRedirectButton(
-            pageToRedirect: OnlineGame(),
+            routeName: "/game/online",
             text: "New Online Game",
             iconData: Icons.add_box,
           ),
           GridRedirectButton(
-            pageToRedirect: Settings(),
+            routeName: "/settings",
             text: "Settings",
             iconData: Icons.settings,
           ),
           GridRedirectButton(
-            exit: true,
+            routeName: "/exit",
             text: "Exit App",
             iconData: Icons.exit_to_app,
           ),
