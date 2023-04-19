@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartboard/model/current_score_notifier.dart';
 import 'package:dartboard/pages/local_game.dart';
 import 'package:dartboard/pages/main_page.dart';
@@ -54,6 +55,10 @@ class MyApp extends StatelessWidget {
             AuthStateChangeAction<SignedIn>((context, state) {
               Navigator.of(context).pushNamedAndRemoveUntil(
                   '/main_page', (Route<dynamic> route) => false);
+              // TODO create user - but when REGISTERING!!
+              // FirebaseFirestore.instance.collection("users").add({
+              //   "username": "Something",
+              // });
             }),
           ],
         );
