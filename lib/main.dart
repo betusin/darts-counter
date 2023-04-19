@@ -1,5 +1,7 @@
 import 'package:dartboard/model/current_score_notifier.dart';
 import 'package:dartboard/pages/main_page.dart';
+import 'package:dartboard/pages/register_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,13 +21,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<CurrentScoreNotifier>(
-        create: (_) => CurrentScoreNotifier(),
-        child: MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
-          home: MainPage(),
-        ));
+      create: (_) => CurrentScoreNotifier(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: (FirebaseAuth.instance.currentUser != null)
+            ? MainPage()
+            : RegisterPage(),
+      ),
+    );
   }
 }
