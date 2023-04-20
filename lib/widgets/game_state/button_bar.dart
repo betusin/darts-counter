@@ -10,7 +10,7 @@ class GameButtonBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentGame = context.watch<GameNotifier>();
     return Container(
-      height: 70,
+      height: 50,
       color: Colors.greenAccent,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -21,7 +21,7 @@ class GameButtonBar extends StatelessWidget {
               child: Text('Undo'),
           ),
           if (currentGame.getGameOver()) ... [
-            _buildWinnerText('GAME ENDED'),
+            _buildWinnerText('${currentGame.getWinnerName()} WON'),
             _buildNextGameButton(currentGame.newGameSamePlayers)
           ]
         ],

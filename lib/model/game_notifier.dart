@@ -61,4 +61,14 @@ class GameNotifier extends ChangeNotifier {
     return player2Name;
   }
 
+  String getWinnerName() {
+    if (!leg.legEnded) return '';
+    if (leg.getCurrentScore(0) == 0) return player1Name;
+    return player2Name;
+  }
+
+  int getCurrentScore() {
+    return leg.getCurrentPlayerScore();
+  }
+
 }

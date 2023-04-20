@@ -1,3 +1,4 @@
+import 'package:dartboard/widgets/game_state/checkout_bar.dart';
 import 'package:dartboard/widgets/game_state/score_panel.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +15,7 @@ class GameStatePanel extends StatelessWidget {
           children: [
             Expanded(child: ScorePanel()),
             SizedBox(height: 8.0),
+            CheckoutBar(),
             GameButtonBar()
           ],
         ),

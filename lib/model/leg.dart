@@ -91,4 +91,8 @@ class Leg {
     return currentPlayer == index;
   }
 
+  int getCurrentPlayerScore() {
+    return scores[currentPlayer];
+  }
+
 }
