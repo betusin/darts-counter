@@ -1,15 +1,9 @@
+import 'package:dartboard/app_routes.dart';
 import 'package:dartboard/model/game_notifier.dart';
-import 'package:dartboard/pages/local_game.dart';
-import 'package:dartboard/pages/main_page.dart';
-import 'package:dartboard/pages/online_game.dart';
-import 'package:dartboard/pages/settings.dart';
-import 'package:dartboard/pages/statistics_page.dart';
-import 'package:dartboard/widgets/new_local_without_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
@@ -38,57 +32,8 @@ class MyApp extends StatelessWidget {
         initialRoute: (FirebaseAuth.instance.currentUser == null)
             ? "/sign-in"
             : "/main_page",
-        routes: _getAppRoutes(),
+        routes: appRoutes,
       ),
     );
-  }
-
-  _getAppRoutes() {
-    return {
-      '/sign-in': (context) {
-        return SignInScreen(
-          headerBuilder: (context, constraints, _) {
-            return NewLocalWithoutSignIn();
-          },
-          actions: [
-            AuthStateChangeAction<SignedIn>((context, state) {
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/main_page', (Route<dynamic> route) => false);
-            }),
-          ],
-        );
-      },
-      '/profile': (context) {
-        return ProfileScreen(
-          appBar: AppBar(
-            title: Text("Profile"),
-          ),
-          actions: [
-            SignedOutAction((context) {
-              Navigator.pushReplacementNamed(context, '/sign-in');
-            }),
-          ],
-        );
-      },
-      '/main_page': (context) {
-        return MainPage();
-      },
-      '/statistics': (context) {
-        return StatisticsPage();
-      },
-      '/settings': (context) {
-        return Settings();
-      },
-      '/game/local': (context) {
-        return LocalGame();
-      },
-      '/game/online': (context) {
-        return OnlineGame();
-      },
-      '/exit': (context) {
-        SystemNavigator.pop();
-        return Text("Exiting App");
-      },
-    };
   }
 }
