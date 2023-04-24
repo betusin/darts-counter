@@ -17,8 +17,10 @@ class CheckoutBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          if (currentScore <= 170 && currentScore > 1 && !bogeyNumbers.contains(currentScore))
-            ... _buildContainers(currentScore)
+          if (currentScore <= 170 &&
+              currentScore > 1 &&
+              !bogeyNumbers.contains(currentScore))
+            ..._buildContainers(currentScore)
         ],
       ),
     );
@@ -28,7 +30,7 @@ class CheckoutBar extends StatelessWidget {
     List<Widget> containers = [];
     List<String> route = checkoutRoutes[score]!;
 
-    for (int i = 0; i < route.length; i++){
+    for (int i = 0; i < route.length; i++) {
       containers.add(_buildCheckoutContainer(route[i]));
     }
     return containers;
@@ -38,7 +40,12 @@ class CheckoutBar extends StatelessWidget {
     return Container(
       color: Colors.grey,
       height: 40,
-      child: Center(child: Text(checkout, style: TextStyle(color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),)),
+      child: Center(
+          child: Text(
+        checkout,
+        style: TextStyle(
+            color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
+      )),
     );
   }
 }
