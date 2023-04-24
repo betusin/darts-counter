@@ -8,9 +8,13 @@ class ScorePanel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: ScoreCard(index: 0,)),
+        ScoreCard(
+          index: 0,
+        ),
         SizedBox(width: 8.0),
-        Expanded(child: ScoreCard(index: 1,)),
+        ScoreCard(
+          index: 1,
+        ),
       ],
     );
   }

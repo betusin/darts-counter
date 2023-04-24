@@ -1,7 +1,5 @@
 import 'package:dartboard/board/dart_board.dart';
-import 'package:dartboard/widgets/game_state/current_visit_panel.dart';
 import 'package:dartboard/widgets/game_state/game_state_panel.dart';
-import 'package:dartboard/widgets/game_state/score_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -19,11 +17,13 @@ class LocalGame extends StatelessWidget {
         centerTitle: true,
         title: Text("Local Game"),
       ),
-      body: Column(
-        children: [
-          Expanded(child: GameStatePanel()),
-          DartBoard(),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            GameStatePanel(),
+            DartBoard(),
+          ],
+        ),
       ),
     );
   }

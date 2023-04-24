@@ -10,15 +10,15 @@ class GameStatePanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Expanded(child: ScorePanel()),
-            SizedBox(height: 8.0),
-            CheckoutBar(),
-            GameButtonBar()
-          ],
-        ),
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          ScorePanel(),
+          SizedBox(height: 8.0),
+          CheckoutBar(),
+          GameButtonBar()
+        ],
+      ),
     );
   }
 }
