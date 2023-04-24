@@ -20,7 +20,7 @@ class ScoreCard extends StatelessWidget {
 
     return Container(
       alignment: Alignment.center,
-      color: isMyTurn ? Colors.yellow : Colors.green,
+      color: isMyTurn ? Colors.blue : Colors.blue[200],
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
