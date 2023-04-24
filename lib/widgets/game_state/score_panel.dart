@@ -7,11 +7,11 @@ class ScorePanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         ScoreCard(
           index: 0,
         ),
-        SizedBox(width: 8.0),
         ScoreCard(
           index: 1,
         ),
