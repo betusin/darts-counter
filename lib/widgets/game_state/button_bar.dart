@@ -11,16 +11,16 @@ class GameButtonBar extends StatelessWidget {
     final currentGame = context.watch<GameNotifier>();
     return Container(
       height: 50,
-      color: Colors.greenAccent,
+      color: Colors.blue[50],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           ElevatedButton(
-              onPressed: currentGame.stepBack,
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-              child: Text('Undo'),
+            onPressed: currentGame.stepBack,
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+            child: Text('Undo'),
           ),
-          if (currentGame.getGameOver()) ... [
+          if (currentGame.getGameOver()) ...[
             _buildWinnerText('${currentGame.getWinnerName()} WON'),
             _buildNextGameButton(currentGame.newGameSamePlayers)
           ]
@@ -33,8 +33,7 @@ class GameButtonBar extends StatelessWidget {
     return ElevatedButton(
         onPressed: callback,
         style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-        child: Text('Next Game')
-    );
+        child: Text('Next Game'));
   }
 
   Widget _buildWinnerText(String winnerName) {

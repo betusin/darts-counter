@@ -13,7 +13,7 @@ class CheckoutBar extends StatelessWidget {
     final currentScore = currentGame.getCurrentScore();
     return Container(
       height: 50,
-      color: Colors.greenAccent,
+      color: Colors.blue[50],
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -37,14 +37,13 @@ class CheckoutBar extends StatelessWidget {
   }
 
   Widget _buildCheckoutContainer(String checkout) {
-    return Container(
-      color: Colors.grey,
+    return SizedBox(
       height: 40,
       child: Center(
           child: Text(
         checkout,
         style: TextStyle(
-            color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
+            color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
       )),
     );
   }
