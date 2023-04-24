@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../model/visit.dart';
 
 class CurrentVisitPanel extends StatelessWidget {
-
   final Visit visit;
 
   const CurrentVisitPanel({super.key, required this.visit});
@@ -19,19 +18,19 @@ class CurrentVisitPanel extends StatelessWidget {
       ],
     );
   }
-  
+
   Widget _buildScoreContainer(String text) {
     return Container(
       alignment: Alignment.center,
       width: 55,
       height: 70,
       color: Colors.black,
-      child: Text(text,
+      child: Text(
+        text,
         style: TextStyle(
-          color: visit.isBusted ? Colors.red : Colors.white,
-          fontSize: 30,
-          fontWeight: FontWeight.bold
-        ),
+            color: visit.isBusted ? Colors.red : Colors.white,
+            fontSize: 30,
+            fontWeight: FontWeight.bold),
       ),
     );
   }

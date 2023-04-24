@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../../model/game_notifier.dart';
 
 class ScoreCard extends StatelessWidget {
-
   final int index;
 
   const ScoreCard({super.key, required this.index});
@@ -29,7 +28,8 @@ class ScoreCard extends StatelessWidget {
           Text(playerName),
           Text("$currentScore", style: TextStyle(fontSize: 50)),
           CurrentVisitPanel(visit: currentVisit),
-          Text("Ø: ${currentAvg.toStringAsFixed(2)}", style: TextStyle(fontWeight: FontWeight.bold))
+          Text("Ø: ${currentAvg.toStringAsFixed(2)}",
+              style: TextStyle(fontWeight: FontWeight.bold))
         ],
       ),
     );
