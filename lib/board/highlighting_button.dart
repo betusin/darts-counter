@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../model/current_score_notifier.dart';
+import '../model/game_notifier.dart';
 import 'constants.dart';
 
 class HighlightingButton extends StatelessWidget {
@@ -9,12 +9,13 @@ class HighlightingButton extends StatelessWidget {
   final Color backgroundColor;
   final int value;
   final bool isCircle;
+  final bool isDouble;
 
-  const HighlightingButton({super.key, required this.backgroundColor, required this.value, this.isCircle = false});
+  const HighlightingButton({super.key, required this.backgroundColor, required this.value, this.isDouble = false, this.isCircle = false});
 
   @override
   Widget build(BuildContext context) {
-    final currentScore = context.read<CurrentScoreNotifier>();
+    final currentGame = context.read<GameNotifier>();
     return ElevatedButton(
       style: ButtonStyle(
         shape: isCircle ? MaterialStateProperty.all(CircleBorder()) : null,
@@ -29,7 +30,7 @@ class HighlightingButton extends StatelessWidget {
         ),
       ),
       onPressed: () {
-        currentScore.setScore(value);
+        currentGame.addThrow(value, isDouble);
       },
       child: null,
     );

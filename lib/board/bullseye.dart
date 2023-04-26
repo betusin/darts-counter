@@ -18,7 +18,7 @@ class BullsEye extends StatelessWidget {
         Container(
           height: bullsEyeDiameter,
           width: bullsEyeDiameter,
-          child: HighlightingButton(backgroundColor: dartboardRed, value: 50, isCircle: true),
+          child: HighlightingButton(backgroundColor: dartboardRed, value: 50, isCircle: true, isDouble: true),
         ),
       ],
     );

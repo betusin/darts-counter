@@ -10,17 +10,20 @@ class Avatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: _AVATAR_SIZE,
-      height: _AVATAR_SIZE,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.blue,
-      ),
-      child: Center(
-        child: Text(
-          '${_getInitialFromString(name)}${_getInitialFromString(surname)}',
-          style: TextStyle(color: Colors.white),
+    return TextButton(
+      onPressed: () => {Navigator.pushNamed(context, '/profile')},
+      child: Container(
+        width: _AVATAR_SIZE,
+        height: _AVATAR_SIZE,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.blue,
+        ),
+        child: Center(
+          child: Text(
+            '${_getInitialFromString(name)}${_getInitialFromString(surname)}',
+            style: TextStyle(color: Colors.white),
+          ),
         ),
       ),
     );
