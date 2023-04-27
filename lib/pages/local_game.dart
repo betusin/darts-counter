@@ -17,13 +17,11 @@ class LocalGame extends StatelessWidget {
         centerTitle: true,
         title: Text("Local Game"),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            GameStatePanel(),
-            DartBoard(),
-          ],
-        ),
+      body: Column(
+        children: [
+          Expanded(child: GameStatePanel()),
+          DartBoard(),
+        ],
       ),
     );
   }

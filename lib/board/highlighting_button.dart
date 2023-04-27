@@ -18,6 +18,7 @@ class HighlightingButton extends StatelessWidget {
     final currentGame = context.read<GameNotifier>();
     return ElevatedButton(
       style: ButtonStyle(
+        elevation: MaterialStateProperty.all(0),
         shape: isCircle ? MaterialStateProperty.all(CircleBorder()) : null,
         backgroundColor: MaterialStateProperty.all(backgroundColor),
         overlayColor: MaterialStateProperty.resolveWith<Color?>(

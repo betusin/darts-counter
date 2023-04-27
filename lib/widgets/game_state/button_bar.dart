@@ -10,8 +10,9 @@ class GameButtonBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentGame = context.watch<GameNotifier>();
     return Container(
-      height: 50,
+      height: 40,
       color: Colors.blue[50],
+      alignment: Alignment.topCenter,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [

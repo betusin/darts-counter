@@ -9,11 +9,16 @@ class ScorePanel extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        ScoreCard(
-          index: 0,
+        Expanded(
+          child: ScoreCard(
+            index: 0,
+          ),
         ),
-        ScoreCard(
-          index: 1,
+        SizedBox(width: 6),
+        Expanded(
+          child: ScoreCard(
+            index: 1,
+          ),
         ),
       ],
     );
