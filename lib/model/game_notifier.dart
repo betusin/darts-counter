@@ -5,69 +5,72 @@ import 'local_game_service.dart';
 
 /*
 currently supports only local game for 2 players
+TODO finish support for more players
+TODO finish support for online game
  */
 class GameNotifier extends ChangeNotifier {
-  LocalGameService leg = LocalGameService();
+  LocalGameService localGame = LocalGameService();
 
-  String player1Name = '';
-  String player2Name = '';
+  int numberOfPlayers = 2;
+  List<String> playerNames = [];
+  int startingScore = 501;
 
-  void createNewLeg({required String player1, required String player2}) {
-    leg = LocalGameService();
-    player1Name = player1;
-    player2Name = player2;
+  void createNewLocalGame({required int number, required List<String> names, int starting = 501}) {
+    localGame = LocalGameService(players: number, startingScore: starting);
+    numberOfPlayers = number;
+    playerNames = names;
+    startingScore = starting;
   }
 
   void newGameSamePlayers() {
-    String pom = player1Name;
-    player1Name = player2Name;
-    player2Name = pom;
-    leg = LocalGameService();
+    String pom = playerNames[0];
+    playerNames[0] = playerNames[1];
+    playerNames[1] = pom;
+    localGame = LocalGameService();
     notifyListeners();
   }
 
   void stepBack() {
-    leg.stepBack();
+    localGame.stepBack();
     notifyListeners();
   }
 
   void addThrow(int score, bool isDouble) {
-    leg.addNewScore(score, isDouble);
+    localGame.addNewScore(score, isDouble);
     notifyListeners();
   }
 
   int getScore(int index) {
-    return leg.getCurrentScore(index);
+    return localGame.getCurrentScore(index);
   }
 
   double getAverage(int index) {
-    return leg.getCurrentAverage(index);
+    return localGame.getCurrentAverage(index);
   }
 
   Visit getVisit(int index) {
-    return leg.getCurrentVisit(index);
+    return localGame.getCurrentVisit(index);
   }
 
   bool isMyTurn(int index) {
-    return leg.isMyTurn(index);
+    return localGame.isMyTurn(index);
   }
 
   bool getGameOver() {
-    return leg.getLegEnded();
+    return localGame.getLegEnded();
   }
 
   String getName(int index) {
-    if (index == 0) return player1Name;
-    return player2Name;
+    return playerNames[index];
   }
 
   String getWinnerName() {
-    if (!leg.getLegEnded()) return '';
-    if (leg.getCurrentScore(0) == 0) return player1Name;
-    return player2Name;
+    if (!localGame.getLegEnded()) return '';
+    if (localGame.getCurrentScore(0) == 0) return playerNames[0];
+    return playerNames[1];
   }
 
   int getCurrentScore() {
-    return leg.getCurrentPlayerScore();
+    return localGame.getCurrentPlayerScore();
   }
 }

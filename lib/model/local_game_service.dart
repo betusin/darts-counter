@@ -9,9 +9,9 @@ class LocalGameService {
   GameState state = GameState(scores: [], stats: [], visits: []);
   List<GameState> history = [];
 
-  LocalGameService({int players = 2}){
+  LocalGameService({int players = 2, int startingScore = 501}){
     state = GameState(
-        scores: List.filled(players, 501),
+        scores: List.filled(players, startingScore),
         stats: List.generate(players, (_) => const GameStatistics()),
         visits: List.generate(players, (_) => const Visit(score: [], isBusted: false)),
     );
