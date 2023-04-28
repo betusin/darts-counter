@@ -1,19 +1,19 @@
 import 'package:dartboard/model/visit.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'leg.dart';
+import 'local_game_service.dart';
 
 /*
 currently supports only local game for 2 players
  */
 class GameNotifier extends ChangeNotifier {
-  Leg leg = Leg();
+  LocalGameService leg = LocalGameService();
 
   String player1Name = '';
   String player2Name = '';
 
   void createNewLeg({required String player1, required String player2}) {
-    leg = Leg();
+    leg = LocalGameService();
     player1Name = player1;
     player2Name = player2;
   }
@@ -22,7 +22,7 @@ class GameNotifier extends ChangeNotifier {
     String pom = player1Name;
     player1Name = player2Name;
     player2Name = pom;
-    leg = Leg();
+    leg = LocalGameService();
     notifyListeners();
   }
 
@@ -53,7 +53,7 @@ class GameNotifier extends ChangeNotifier {
   }
 
   bool getGameOver() {
-    return leg.legEnded;
+    return leg.getLegEnded();
   }
 
   String getName(int index) {
@@ -62,7 +62,7 @@ class GameNotifier extends ChangeNotifier {
   }
 
   String getWinnerName() {
-    if (!leg.legEnded) return '';
+    if (!leg.getLegEnded()) return '';
     if (leg.getCurrentScore(0) == 0) return player1Name;
     return player2Name;
   }
@@ -70,5 +70,4 @@ class GameNotifier extends ChangeNotifier {
   int getCurrentScore() {
     return leg.getCurrentPlayerScore();
   }
-
 }

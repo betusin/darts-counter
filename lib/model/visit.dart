@@ -3,67 +3,62 @@ import 'package:collection/collection.dart';
 class representing one visit of a player (one turn) -> three darts thrown
  */
 class Visit {
-  final List<int> _score = [];
-  bool isBusted = false;
+  final List<int> score;
+  final bool isBusted;
 
-  bool addThrow(int score) {
-    if (_score.length > 2){
-      return false;
-    }
-    _score.add(score);
-    return true;
+  const Visit({required this.score, required this.isBusted});
+
+  Visit addThrow(int newScore) {
+    List<int> newList = List.from(score);
+    newList.add(newScore);
+    return Visit(score: newList, isBusted: isBusted);
   }
 
-  bool removeThrow() {
-    if (_score.isEmpty){
-      return false;
-    }
-    _score.removeLast();
-    return true;
+  Visit bust() {
+    return Visit(score: List.from(score), isBusted: true);
   }
 
   int getDarts() {
-    return _score.length;
+    return score.length;
   }
 
   int getTotal() {
-    return _score.sum;
+    return score.sum;
   }
 
   int getLast(){
-    if (_score.isEmpty){
+    if (score.isEmpty){
       return 0;
     }
-    return _score.last;
+    return score.last;
   }
 
   bool isFull() {
-    return (_score.length == 3);
+    return (score.length == 3);
   }
 
   bool isEmpty() {
-    return (_score.isEmpty);
+    return (score.isEmpty);
   }
 
   String getFirst() {
-    if (_score.isEmpty) {
+    if (score.isEmpty) {
       return "";
     }
-    return _score[0].toString();
+    return score[0].toString();
   }
 
   String getSecond() {
-    if (_score.length < 2) {
+    if (score.length < 2) {
       return "";
     }
-    return _score[1].toString();
+    return score[1].toString();
   }
 
   String getThird() {
-    if (_score.length < 3) {
+    if (score.length < 3) {
       return "";
     }
-    return _score[2].toString();
+    return score[2].toString();
   }
-
 }
