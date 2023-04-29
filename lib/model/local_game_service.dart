@@ -8,6 +8,7 @@ service controlling one local game (leg)
 class LocalGameService {
   GameState state = GameState(scores: [], stats: [], visits: []);
   List<GameState> history = [];
+  int numberOfPlayers = 2;
 
   LocalGameService({int players = 2, int startingScore = 501}){
     state = GameState(
@@ -15,6 +16,7 @@ class LocalGameService {
         stats: List.generate(players, (_) => const GameStatistics()),
         visits: List.generate(players, (_) => const Visit(score: [], isBusted: false)),
     );
+    numberOfPlayers = players;
   }
 
   void addNewScore(int score, bool isDouble) {
@@ -64,7 +66,7 @@ class LocalGameService {
   }
 
   int _getNextPlayer() {
-    return (state.currentPlayer + 1) % state.numberOfPlayers;
+    return (state.currentPlayer + 1) % numberOfPlayers;
   }
 
   bool isMyTurn(int index) {
@@ -77,5 +79,13 @@ class LocalGameService {
 
   bool getLegEnded() {
     return state.legEnded;
+  }
+
+  int getWinnerIndex() {
+    return state.scores.indexOf(0);
+  }
+
+  int getCurrentIndex() {
+    return state.currentPlayer;
   }
 }

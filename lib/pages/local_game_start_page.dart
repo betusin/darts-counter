@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 /*
 page where ppl will set the names, number of players and starting score
-TODO fix support for multiple players
  */
 class LocalGameStart extends StatefulWidget {
   const LocalGameStart({super.key});
@@ -13,24 +12,27 @@ class LocalGameStart extends StatefulWidget {
 }
 
 class _LocalGameStartState extends State<LocalGameStart> {
-  final player1NameController = TextEditingController();
-  final player2NameController = TextEditingController();
+  List<String> playerNames = ['Player1', 'Player2', 'Player3', 'Player4'];
   final List<String> gameModes = ['301', '501', '701'];
   String gameModeValue = '501';
+  final List<int> playerNumberOptions = [2, 3, 4];
+  int playerNumberValue = 2;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('New Local Game'),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.all(6.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            _buildScoreSetter(),
-            _buildNameSetter(),
-            _buildNameSetter(),
+            _buildGameModeDropdown(),
+            SizedBox(height: 6),
+            _buildPlayersDropdown(),
+            ... _buildPlayerCards(),
             Spacer(),
             SizedBox(
               width: 200,
@@ -39,7 +41,7 @@ class _LocalGameStartState extends State<LocalGameStart> {
                   onPressed: (){
                     final pageToPush = MaterialPageRoute(
                       builder: (BuildContext context) {
-                        return LocalGamePage(numberOfPlayers: 2, names: ['PLAYER1','pl2x'], startingScore: int.parse(gameModeValue));
+                        return LocalGamePage(numberOfPlayers: playerNumberValue, names: playerNames.sublist(0,playerNumberValue), startingScore: int.parse(gameModeValue));
                       },
                     );
                     Navigator.push(context, pageToPush);
@@ -53,46 +55,98 @@ class _LocalGameStartState extends State<LocalGameStart> {
     );
   }
 
-  Widget _buildNameSetter() {
-    return Padding(
-      padding: const EdgeInsets.all(6.0),
-      child: Container(
-        height: 100,
+  Widget _buildGameModeDropdown() {
+    return Container(
+        height: 80,
         color: Colors.blue[100],
         alignment: Alignment.center,
-        child: Text('playername')
-      ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text('GAME MODE:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            DropdownButton<String>(
+                value: gameModeValue,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                items: gameModes.map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? value) {
+                  setState(() {
+                    gameModeValue = value!;
+                  });
+                })
+          ],
+        )
     );
   }
 
-  Widget _buildScoreSetter() {
-    return Padding(
-      padding: const EdgeInsets.all(6.0),
-      child: Container(
-          height: 80,
-          color: Colors.blue[100],
-          alignment: Alignment.center,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text('GAME MODE:'),
-              DropdownButton<String>(
-                  value: gameModeValue,
-                  items: gameModes.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? value) {
-                    setState(() {
-                      gameModeValue = value!;
-                    });
-                  })
-            ],
-          )
-      ),
+  Widget _buildPlayersDropdown() {
+    return Container(
+        height: 80,
+        color: Colors.blue[100],
+        alignment: Alignment.center,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text('No. PLAYERS:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            DropdownButton<int>(
+                value: playerNumberValue,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                items: playerNumberOptions.map<DropdownMenuItem<int>>((int value) {
+                  return DropdownMenuItem<int>(
+                    value: value,
+                    child: Text(value.toString()),
+                  );
+                }).toList(),
+                onChanged: (int? value) {
+                  setState(() {
+                    playerNumberValue = value!;
+                  });
+                })
+          ],
+        )
     );
   }
+
+  List<Widget> _buildPlayerCards() {
+    List<Widget> nameSetters = [];
+    for (int i = 0; i < playerNumberValue; i++) {
+      nameSetters.add(SizedBox(height: 6));
+      nameSetters.add(_buildNameSetter(i));
+    }
+    return nameSetters;
+  }
+
+  Widget _buildNameSetter(int index) {
+    return Container(
+        height: 60,
+        color: Colors.blue[100],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Row(
+            children: [
+              Text('Player ${index+1} name:', style: TextStyle(fontWeight: FontWeight.bold)),
+              SizedBox(width: 20),
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                      hintText: playerNames[index],
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      playerNames[index] = value;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+        )
+    );
+  }
+
   
 }

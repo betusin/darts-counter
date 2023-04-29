@@ -17,6 +17,7 @@ class ScoreCard extends StatelessWidget {
     final currentVisit = currentGame.getVisit(index);
     final playerName = currentGame.getName(index);
     final isMyTurn = currentGame.isMyTurn(index);
+    final victories = currentGame.getVictories(index).toString();
 
     return Container(
       alignment: Alignment.center,
@@ -25,7 +26,7 @@ class ScoreCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(playerName),
+          Text('$playerName - $victories', style: TextStyle(fontWeight: FontWeight.bold)),
           Text("$currentScore", style: TextStyle(fontSize: 50)),
           CurrentVisitPanel(visit: currentVisit),
           Text("Ø: ${currentAvg.toStringAsFixed(2)}",

@@ -4,7 +4,6 @@ import 'game_statistics.dart';
 
 class GameState {
   final bool legEnded;
-  final int numberOfPlayers;
   final int currentPlayer;
   final List<int> scores;
   final List<GameStatistics> stats;
@@ -12,7 +11,6 @@ class GameState {
 
   const GameState({
     this.legEnded = false,
-    this.numberOfPlayers = 2,
     this.currentPlayer = 0,
     required this.scores,
     required this.stats,
