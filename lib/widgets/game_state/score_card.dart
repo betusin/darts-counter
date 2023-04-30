@@ -18,19 +18,51 @@ class ScoreCard extends StatelessWidget {
     final playerName = currentGame.getName(index);
     final isMyTurn = currentGame.isMyTurn(index);
     final victories = currentGame.getVictories(index).toString();
+    final cardColor = isMyTurn ? Colors.blue : Colors.blue[100];
+    final nameTagColor = isMyTurn ? Colors.green : Colors.green[100];
 
     return Container(
-      alignment: Alignment.center,
-      color: isMyTurn ? Colors.blue : Colors.blue[100],
+      color: cardColor,
       child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text('$playerName - $victories', style: TextStyle(fontWeight: FontWeight.bold)),
-          Text("$currentScore", style: TextStyle(fontSize: 50)),
-          CurrentVisitPanel(visit: currentVisit),
-          Text("Ø: ${currentAvg.toStringAsFixed(2)}",
-              style: TextStyle(fontWeight: FontWeight.bold))
+          _buildNameContainer(playerName, victories, cardColor!, nameTagColor!),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text("$currentScore", style: TextStyle(fontSize: 50)),
+                CurrentVisitPanel(visit: currentVisit),
+                Text("Ø: ${currentAvg.toStringAsFixed(2)}",
+                    style: TextStyle(fontWeight: FontWeight.bold))
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNameContainer(String name, String victories, Color victoriesColor, Color nameTagColor) {
+    return Container(
+      decoration: BoxDecoration(
+        color: nameTagColor,
+        border: Border.all(width: 2)
+      ),
+      height: 30,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: 30,
+            height: 30,
+            decoration: BoxDecoration(
+                color: victoriesColor,
+                border: Border(right: BorderSide(width: 2)),
+            ),
+            child: Center(child: Text(victories, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
+          ),
+          Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
+          SizedBox(width: 30)
         ],
       ),
     );

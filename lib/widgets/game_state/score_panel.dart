@@ -18,7 +18,7 @@ class ScorePanel extends StatelessWidget {
       itemCount: numberOfPlayers,
       itemBuilder: (BuildContext context, int index) {
         return SizedBox(
-          width: MediaQuery.of(context).size.width / 2 - 8,
+          width: MediaQuery.of(context).size.width / 2 - 10,
           child: ScoreCard(index: (index + currentPlayerIndex) % numberOfPlayers),
         );
       },
