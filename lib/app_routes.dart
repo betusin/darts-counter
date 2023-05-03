@@ -1,6 +1,7 @@
 import 'package:dartboard/pages/local_game_start_page.dart';
 import 'package:dartboard/pages/main_page.dart';
 import 'package:dartboard/pages/online_game.dart';
+import 'package:dartboard/pages/online_game_start_page.dart';
 import 'package:dartboard/pages/settings.dart';
 import 'package:dartboard/pages/statistics_page.dart';
 import 'package:dartboard/service/setup_user_service.dart';
@@ -54,6 +55,9 @@ var appRoutes = <String, WidgetBuilder>{
   },
   '/game/local': (context) {
     return LocalGameStart();
+  },
+  '/game/online/start': (context) {
+    return OnlineGameStartPage();
   },
   '/game/online': (context) {
     return OnlineGame();
