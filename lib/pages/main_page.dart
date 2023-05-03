@@ -37,7 +37,7 @@ class MainPage extends StatelessWidget {
             iconData: Icons.add_box_outlined,
           ),
           GridRedirectButton(
-            routeName: "/game/online",
+            routeName: "/game/online/start",
             text: "New Online Game",
             iconData: Icons.add_box,
           ),
