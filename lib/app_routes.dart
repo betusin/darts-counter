@@ -3,7 +3,10 @@ import 'package:dartboard/pages/main_page.dart';
 import 'package:dartboard/pages/online_game.dart';
 import 'package:dartboard/pages/settings.dart';
 import 'package:dartboard/pages/statistics_page.dart';
+import 'package:dartboard/service/setup_user_service.dart';
+import 'package:dartboard/service/ioc_container.dart';
 import 'package:dartboard/widgets/new_local_without_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,8 +19,14 @@ var appRoutes = <String, WidgetBuilder>{
       },
       actions: [
         AuthStateChangeAction<SignedIn>((context, state) {
-          Navigator.of(context).pushNamedAndRemoveUntil(
-              '/main_page', (Route<dynamic> route) => false);
+          _navigateToMainPage(context);
+        }),
+        AuthStateChangeAction<UserCreated>((context, state) {
+          String userId = FirebaseAuth.instance.currentUser!.uid;
+          final setupUserController = get<SetupUserService>();
+          setupUserController.createCollectionsForUser(userId);
+
+          _navigateToMainPage(context);
         }),
       ],
     );
@@ -54,3 +63,8 @@ var appRoutes = <String, WidgetBuilder>{
     return Text("Exiting App");
   },
 };
+
+_navigateToMainPage(BuildContext context) {
+  Navigator.of(context)
+      .pushNamedAndRemoveUntil('/main_page', (Route<dynamic> route) => false);
+}

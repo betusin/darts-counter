@@ -1,5 +1,6 @@
 import 'package:dartboard/app_routes.dart';
 import 'package:dartboard/model/game_notifier.dart';
+import 'package:dartboard/service/ioc_container.dart';
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
@@ -12,6 +13,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   FirebaseUIAuth.configureProviders([EmailAuthProvider()]);
+
+  IoCContainer().setup();
 
   runApp(const MyApp());
 }
