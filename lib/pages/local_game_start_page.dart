@@ -32,16 +32,19 @@ class _LocalGameStartState extends State<LocalGameStart> {
             _buildGameModeDropdown(),
             SizedBox(height: 6),
             _buildPlayersDropdown(),
-            ... _buildPlayerCards(),
+            ..._buildPlayerCards(),
             Spacer(),
             SizedBox(
               width: 200,
               height: 80,
               child: ElevatedButton(
-                  onPressed: (){
+                  onPressed: () {
                     final pageToPush = MaterialPageRoute(
                       builder: (BuildContext context) {
-                        return LocalGamePage(numberOfPlayers: playerNumberValue, names: playerNames.sublist(0,playerNumberValue), startingScore: int.parse(gameModeValue));
+                        return LocalGamePage(
+                            numberOfPlayers: playerNumberValue,
+                            names: playerNames.sublist(0, playerNumberValue),
+                            startingScore: int.parse(gameModeValue));
                       },
                     );
                     Navigator.push(context, pageToPush);
@@ -63,10 +66,16 @@ class _LocalGameStartState extends State<LocalGameStart> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text('GAME MODE:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            Text(
+              'GAME MODE:',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             DropdownButton<String>(
                 value: gameModeValue,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
                 items: gameModes.map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
@@ -79,8 +88,7 @@ class _LocalGameStartState extends State<LocalGameStart> {
                   });
                 })
           ],
-        )
-    );
+        ));
   }
 
   Widget _buildPlayersDropdown() {
@@ -91,11 +99,18 @@ class _LocalGameStartState extends State<LocalGameStart> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text('No. PLAYERS:', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            Text(
+              'No. PLAYERS:',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
             DropdownButton<int>(
                 value: playerNumberValue,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-                items: playerNumberOptions.map<DropdownMenuItem<int>>((int value) {
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black),
+                items:
+                    playerNumberOptions.map<DropdownMenuItem<int>>((int value) {
                   return DropdownMenuItem<int>(
                     value: value,
                     child: Text(value.toString()),
@@ -107,8 +122,7 @@ class _LocalGameStartState extends State<LocalGameStart> {
                   });
                 })
           ],
-        )
-    );
+        ));
   }
 
   List<Widget> _buildPlayerCards() {
@@ -128,12 +142,13 @@ class _LocalGameStartState extends State<LocalGameStart> {
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: Row(
             children: [
-              Text('Player ${index+1} name:', style: TextStyle(fontWeight: FontWeight.bold)),
+              Text('Player ${index + 1} name:',
+                  style: TextStyle(fontWeight: FontWeight.bold)),
               SizedBox(width: 20),
               Expanded(
                 child: TextField(
                   decoration: InputDecoration(
-                      hintText: playerNames[index],
+                    hintText: playerNames[index],
                   ),
                   onChanged: (value) {
                     setState(() {
@@ -144,9 +159,6 @@ class _LocalGameStartState extends State<LocalGameStart> {
               ),
             ],
           ),
-        )
-    );
+        ));
   }
-
-  
 }
