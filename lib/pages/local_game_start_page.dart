@@ -21,35 +21,36 @@ class _LocalGameStartState extends State<LocalGameStart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('New Local Game'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(6.0),
-        child: Column(
-          children: [
-            _buildGameModeDropdown(),
-            SizedBox(height: 6),
-            _buildPlayersDropdown(),
-            ... _buildPlayerCards(),
-            Spacer(),
-            SizedBox(
-              width: 200,
-              height: 80,
-              child: ElevatedButton(
-                  onPressed: (){
-                    final pageToPush = MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return LocalGamePage(numberOfPlayers: playerNumberValue, names: playerNames.sublist(0,playerNumberValue), startingScore: int.parse(gameModeValue));
-                      },
-                    );
-                    Navigator.push(context, pageToPush);
-                  },
-                  child: Text("Start")),
-            ),
-            Spacer()
-          ],
+      body: SingleChildScrollView(
+        physics: ScrollPhysics(),
+        child: Padding(
+          padding: const EdgeInsets.all(6.0),
+          child: Column(
+            children: [
+              _buildGameModeDropdown(),
+              SizedBox(height: 6),
+              _buildPlayersDropdown(),
+              ... _buildPlayerCards(),
+              SizedBox(height: 6),
+              SizedBox(
+                width: 200,
+                height: 80,
+                child: ElevatedButton(
+                    onPressed: (){
+                      final pageToPush = MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return LocalGamePage(numberOfPlayers: playerNumberValue, names: playerNames.sublist(0,playerNumberValue), startingScore: int.parse(gameModeValue));
+                        },
+                      );
+                      Navigator.push(context, pageToPush);
+                    },
+                    child: Text("Start")),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -122,7 +123,7 @@ class _LocalGameStartState extends State<LocalGameStart> {
 
   Widget _buildNameSetter(int index) {
     return Container(
-        height: 60,
+        height: 50,
         color: Colors.blue[100],
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),

@@ -20,20 +20,17 @@ class CurrentVisitPanel extends StatelessWidget {
   }
 
   Widget _buildScoreContainer(String text) {
-    return Padding(
-      padding: const EdgeInsets.all(0.5),
-      child: Container(
-        alignment: Alignment.center,
-        width: 55,
-        height: 70,
-        color: Colors.black,
-        child: Text(
-          text,
-          style: TextStyle(
-              color: visit.isBusted ? Colors.red : Colors.white,
-              fontSize: 30,
-              fontWeight: FontWeight.bold),
-        ),
+    return Container(
+      alignment: Alignment.center,
+      height: 65,
+      width: 50,
+      color: Colors.black,
+      child: Text(
+        text,
+        style: TextStyle(
+            color: visit.isBusted ? Colors.red : Colors.white,
+            fontSize: 30,
+            fontWeight: FontWeight.bold),
       ),
     );
   }

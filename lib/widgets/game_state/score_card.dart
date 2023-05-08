@@ -22,7 +22,10 @@ class ScoreCard extends StatelessWidget {
     final nameTagColor = isMyTurn ? Colors.green : Colors.green[100];
 
     return Container(
-      color: cardColor,
+      decoration: BoxDecoration(
+        color: cardColor,
+        border: Border.all(width: 2)
+      ),
       child: Column(
         children: [
           _buildNameContainer(playerName, victories, cardColor!, nameTagColor!),
@@ -30,7 +33,7 @@ class ScoreCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("$currentScore", style: TextStyle(fontSize: 50)),
+                Text("$currentScore", style: TextStyle(fontSize: 48)),
                 CurrentVisitPanel(visit: currentVisit),
                 Text("Ø: ${currentAvg.toStringAsFixed(2)}",
                     style: TextStyle(fontWeight: FontWeight.bold))
@@ -46,7 +49,7 @@ class ScoreCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: nameTagColor,
-        border: Border.all(width: 2)
+        border: Border(bottom: BorderSide(width: 2))
       ),
       height: 30,
       child: Row(
