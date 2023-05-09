@@ -11,8 +11,6 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final inviteController = get<InviteService>();
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Main Page"),
@@ -24,33 +22,7 @@ class MainPage extends StatelessWidget {
               name: "John",
               surname: "Doe",
             ),
-            Expanded(
-              child: StreamBuilder<DocumentSnapshot>(
-                stream: inviteController.invites,
-                builder:
-                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                  if (snapshot.hasError) {
-                    return const Text("Error occurred");
-                  }
-
-                  if (!snapshot.hasData) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-
-                  if (!snapshot.data!.exists) {
-                    return const Text("Data does not exist");
-                  }
-
-                  Map<String, dynamic> data =
-                      snapshot.data!.data() as Map<String, dynamic>;
-
-                  return Text(
-                      "Invite from: ${data['inviteFrom']} Valid until: ${data['validUntil']}");
-                },
-              ),
-            ),
+            _buildInvites(context),
             _buildButtons(context),
           ],
         ),
@@ -84,6 +56,39 @@ class MainPage extends StatelessWidget {
             iconData: Icons.exit_to_app,
           ),
         ],
+      ),
+    );
+  }
+
+  Expanded _buildInvites(
+    BuildContext context,
+  ) {
+    final inviteController = get<InviteService>();
+
+    return Expanded(
+      child: StreamBuilder<DocumentSnapshot>(
+        stream: inviteController.invites,
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+          if (snapshot.hasError) {
+            return const Text("Error occurred");
+          }
+
+          if (!snapshot.hasData) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          if (!snapshot.data!.exists) {
+            return const Text("Data does not exist");
+          }
+
+          Map<String, dynamic> data =
+              snapshot.data!.data() as Map<String, dynamic>;
+
+          return Text(
+              "Invite from: ${data['inviteFrom']} Valid until: ${data['validUntil']}");
+        },
       ),
     );
   }
