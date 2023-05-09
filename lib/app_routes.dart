@@ -59,6 +59,9 @@ var appRoutes = <String, WidgetBuilder>{
   '/game/online/start': (context) {
     return OnlineGameStartPage();
   },
+  '/game/online/start': (context) {
+    return OnlineGameStartPage();
+  },
   '/game/online': (context) {
     return OnlineGame();
   },
