@@ -1,4 +1,4 @@
-import 'package:dartboard/widgets/statistics_graph.dart';
+import 'package:dartboard/widgets/statistics/statistics_graph.dart';
 import 'package:flutter/material.dart';
 
 class StatisticsPage extends StatelessWidget {

@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartboard/service/invite_service.dart';
 import 'package:dartboard/service/ioc_container.dart';
 import 'package:dartboard/widgets/handling_stream_builder.dart';
-import 'package:dartboard/widgets/invite_from_list_item.dart';
+import 'package:dartboard/widgets/invites/invite_from_list_item.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/invite_list_item.dart';
+import '../widgets/invites/invite_list_item.dart';
 
 class OnlineGameStartPage extends StatelessWidget {
   var inviteController = get<InviteService>();
