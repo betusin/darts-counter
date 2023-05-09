@@ -3,6 +3,7 @@ import 'package:dartboard/service/invite_service.dart';
 import 'package:dartboard/service/ioc_container.dart';
 import 'package:dartboard/widgets/grid_redirect_button.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../widgets/profile_bar.dart';
 
@@ -87,9 +88,15 @@ class MainPage extends StatelessWidget {
               snapshot.data!.data() as Map<String, dynamic>;
 
           return Text(
-              "Invite from: ${data['inviteFrom']} Valid until: ${data['validUntil']}");
+              "Invite from: ${data['inviteFrom']} Valid until: ${_timestampToString(data['validUntil'])}");
         },
       ),
     );
+  }
+
+  String _timestampToString(Timestamp timestamp) {
+    final DateFormat formatter = DateFormat('h:mm a');
+    final String formatted = formatter.format(timestamp.toDate());
+    return formatted;
   }
 }
