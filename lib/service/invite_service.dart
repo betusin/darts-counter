@@ -9,9 +9,10 @@ class InviteService {
   Future<void> sendInvite(String receiverHash) async {
     _userService.getUserHashOfCurrentUser().then((senderHash) {
       _userService.getUserUID(receiverHash).then((receiverUID) {
-        FirebaseFirestore.instance.collection(receiverUID).doc().set({
+        FirebaseFirestore.instance.collection("invites").doc().set({
           "validUntil": DateTime.now().add(Duration(minutes: 30)),
           "inviteFrom": senderHash,
+          "inviteTo": receiverUID,
           "status": "pending",
         });
       });
@@ -28,16 +29,17 @@ class InviteService {
 
   void _inviteSetStatus(String inviteID, String status) {
     FirebaseFirestore.instance
-        .collection(FirebaseAuth.instance.currentUser!.uid)
+        .collection("invites")
         .doc(inviteID)
         .set({"status": status}, SetOptions(merge: true));
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> get invites {
     return FirebaseFirestore.instance
-        .collection(FirebaseAuth.instance.currentUser!.uid)
+        .collection("invites")
         .where("validUntil", isGreaterThanOrEqualTo: DateTime.now())
         .where("status", isEqualTo: "pending")
+        .where("inviteTo", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .snapshots();
   }
 
