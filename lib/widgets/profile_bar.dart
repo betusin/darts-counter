@@ -1,6 +1,8 @@
-import 'package:dartboard/widgets/text_row.dart';
+import 'package:dartboard/service/setup_user_service.dart';
+import 'package:dartboard/widgets/text_column.dart';
 import 'package:flutter/material.dart';
 
+import '../service/ioc_container.dart';
 import 'avatar.dart';
 
 class ProfileBar extends StatelessWidget {
@@ -11,6 +13,8 @@ class ProfileBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var userController = get<SetupUserService>();
+
     return Container(
       color: Theme.of(context).colorScheme.background,
       child: Padding(
@@ -20,12 +24,21 @@ class ProfileBar extends StatelessWidget {
           children: [
             Avatar(name: name, surname: surname),
             _buildStatisticsButton(context),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextRow("Name", name),
-                TextRow("Surname", surname),
-              ],
+            FutureBuilder(
+              future: userController.getUserHashOfCurrentUser(),
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                if (snapshot.hasError) {
+                  return const Text("Error occurred");
+                }
+
+                if (!snapshot.hasData) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                return TextColumn("User Hash", snapshot.data);
+              },
             )
           ],
         ),

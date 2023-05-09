@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SetupUserService {
   Future<void> createCollectionsForUser(String id) async {
@@ -26,6 +27,14 @@ class SetupUserService {
     return FirebaseFirestore.instance
         .collection("users")
         .doc(uid)
+        .get()
+        .then((doc) => doc.get("inviteHash"));
+  }
+
+  Future<String> getUserHashOfCurrentUser() {
+    return FirebaseFirestore.instance
+        .collection("users")
+        .doc(FirebaseAuth.instance.currentUser!.uid)
         .get()
         .then((doc) => doc.get("inviteHash"));
   }
