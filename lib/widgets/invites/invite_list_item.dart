@@ -3,8 +3,8 @@ import 'package:dartboard/service/invite_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../pages/online_game.dart';
-import '../service/ioc_container.dart';
+import '../../pages/online_game.dart';
+import '../../service/ioc_container.dart';
 
 class InviteListItem extends StatelessWidget {
   final String inviteFrom;

@@ -1,7 +1,7 @@
 import 'package:dartboard/widgets/grid_redirect_button.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/profile_bar.dart';
+import '../widgets/profile/profile_bar.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);

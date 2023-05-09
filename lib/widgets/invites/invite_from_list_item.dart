@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../pages/online_game.dart';
+import '../../pages/online_game.dart';
 
 class InviteFromListItem extends StatelessWidget {
   final String status;
