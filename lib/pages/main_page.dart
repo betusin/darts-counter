@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartboard/service/invite_service.dart';
+import 'package:dartboard/service/ioc_container.dart';
 import 'package:dartboard/widgets/grid_redirect_button.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +11,8 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final inviteController = get<InviteService>();
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Main Page"),
@@ -18,6 +23,33 @@ class MainPage extends StatelessWidget {
             ProfileBar(
               name: "John",
               surname: "Doe",
+            ),
+            Expanded(
+              child: StreamBuilder<DocumentSnapshot>(
+                stream: inviteController.invites,
+                builder:
+                    (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                  if (snapshot.hasError) {
+                    return const Text("Error occurred");
+                  }
+
+                  if (!snapshot.hasData) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (!snapshot.data!.exists) {
+                    return const Text("Data does not exist");
+                  }
+
+                  Map<String, dynamic> data =
+                      snapshot.data!.data() as Map<String, dynamic>;
+
+                  return Text(
+                      "Invite from: ${data['inviteFrom']} Valid until: ${data['validUntil']}");
+                },
+              ),
             ),
             _buildButtons(context),
           ],
