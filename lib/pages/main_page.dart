@@ -88,6 +88,7 @@ class MainPage extends StatelessWidget {
               return InviteListItem(
                 inviteFrom: docData['inviteFrom'],
                 validUntil: docData['validUntil'],
+                inviteID: docs[index].id,
               );
             },
             separatorBuilder: (BuildContext context, int index) {
