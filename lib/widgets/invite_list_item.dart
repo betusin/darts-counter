@@ -48,7 +48,7 @@ class InviteListItem extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              inviteController.acceptInvite(inviteID);
+              inviteController.rejectInvite(inviteID);
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
             child: Text("Reject"),
