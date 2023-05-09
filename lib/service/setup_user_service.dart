@@ -1,20 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartboard/service/statistic_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class SetupUserService {
-  Future<void> createCollectionsForUser(String id) async {
-    createStatisticsForUser(id);
-    createInvitesForUser(id);
-  }
+import 'ioc_container.dart';
 
-  Future<void> createStatisticsForUser(String id) async {
-    FirebaseFirestore.instance.collection("statistics").doc(id).set({
-      "checkoutsHit": 0,
-      "checkoutsPossible": 0,
-      "thrown120": 0,
-      "thrown140": 0,
-      "thrown180": 0
-    });
+class SetupUserService {
+  final statisticController = get<StatisticService>();
+
+  Future<void> createCollectionsForUser(String id) async {
+    createInvitesForUser(id);
+    statisticController.setEmptyStatisticsForUser(id);
   }
 
   Future<void> createInvitesForUser(String id) async {
