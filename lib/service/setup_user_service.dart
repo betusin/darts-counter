@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SetupUserService {
-  final _uidToUserHash = {};
-
   Future<void> createCollectionsForUser(String id) async {
     createStatisticsForUser(id);
     createInvitesForUser(id);
@@ -19,16 +17,17 @@ class SetupUserService {
   }
 
   Future<void> createInvitesForUser(String id) async {
-    String userHash = _generateUserHash(id);
-    _uidToUserHash[id] = userHash;
-
     FirebaseFirestore.instance.collection("users").doc(id).set({
-      "inviteHash": userHash,
+      "inviteHash": _generateUserHash(id),
     });
   }
 
-  String getUserHash(String uid) {
-    return _uidToUserHash[uid];
+  Future<String> getUserHash(String uid) {
+    return FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .get()
+        .then((doc) => doc.get("inviteHash"));
   }
 
   String _generateUserHash(String uid) {
