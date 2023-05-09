@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartboard/service/invite_service.dart';
 import 'package:dartboard/service/ioc_container.dart';
+import 'package:dartboard/widgets/handling_stream_builder.dart';
 import 'package:dartboard/widgets/invite_from_list_item.dart';
 import 'package:flutter/material.dart';
 
@@ -52,20 +53,10 @@ class OnlineGameStartPage extends StatelessWidget {
 
   Expanded _buildInvitesToYou(BuildContext context) {
     return Expanded(
-      child: StreamBuilder<QuerySnapshot>(
+      child: HandlingStreamBuilder<QuerySnapshot>(
         stream: inviteController.invitesTo,
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.hasError) {
-            return const Text("Error occurred");
-          }
-
-          if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          final docs = snapshot.data!.docs;
+        builder: (BuildContext context, dynamic data) {
+          final docs = data.docs;
 
           if (docs.length == 0) {
             return Text("No invites yet");
@@ -92,20 +83,14 @@ class OnlineGameStartPage extends StatelessWidget {
 
   Expanded _buildInvitesFromYou(BuildContext context) {
     return Expanded(
-      child: StreamBuilder<QuerySnapshot>(
+      child: HandlingStreamBuilder<QuerySnapshot>(
         stream: inviteController.invitesFrom,
-        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          if (snapshot.hasError) {
-            return const Text("Error occurred");
-          }
+        builder: (BuildContext context, dynamic data) {
+          final docs = data.docs;
 
-          if (!snapshot.hasData) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+          if (docs.length == 0) {
+            return Text("No invites yet");
           }
-
-          final docs = snapshot.data!.docs;
 
           return ListView.separated(
             itemBuilder: (context, index) {
