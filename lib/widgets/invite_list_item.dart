@@ -32,16 +32,16 @@ class InviteListItem extends StatelessWidget {
                   inviteController.createGame(inviteID, inviteFrom);
                   Navigator.pushNamed(context, "/game/online");
                 },
-                child: Text("Accept"),
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+                child: Text("Accept"),
               ),
               ElevatedButton(
                 onPressed: () {
                   inviteController.acceptInvite(inviteID);
                 },
-                child: Text("Reject"),
                 style:
                     ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+                child: Text("Reject"),
               ),
             ],
           ),
