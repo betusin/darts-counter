@@ -25,7 +25,7 @@ class InviteListItem extends StatelessWidget {
       child: Column(
         children: [
           Text(
-              "$inviteFrom} is inviting you to join the game! (Valid until: ${_timestampToString(validUntil)})"),
+              "$inviteFrom is inviting you to join the game! (Valid until: ${_timestampToString(validUntil)})"),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
