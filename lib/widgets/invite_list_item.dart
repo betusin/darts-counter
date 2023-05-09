@@ -6,12 +6,15 @@ import 'package:intl/intl.dart';
 import '../service/ioc_container.dart';
 
 class InviteListItem extends StatelessWidget {
-  final inviteFrom;
-  final validUntil;
-  final inviteID;
+  final String inviteFrom;
+  final Timestamp validUntil;
+  final String inviteID;
 
   const InviteListItem(
-      {Key? key, this.inviteFrom, this.validUntil, this.inviteID})
+      {Key? key,
+      required this.inviteFrom,
+      required this.validUntil,
+      required this.inviteID})
       : super(key: key);
 
   @override
