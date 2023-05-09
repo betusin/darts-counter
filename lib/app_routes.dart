@@ -10,61 +10,78 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 
-var appRoutes = <String, WidgetBuilder>{
-  '/sign-in': (context) {
-    return SignInScreen(
-      headerBuilder: (context, constraints, _) {
-        return NewLocalWithoutSignIn();
+var appRoutes = GoRouter(
+  routes: [
+    GoRoute(
+      path: '/sign-in',
+      builder: (context, state) {
+        return SignInScreen(
+          headerBuilder: (context, constraints, _) {
+            return NewLocalWithoutSignIn();
+          },
+          actions: [
+            AuthStateChangeAction<SignedIn>((context, state) {
+              _navigateToMainPage(context);
+            }),
+            AuthStateChangeAction<UserCreated>((context, state) {
+              String userId = FirebaseAuth.instance.currentUser!.uid;
+              final setupUserController = get<SetupUserService>();
+              setupUserController.createCollectionsForUser(userId);
+
+              _navigateToMainPage(context);
+            }),
+          ],
+        );
       },
-      actions: [
-        AuthStateChangeAction<SignedIn>((context, state) {
-          _navigateToMainPage(context);
-        }),
-        AuthStateChangeAction<UserCreated>((context, state) {
-          String userId = FirebaseAuth.instance.currentUser!.uid;
-          final setupUserController = get<SetupUserService>();
-          setupUserController.createCollectionsForUser(userId);
-
-          _navigateToMainPage(context);
-        }),
-      ],
-    );
-  },
-  '/profile': (context) {
-    return ProfileScreen(
-      appBar: AppBar(
-        title: Text("Profile"),
-      ),
-      actions: [
-        SignedOutAction((context) {
-          Navigator.pushReplacementNamed(context, '/sign-in');
-        }),
-      ],
-    );
-  },
-  '/main_page': (context) {
-    return MainPage();
-  },
-  '/statistics': (context) {
-    return StatisticsPage();
-  },
-  '/settings': (context) {
-    return Settings();
-  },
-  '/game/local': (context) {
-    return LocalGameStart();
-  },
-  '/game/online/start': (context) {
-    return OnlineGameStartPage();
-  },
-  '/exit': (context) {
-    SystemNavigator.pop();
-    return Text("Exiting App");
-  },
-};
+    ),
+    GoRoute(
+      path: '/profile',
+      builder: (context, state) {
+        return ProfileScreen(
+          appBar: AppBar(
+            title: Text("Profile"),
+          ),
+          actions: [
+            SignedOutAction((context) {
+              Navigator.pushReplacementNamed(context, '/sign-in');
+            }),
+          ],
+        );
+      },
+    ),
+    GoRoute(
+      path: '/',
+      builder: (context, state) => MainPage(),
+    ),
+    GoRoute(
+      path: '/statistics',
+      builder: (context, state) => StatisticsPage(),
+    ),
+    GoRoute(
+      path: '/settings',
+      builder: (context, state) => Settings(),
+    ),
+    GoRoute(
+      path: '/game/local',
+      builder: (context, state) => LocalGameStart(),
+    ),
+    GoRoute(
+      path: '/game/online/start',
+      builder: (context, state) => OnlineGameStartPage(),
+    ),
+    GoRoute(
+      path: '/exit',
+      builder: (context, state) {
+        SystemNavigator.pop();
+        return Text("Exiting App");
+      },
+    ),
+  ],
+);
 
 _navigateToMainPage(BuildContext context) {
   Navigator.of(context)
-      .pushNamedAndRemoveUntil('/main_page', (Route<dynamic> route) => false);
+      .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
 }
