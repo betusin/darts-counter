@@ -13,6 +13,14 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 var appRoutes = GoRouter(
+  redirect: (BuildContext context, GoRouterState state) {
+    if (FirebaseAuth.instance.currentUser != null) {
+      return null;
+    } else {
+      return '/sign-in';
+    }
+  },
+  initialLocation: '/',
   routes: [
     GoRoute(
       path: '/sign-in',
@@ -82,6 +90,5 @@ var appRoutes = GoRouter(
 );
 
 _navigateToMainPage(BuildContext context) {
-  Navigator.of(context)
-      .pushNamedAndRemoveUntil('/', (Route<dynamic> route) => false);
+  context.go('/');
 }
