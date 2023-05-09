@@ -1,14 +1,14 @@
 import 'package:dartboard/model/visit.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'game_service.dart';
 import 'local_game_service.dart';
 
 /*
-currently supports only local game
 TODO finish support for online game
  */
 class GameNotifier extends ChangeNotifier {
-  LocalGameService localGame = LocalGameService();
+  GameService currentGame = LocalGameService();
 
   int numberOfPlayers = 2;
   List<String> playerNames = [];
@@ -16,7 +16,7 @@ class GameNotifier extends ChangeNotifier {
   List<int> victories = [];
 
   void createNewLocalGame({required int number, required List<String> names, int starting = 501}) {
-    localGame = LocalGameService(players: number, startingScore: starting);
+    currentGame = LocalGameService(players: number, startingScore: starting);
     numberOfPlayers = number;
     playerNames = names;
     startingScore = starting;
@@ -24,42 +24,42 @@ class GameNotifier extends ChangeNotifier {
   }
 
   void newGameSamePlayers() {
-    victories[localGame.getWinnerIndex()] += 1;
+    victories[currentGame.getWinnerIndex()] += 1;
     String pom = playerNames.removeLast();
     playerNames.insert(0, pom);
     victories.insert(0, victories.removeLast());
-    localGame = LocalGameService(players: numberOfPlayers, startingScore: startingScore);
+    currentGame = LocalGameService(players: numberOfPlayers, startingScore: startingScore);
     notifyListeners();
   }
 
   void stepBack() {
-    localGame.stepBack();
+    currentGame.stepBack();
     notifyListeners();
   }
 
   void addThrow(int score, bool isDouble) {
-    localGame.addNewScore(score, isDouble);
+    currentGame.addNewScore(score, isDouble);
     notifyListeners();
   }
 
   int getScore(int index) {
-    return localGame.getCurrentScore(index);
+    return currentGame.getCurrentScore(index);
   }
 
   double getAverage(int index) {
-    return localGame.getCurrentAverage(index);
+    return currentGame.getCurrentAverage(index);
   }
 
   Visit getVisit(int index) {
-    return localGame.getCurrentVisit(index);
+    return currentGame.getCurrentVisit(index);
   }
 
   bool isMyTurn(int index) {
-    return localGame.isMyTurn(index);
+    return currentGame.isMyTurn(index);
   }
 
   bool getGameOver() {
-    return localGame.getLegEnded();
+    return currentGame.getLegEnded();
   }
 
   String getName(int index) {
@@ -67,12 +67,12 @@ class GameNotifier extends ChangeNotifier {
   }
 
   String getWinnerName() {
-    if (!localGame.getLegEnded()) return '';
-    return playerNames[localGame.getWinnerIndex()];
+    if (!currentGame.getLegEnded()) return '';
+    return playerNames[currentGame.getWinnerIndex()];
   }
 
   int getCurrentScore() {
-    return localGame.getCurrentPlayerScore();
+    return currentGame.getCurrentPlayerScore();
   }
 
   int getNumberOfPlayers() {
@@ -80,7 +80,7 @@ class GameNotifier extends ChangeNotifier {
   }
 
   int getCurrentPlayerIndex() {
-    return localGame.getCurrentIndex();
+    return currentGame.getCurrentIndex();
   }
 
   int getVictories(int index) {
