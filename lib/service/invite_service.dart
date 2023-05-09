@@ -12,15 +12,32 @@ class InviteService {
         FirebaseFirestore.instance.collection(receiverUID).doc().set({
           "validUntil": DateTime.now().add(Duration(minutes: 30)),
           "inviteFrom": senderHash,
+          "status": "pending",
         });
       });
     });
+  }
+
+  void acceptInvite(String inviteID) {
+    _inviteSetStatus(inviteID, "accepted");
+  }
+
+  void rejectInvite(String inviteID) {
+    _inviteSetStatus(inviteID, "rejected");
+  }
+
+  void _inviteSetStatus(String inviteID, String status) {
+    FirebaseFirestore.instance
+        .collection(FirebaseAuth.instance.currentUser!.uid)
+        .doc(inviteID)
+        .set({"status": status}, SetOptions(merge: true));
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> get invites {
     return FirebaseFirestore.instance
         .collection(FirebaseAuth.instance.currentUser!.uid)
         .where("validUntil", isGreaterThanOrEqualTo: DateTime.now())
+        .where("status", isEqualTo: "pending")
         .snapshots();
   }
 }
