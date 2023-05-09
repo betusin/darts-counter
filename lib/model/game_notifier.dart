@@ -1,74 +1,89 @@
 import 'package:dartboard/model/visit.dart';
 import 'package:flutter/cupertino.dart';
 
-import 'leg.dart';
+import 'local_game_service.dart';
 
 /*
-currently supports only local game for 2 players
+currently supports only local game
+TODO finish support for online game
  */
 class GameNotifier extends ChangeNotifier {
-  Leg leg = Leg();
+  LocalGameService localGame = LocalGameService();
 
-  String player1Name = '';
-  String player2Name = '';
+  int numberOfPlayers = 2;
+  List<String> playerNames = [];
+  int startingScore = 501;
+  List<int> victories = [];
 
-  void createNewLeg({required String player1, required String player2}) {
-    leg = Leg();
-    player1Name = player1;
-    player2Name = player2;
+  void createNewLocalGame({required int number, required List<String> names, int starting = 501}) {
+    localGame = LocalGameService(players: number, startingScore: starting);
+    numberOfPlayers = number;
+    playerNames = names;
+    startingScore = starting;
+    victories = List.filled(number, 0, growable: true);
   }
 
   void newGameSamePlayers() {
-    String pom = player1Name;
-    player1Name = player2Name;
-    player2Name = pom;
-    leg = Leg();
+    victories[localGame.getWinnerIndex()] += 1;
+    String pom = playerNames.removeLast();
+    playerNames.insert(0, pom);
+    victories.insert(0, victories.removeLast());
+    localGame = LocalGameService(players: numberOfPlayers, startingScore: startingScore);
     notifyListeners();
   }
 
   void stepBack() {
-    leg.stepBack();
+    localGame.stepBack();
     notifyListeners();
   }
 
   void addThrow(int score, bool isDouble) {
-    leg.addNewScore(score, isDouble);
+    localGame.addNewScore(score, isDouble);
     notifyListeners();
   }
 
   int getScore(int index) {
-    return leg.getCurrentScore(index);
+    return localGame.getCurrentScore(index);
   }
 
   double getAverage(int index) {
-    return leg.getCurrentAverage(index);
+    return localGame.getCurrentAverage(index);
   }
 
   Visit getVisit(int index) {
-    return leg.getCurrentVisit(index);
+    return localGame.getCurrentVisit(index);
   }
 
   bool isMyTurn(int index) {
-    return leg.isMyTurn(index);
+    return localGame.isMyTurn(index);
   }
 
   bool getGameOver() {
-    return leg.legEnded;
+    return localGame.getLegEnded();
   }
 
   String getName(int index) {
-    if (index == 0) return player1Name;
-    return player2Name;
+    return playerNames[index];
   }
 
   String getWinnerName() {
-    if (!leg.legEnded) return '';
-    if (leg.getCurrentScore(0) == 0) return player1Name;
-    return player2Name;
+    if (!localGame.getLegEnded()) return '';
+    return playerNames[localGame.getWinnerIndex()];
   }
 
   int getCurrentScore() {
-    return leg.getCurrentPlayerScore();
+    return localGame.getCurrentPlayerScore();
   }
 
+  int getNumberOfPlayers() {
+    return numberOfPlayers;
+  }
+
+  int getCurrentPlayerIndex() {
+    return localGame.getCurrentIndex();
+  }
+
+  int getVictories(int index) {
+    return victories[index];
+  }
 }

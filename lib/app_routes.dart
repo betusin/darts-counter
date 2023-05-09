@@ -1,4 +1,4 @@
-import 'package:dartboard/pages/local_game.dart';
+import 'package:dartboard/pages/local_game_start_page.dart';
 import 'package:dartboard/pages/main_page.dart';
 import 'package:dartboard/pages/online_game.dart';
 import 'package:dartboard/pages/settings.dart';
@@ -44,7 +44,7 @@ var appRoutes = <String, WidgetBuilder>{
     return Settings();
   },
   '/game/local': (context) {
-    return LocalGame();
+    return LocalGameStart();
   },
   '/game/online': (context) {
     return OnlineGame();

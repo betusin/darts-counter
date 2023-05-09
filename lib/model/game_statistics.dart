@@ -2,65 +2,74 @@ import 'package:dartboard/model/visit.dart';
 
 class GameStatistics{
 
-  int thrown180 = 0;
-  int thrown140 = 0;
-  int thrown120 = 0;
-  double average = 0.0;
-  int checkoutsPossible = 0;
-  int checkoutsHit = 0;
+  final int thrown180;
+  final int thrown140;
+  final int thrown120;
+  final int checkoutsPossible;
+  final int checkoutsHit;
+  final int throws;
+  final int allScore;
 
-  int throws = 0;
-  int allScore = 0;
+  const GameStatistics({
+    this.thrown180 = 0,
+    this.thrown140 = 0,
+    this.thrown120 = 0,
+    this.checkoutsPossible = 0,
+    this.checkoutsHit = 0,
+    this.throws = 0,
+    this.allScore = 0
+  });
 
-  void updateStats(Visit visit) {
+  GameStatistics updateStats(Visit visit) {
     if (visit.isBusted) { //busted visit - add nothing just recalculate average
-      throws += visit.getDarts();
-      average = (allScore / throws) * 3;
-      return;
+      return GameStatistics(
+          thrown120: thrown120,
+          thrown140: thrown140,
+          thrown180: thrown180,
+          checkoutsPossible: (checkoutsPossible + 1),
+          checkoutsHit: checkoutsHit,
+          throws: (throws + visit.getDarts()),
+          allScore: allScore
+      );
     }
-    final scoreThrown = visit.getTotal();
-    throws += visit.getDarts();
-    allScore += scoreThrown;
-
-    if (scoreThrown >= 120) thrown120++;
-    if (scoreThrown >= 140) thrown140++;
-    if (scoreThrown == 180) thrown180++;
-
-    if (throws == 0) {
-      average = 0.0;
-    }
-    else {
-      average = (allScore / throws) * 3;
-    }
+    int scoreThrown = visit.getTotal();
+    return GameStatistics(
+        thrown120: (scoreThrown >= 120) ? thrown120 : (thrown120 + 1),
+        thrown140: (scoreThrown >= 140) ? thrown140 : (thrown140 + 1),
+        thrown180: (scoreThrown == 180) ? thrown180 : (thrown180 + 1),
+        checkoutsPossible: (checkoutsPossible + 1),
+        checkoutsHit: checkoutsHit,
+        throws: (throws + visit.getDarts()),
+        allScore: (allScore + scoreThrown)
+    );
   }
 
-  void rollBackStats(Visit visit){
-    if (visit.isBusted) { //busted visit - add nothing just recalculate average
-      throws -= visit.getDarts();
-      average = (allScore / throws) * 3;
-      return;
-    }
-    final scoreThrown = visit.getTotal();
-    throws -= visit.getDarts();
-    allScore -= scoreThrown;
-
-    if (scoreThrown >= 120) thrown120--;
-    if (scoreThrown >= 140) thrown140--;
-    if (scoreThrown == 180) thrown180--;
-
-    if (throws == 0) {
-      average = 0.0;
-    }
-    else {
-      average = (allScore / throws) * 3;
-    }
+  GameStatistics updateCheckoutsPossible() {
+    return GameStatistics(
+      thrown120: thrown120,
+      thrown140: thrown140,
+      thrown180: thrown180,
+      checkoutsPossible: (checkoutsPossible + 1),
+      checkoutsHit: checkoutsHit,
+      throws: throws,
+      allScore: allScore
+    );
   }
 
-  void updateCheckoutsPossible() {
-    checkoutsPossible++;
+  GameStatistics updateCheckoutsHit() {
+    return GameStatistics(
+        thrown120: thrown120,
+        thrown140: thrown140,
+        thrown180: thrown180,
+        checkoutsPossible: checkoutsPossible,
+        checkoutsHit: (checkoutsHit + 1),
+        throws: throws,
+        allScore: allScore
+    );
   }
 
-  void updateCheckoutsHit() {
-    checkoutsHit ++;
+  double getAverage() {
+    return (throws == 0) ? 0.0 : (allScore / throws) * 3;
   }
+
 }

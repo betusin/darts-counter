@@ -5,22 +5,22 @@ import 'package:provider/provider.dart';
 
 import '../model/game_notifier.dart';
 
-class LocalGame extends StatelessWidget {
-  const LocalGame({Key? key}) : super(key: key);
+class LocalGamePage extends StatelessWidget {
+  final int numberOfPlayers;
+  final List<String> names;
+  final int startingScore;
+
+  const LocalGamePage({super.key, required this.numberOfPlayers, required this.names, this.startingScore = 501});
 
   @override
   Widget build(BuildContext context) {
     final currentGame = context.read<GameNotifier>();
-    currentGame.createNewLeg(player1: 'Player1', player2: 'Player2');
+    currentGame.createNewLocalGame(number: numberOfPlayers, names: names, starting: startingScore);
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("Local Game"),
-      ),
-      body: SingleChildScrollView(
+      body: SafeArea(
         child: Column(
           children: [
-            GameStatePanel(),
+            Expanded(child: GameStatePanel()),
             DartBoard(),
           ],
         ),

@@ -12,16 +12,20 @@ class CheckoutBar extends StatelessWidget {
     final currentGame = context.watch<GameNotifier>();
     final currentScore = currentGame.getCurrentScore();
     return Container(
-      height: 50,
+      height: 40,
       color: Colors.blue[50],
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          if (currentScore <= 170 &&
-              currentScore > 1 &&
-              !bogeyNumbers.contains(currentScore))
-            ..._buildContainers(currentScore)
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            if (currentScore <= 170 &&
+                currentScore > 1 &&
+                !bogeyNumbers.contains(currentScore))
+              ..._buildContainers(currentScore),
+            if (currentGame.getGameOver()) _buildWinnerText('${currentGame.getWinnerName()} WON'),
+          ],
+        ),
       ),
     );
   }
@@ -37,14 +41,23 @@ class CheckoutBar extends StatelessWidget {
   }
 
   Widget _buildCheckoutContainer(String checkout) {
-    return SizedBox(
-      height: 40,
-      child: Center(
-          child: Text(
-        checkout,
-        style: TextStyle(
-            color: Colors.black, fontSize: 25, fontWeight: FontWeight.bold),
-      )),
+    return Container(
+      color: Colors.blue[100],
+      child: Padding(
+        padding: EdgeInsets.all(3.0),
+        child: Center(
+            child: Text(
+          checkout,
+          style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontWeight: FontWeight.w900),
+        )),
+      ),
     );
+  }
+
+  Widget _buildWinnerText(String winnerName) {
+    return Text(winnerName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
   }
 }
