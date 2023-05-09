@@ -29,6 +29,7 @@ class InviteListItem extends StatelessWidget {
               ElevatedButton(
                 onPressed: () {
                   inviteController.acceptInvite(inviteID);
+                  inviteController.createGame(inviteID, inviteFrom);
                   Navigator.pushNamed(context, "/game/online");
                 },
                 child: Text("Accept"),
