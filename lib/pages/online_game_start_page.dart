@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartboard/pages/online_game.dart';
 import 'package:dartboard/service/invite_service.dart';
 import 'package:dartboard/service/ioc_container.dart';
+import 'package:dartboard/widgets/invite_from_list_item.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/invite_list_item.dart';
@@ -19,23 +19,33 @@ class OnlineGameStartPage extends StatelessWidget {
       appBar: AppBar(
         title: Text("Invite your friends"),
       ),
-      body: Column(
-        children: [
-          TextField(
-            controller: textController,
-          ),
-          ElevatedButton(
-            onPressed: () {
-              print("will send invite to ${textController.value.text}");
-
-              inviteController.sendInvite(textController.value.text);
-              textController.clear();
-            },
-            child: Text("Invite friend"),
-          ),
-          _buildInvitesToYou(context),
-          _buildInvitesFromYou(context),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            TextField(
+              controller: textController,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                inviteController.sendInvite(textController.value.text);
+                textController.clear();
+              },
+              child: Text("Invite friend"),
+            ),
+            Divider(),
+            Text(
+              "Invites to You",
+              style: TextStyle(fontSize: 20),
+            ),
+            _buildInvitesToYou(context),
+            Text(
+              "Invites from You",
+              style: TextStyle(fontSize: 20),
+            ),
+            _buildInvitesFromYou(context),
+          ],
+        ),
       ),
     );
   }
@@ -56,6 +66,10 @@ class OnlineGameStartPage extends StatelessWidget {
           }
 
           final docs = snapshot.data!.docs;
+
+          if (docs.length == 0) {
+            return Text("No invites yet");
+          }
 
           return ListView.separated(
             itemBuilder: (context, index) {
@@ -96,22 +110,10 @@ class OnlineGameStartPage extends StatelessWidget {
           return ListView.separated(
             itemBuilder: (context, index) {
               var docData = docs[index].data();
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("Invite to  ${docData['inviteTo']}"),
-                  ElevatedButton(
-                    onPressed: () {
-                      final pageToPush = MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return OnlineGame(gameID: docs[index].id);
-                        },
-                      );
-                      Navigator.push(context, pageToPush);
-                    },
-                    child: Text("Start game!"),
-                  ),
-                ],
+              return InviteFromListItem(
+                inviteTo: docData['inviteTo'],
+                status: docData['status'],
+                gameID: docs[index].id,
               );
             },
             separatorBuilder: (BuildContext context, int index) {
