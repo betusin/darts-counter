@@ -30,11 +30,28 @@ class SetupUserService {
         .then((doc) => doc.get("inviteHash"));
   }
 
+  Future<String> getUserUID(String userHash) {
+    return FirebaseFirestore.instance
+        .collection("users")
+        .where("inviteHash", isEqualTo: userHash)
+        .get()
+        .then((querySnapshot) {
+      var id = "";
+      for (var docSnapshot in querySnapshot.docs) {
+        id = docSnapshot.id;
+      }
+      // TODO handle if inviteHash not found
+      return id;
+    });
+  }
+
   String _generateUserHash(String uid) {
     DateTime now = DateTime.now();
     String microseconds = now.microsecondsSinceEpoch.toString();
-    String id = uid.substring(0, 3) +
-        microseconds.substring(0, microseconds.length - 3);
+    print(microseconds);
+    String id =
+        uid.substring(0, 3) + microseconds.substring(microseconds.length - 3);
+    print(id);
     return id;
   }
 }

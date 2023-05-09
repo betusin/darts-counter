@@ -6,19 +6,22 @@ import 'package:firebase_auth/firebase_auth.dart';
 class InviteService {
   final _userService = get<SetupUserService>();
 
-  Future<void> sendInvite(String inviteHash) async {
-    FirebaseFirestore.instance.collection("invites").doc(inviteHash).set({
-      "validUntil": DateTime.now().add(Duration(minutes: 30)),
-      "inviteFrom":
-          _userService.getUserHash(FirebaseAuth.instance.currentUser!.uid),
-    }, SetOptions(merge: true));
+  Future<void> sendInvite(String receiverHash) async {
+    String senderUID = FirebaseAuth.instance.currentUser!.uid;
+
+    _userService.getUserHash(senderUID).then((senderHash) {
+      _userService.getUserUID(receiverHash).then((receiverUID) {
+        FirebaseFirestore.instance.collection(receiverUID).doc().set({
+          "validUntil": DateTime.now().add(Duration(minutes: 30)),
+          "inviteFrom": senderHash,
+        });
+      });
+    });
   }
 
-  Stream<DocumentSnapshot<Map<String, dynamic>>> get invites {
-    final userHash = "rD8168";
+  Stream<QuerySnapshot<Map<String, dynamic>>> get invites {
     return FirebaseFirestore.instance
-        .collection("invites")
-        .doc(userHash)
+        .collection(FirebaseAuth.instance.currentUser!.uid)
         .snapshots();
   }
 }
