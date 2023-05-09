@@ -7,9 +7,7 @@ class InviteService {
   final _userService = get<SetupUserService>();
 
   Future<void> sendInvite(String receiverHash) async {
-    String senderUID = FirebaseAuth.instance.currentUser!.uid;
-
-    _userService.getUserHash(senderUID).then((senderHash) {
+    _userService.getUserHashOfCurrentUser().then((senderHash) {
       _userService.getUserUID(receiverHash).then((receiverUID) {
         FirebaseFirestore.instance.collection(receiverUID).doc().set({
           "validUntil": DateTime.now().add(Duration(minutes: 30)),
