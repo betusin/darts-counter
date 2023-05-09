@@ -67,7 +67,7 @@ class MainPage extends StatelessWidget {
     final inviteController = get<InviteService>();
 
     return Expanded(
-      child: StreamBuilder<DocumentSnapshot>(
+      child: StreamBuilder<QuerySnapshot>(
         stream: inviteController.invites,
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasError) {
@@ -80,18 +80,25 @@ class MainPage extends StatelessWidget {
             );
           }
 
-          if (!snapshot.data!.exists) {
-            return const Text("Data does not exist");
-          }
+          final docs = snapshot.data!.docs;
 
-          Map<String, dynamic> data =
-              snapshot.data!.data() as Map<String, dynamic>;
-
-          return Text(
-              "Invite from: ${data['inviteFrom']} Valid until: ${_timestampToString(data['validUntil'])}");
+          return ListView.separated(
+            itemBuilder: (context, index) {
+              return _buildInvite(docs[index].data());
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return Divider();
+            },
+            itemCount: docs.length,
+          );
         },
       ),
     );
+  }
+
+  Widget _buildInvite(Map<String, dynamic> data) {
+    return Text(
+        "Invite from: ${data['inviteFrom']} Valid until: ${_timestampToString(data['validUntil'])}");
   }
 
   String _timestampToString(Timestamp timestamp) {
