@@ -20,6 +20,7 @@ class InviteService {
   Stream<QuerySnapshot<Map<String, dynamic>>> get invites {
     return FirebaseFirestore.instance
         .collection(FirebaseAuth.instance.currentUser!.uid)
+        .where("validUntil", isGreaterThanOrEqualTo: DateTime.now())
         .snapshots();
   }
 }
