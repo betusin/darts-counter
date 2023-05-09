@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartboard/service/invite_service.dart';
 import 'package:dartboard/service/ioc_container.dart';
 import 'package:dartboard/widgets/grid_redirect_button.dart';
+import 'package:dartboard/widgets/invite_list_item.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../widgets/profile_bar.dart';
 
@@ -84,7 +84,11 @@ class MainPage extends StatelessWidget {
 
           return ListView.separated(
             itemBuilder: (context, index) {
-              return _buildInvite(docs[index].data());
+              var docData = docs[index].data();
+              return InviteListItem(
+                inviteFrom: docData['inviteFrom'],
+                validUntil: docData['validUntil'],
+              );
             },
             separatorBuilder: (BuildContext context, int index) {
               return Divider();
@@ -94,16 +98,5 @@ class MainPage extends StatelessWidget {
         },
       ),
     );
-  }
-
-  Widget _buildInvite(Map<String, dynamic> data) {
-    return Text(
-        "Invite from: ${data['inviteFrom']} Valid until: ${_timestampToString(data['validUntil'])}");
-  }
-
-  String _timestampToString(Timestamp timestamp) {
-    final DateFormat formatter = DateFormat('h:mm a');
-    final String formatted = formatter.format(timestamp.toDate());
-    return formatted;
   }
 }
