@@ -3,6 +3,7 @@ import 'package:dartboard/service/invite_service.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../pages/online_game.dart';
 import '../service/ioc_container.dart';
 
 class InviteListItem extends StatelessWidget {
@@ -33,7 +34,12 @@ class InviteListItem extends StatelessWidget {
                 onPressed: () {
                   inviteController.acceptInvite(inviteID);
                   inviteController.createGame(inviteID, inviteFrom);
-                  Navigator.pushNamed(context, "/game/online");
+                  final pageToPush = MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return OnlineGame(gameID: inviteID);
+                    },
+                  );
+                  Navigator.push(context, pageToPush);
                 },
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
                 child: Text("Accept"),

@@ -12,7 +12,9 @@ class InviteService {
         FirebaseFirestore.instance.collection("invites").doc().set({
           "validUntil": DateTime.now().add(Duration(minutes: 30)),
           "inviteFrom": senderHash,
-          "inviteTo": receiverUID,
+          "inviteFromUID": FirebaseAuth.instance.currentUser!.uid,
+          "inviteToUID": receiverUID,
+          "inviteTo": receiverHash,
           "status": "pending",
         });
       });
@@ -34,12 +36,21 @@ class InviteService {
         .set({"status": status}, SetOptions(merge: true));
   }
 
-  Stream<QuerySnapshot<Map<String, dynamic>>> get invites {
+  Stream<QuerySnapshot<Map<String, dynamic>>> get invitesTo {
     return FirebaseFirestore.instance
         .collection("invites")
         .where("validUntil", isGreaterThanOrEqualTo: DateTime.now())
         .where("status", isEqualTo: "pending")
-        .where("inviteTo", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .where("inviteToUID", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .snapshots();
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> get invitesFrom {
+    return FirebaseFirestore.instance
+        .collection("invites")
+        .where("validUntil", isGreaterThanOrEqualTo: DateTime.now())
+        .where("inviteFromUID",
+            isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .snapshots();
   }
 
