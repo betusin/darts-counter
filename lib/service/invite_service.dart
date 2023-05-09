@@ -40,4 +40,19 @@ class InviteService {
         .where("status", isEqualTo: "pending")
         .snapshots();
   }
+
+  void createGame(String inviteID, String hostHash) {
+    _userService.getUserUID(hostHash).then((hostUID) {
+      _userService.getUserHashOfCurrentUser().then((receiverHash) {
+        var data = {
+          "startedAt": DateTime.now(),
+          "hostHash": hostHash,
+          "hostUID": hostUID,
+          "receiverHash": receiverHash,
+          "receiverUID": FirebaseAuth.instance.currentUser!.uid,
+        };
+        FirebaseFirestore.instance.collection("games").doc(inviteID).set(data);
+      });
+    });
+  }
 }
