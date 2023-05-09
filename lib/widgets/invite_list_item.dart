@@ -23,36 +23,35 @@ class InviteListItem extends StatelessWidget {
     var inviteController = get<InviteService>();
 
     return Center(
-      child: Column(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text(
-              "$inviteFrom is inviting you to join the game! (Valid until: ${_timestampToString(validUntil)})"),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          Column(
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  inviteController.acceptInvite(inviteID);
-                  inviteController.createGame(inviteID, inviteFrom);
-                  final pageToPush = MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return OnlineGame(gameID: inviteID);
-                    },
-                  );
-                  Navigator.push(context, pageToPush);
-                },
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                child: Text("Accept"),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  inviteController.acceptInvite(inviteID);
-                },
-                style:
-                    ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
-                child: Text("Reject"),
-              ),
+              Text("Invite from $inviteFrom"),
+              Text("(Valid until: ${_timestampToString(validUntil)})"),
             ],
+          ),
+          ElevatedButton(
+            onPressed: () {
+              inviteController.acceptInvite(inviteID);
+              inviteController.createGame(inviteID, inviteFrom);
+              final pageToPush = MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return OnlineGame(gameID: inviteID);
+                },
+              );
+              Navigator.push(context, pageToPush);
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+            child: Text("Accept"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              inviteController.acceptInvite(inviteID);
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+            child: Text("Reject"),
           ),
         ],
       ),
