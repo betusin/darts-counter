@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 const _AVATAR_SIZE = 50.0;
 
@@ -11,7 +12,7 @@ class Avatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => {Navigator.pushNamed(context, '/profile')},
+      onPressed: () => {context.push('/profile')},
       child: Container(
         width: _AVATAR_SIZE,
         height: _AVATAR_SIZE,
