@@ -52,10 +52,8 @@ class SetupUserService {
   String _generateUserHash(String uid) {
     DateTime now = DateTime.now();
     String microseconds = now.microsecondsSinceEpoch.toString();
-    print(microseconds);
     String id =
         uid.substring(0, 3) + microseconds.substring(microseconds.length - 3);
-    print(id);
     return id;
   }
 }
