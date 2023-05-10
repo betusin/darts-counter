@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartboard/service/invite_service.dart';
 import 'package:dartboard/service/ioc_container.dart';
-import 'package:dartboard/widgets/handling_stream_builder.dart';
+import 'package:dartboard/widgets/handlers/handling_stream_builder.dart';
 import 'package:dartboard/widgets/invites/invite_from_list_item.dart';
 import 'package:flutter/material.dart';
 

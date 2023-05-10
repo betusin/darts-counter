@@ -1,4 +1,5 @@
 import 'package:dartboard/service/setup_user_service.dart';
+import 'package:dartboard/widgets/handlers/handling_future_builder.dart';
 import 'package:dartboard/widgets/profile/text_column.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -25,19 +26,9 @@ class ProfileBar extends StatelessWidget {
           children: [
             Avatar(name: name, surname: surname),
             _buildStatisticsButton(context),
-            FutureBuilder(
+            HandlingFutureBuilder(
               future: userController.getUserHashOfCurrentUser(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                if (snapshot.hasError) {
-                  return const Text("Error occurred");
-                }
-
-                if (!snapshot.hasData) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
                 return TextColumn("User Hash", snapshot.data);
               },
             )
