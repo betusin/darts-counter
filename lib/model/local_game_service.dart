@@ -1,3 +1,4 @@
+import 'package:dartboard/model/game_service.dart';
 import 'package:dartboard/model/game_state.dart';
 import 'package:dartboard/model/game_statistics.dart';
 import 'package:dartboard/model/visit.dart';
@@ -5,7 +6,7 @@ import 'package:dartboard/model/visit.dart';
 /*
 service controlling one local game (leg)
  */
-class LocalGameService {
+class LocalGameService implements GameService{
   GameState state = GameState(scores: [], stats: [], visits: []);
   List<GameState> history = [];
   int numberOfPlayers = 2;
@@ -19,6 +20,7 @@ class LocalGameService {
     numberOfPlayers = players;
   }
 
+  @override
   void addNewScore(int score, bool isDouble) {
     if (state.legEnded) return;
     Visit currentVisit = state.visits[state.currentPlayer];
@@ -48,44 +50,53 @@ class LocalGameService {
     state = newState;
   }
 
+  @override
   void stepBack() {
     if (history.isEmpty) return;
     state = history.removeLast();
   }
 
+  @override
   int getCurrentScore(int playerIndex) {
     return state.scores[playerIndex];
   }
 
+  @override
   double getCurrentAverage(int playerIndex) {
     return state.stats[playerIndex].getAverage();
   }
 
+  @override
   Visit getCurrentVisit(int index) {
     return state.visits[index];
   }
 
-  int _getNextPlayer() {
-    return (state.currentPlayer + 1) % numberOfPlayers;
-  }
-
+  @override
   bool isMyTurn(int index) {
     return state.currentPlayer == index;
   }
 
+  @override
   int getCurrentPlayerScore() {
     return state.scores[state.currentPlayer];
   }
 
+  @override
   bool getLegEnded() {
     return state.legEnded;
   }
 
+  @override
   int getWinnerIndex() {
     return state.scores.indexOf(0);
   }
 
+  @override
   int getCurrentIndex() {
     return state.currentPlayer;
+  }
+
+  int _getNextPlayer() {
+    return (state.currentPlayer + 1) % numberOfPlayers;
   }
 }
