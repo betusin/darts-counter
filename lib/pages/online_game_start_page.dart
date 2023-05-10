@@ -43,6 +43,7 @@ class OnlineGameStartPage extends StatelessWidget {
               style: TextStyle(fontSize: 20),
             ),
             _buildInvitesToYou(context),
+            Divider(),
             Text(
               "Invites from You",
               style: TextStyle(fontSize: 20),
