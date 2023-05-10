@@ -27,12 +27,15 @@ class OnlineGameStartPage extends StatelessWidget {
             TextField(
               controller: textController,
             ),
-            ElevatedButton(
-              onPressed: () {
-                inviteController.sendInvite(textController.value.text);
-                textController.clear();
-              },
-              child: Text("Invite friend"),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  inviteController.sendInvite(textController.value.text);
+                  textController.clear();
+                },
+                child: Text("Invite friend"),
+              ),
             ),
             Divider(),
             Text(
