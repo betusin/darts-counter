@@ -16,7 +16,8 @@ var appRoutes = GoRouter(
   redirect: (BuildContext context, GoRouterState state) {
     if (FirebaseAuth.instance.currentUser != null) {
       return null;
-    } else {
+    } else if (state.location != '/game/local' &&
+        state.location != '/game/local/start') {
       return '/sign-in';
     }
   },
