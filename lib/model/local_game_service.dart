@@ -99,4 +99,15 @@ class LocalGameService implements GameService{
   int _getNextPlayer() {
     return (state.currentPlayer + 1) % numberOfPlayers;
   }
+
+  //ugly stuff for compatibility with online game
+  @override
+  bool awaitingConfirmation() {
+    return false;
+  }
+
+  @override
+  void confirmTurn() {
+    return;
+  }
 }

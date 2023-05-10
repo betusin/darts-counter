@@ -49,4 +49,13 @@ class GameState {
     newVisits[nextPlayer] = const Visit(score: [], isBusted: false);
     return GameState(legEnded: legEnded, currentPlayer: nextPlayer, scores: newScores, stats: newStats, visits: newVisits);
   }
+
+  GameState copyWithConfirmedTurn(GameStatistics newStat) {
+    List<int> newScores = List.from(scores);
+    List<Visit> newVisits = List.from(visits);
+    List<GameStatistics> newStats = List.from(stats);
+    newStats[currentPlayer] = newStat;
+    newVisits[1] = const Visit(score: [], isBusted: false);
+    return GameState(scores: newScores, stats: newStats, visits: newVisits, currentPlayer: 1);
+  }
 }

@@ -21,4 +21,8 @@ abstract class GameService {
   int getWinnerIndex();
 
   int getCurrentIndex();
+
+  bool awaitingConfirmation();
+
+  void confirmTurn();
 }

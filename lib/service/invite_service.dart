@@ -37,6 +37,10 @@ class InviteService {
     _inviteSetStatus(inviteID, "rejected");
   }
 
+  void deleteInvite(String inviteID) {
+    FirebaseFirestore.instance.collection("invites").doc(inviteID).delete();
+  }
+
   void _inviteSetStatus(String inviteID, String status) {
     FirebaseFirestore.instance
         .collection("invites")
@@ -72,6 +76,7 @@ class InviteService {
           "hostUID": hostUID,
           "receiverHash": receiverHash,
           "receiverUID": FirebaseAuth.instance.currentUser!.uid,
+          "newScores" : ''
         };
         FirebaseFirestore.instance.collection("games").doc(inviteID).set(data);
       });

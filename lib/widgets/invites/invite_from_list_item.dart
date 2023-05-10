@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../pages/online_game.dart';
+import '../../pages/online_game_page.dart';
+import '../../service/invite_service.dart';
+import '../../service/ioc_container.dart';
 
 class InviteFromListItem extends StatelessWidget {
   final String status;
@@ -16,22 +18,25 @@ class InviteFromListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var inviteController = get<InviteService>();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         Text("Invite to  $inviteTo"),
         Text(status),
-        ElevatedButton(
-          onPressed: () {
-            final pageToPush = MaterialPageRoute(
-              builder: (BuildContext context) {
-                return OnlineGame(gameID: gameID);
-              },
-            );
-            Navigator.push(context, pageToPush);
-          },
-          child: Text("Join game!"),
-        ),
+        if (status == 'accepted')
+          ElevatedButton(
+            onPressed: () {
+              inviteController.deleteInvite(gameID);
+              final pageToPush = MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return OnlineGamePage(gameID: gameID, starting: true);
+                },
+              );
+              Navigator.push(context, pageToPush);
+            },
+            child: Text("Join game!"),
+          ),
       ],
     );
   }

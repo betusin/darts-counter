@@ -61,4 +61,16 @@ class Visit {
     }
     return score[2].toString();
   }
+
+  @override
+  String toString() {
+    return '$getFirst(),$getSecond(),$getThird(),${isBusted.toString()}';
+  }
+
+  Visit fromString(String visitString) {
+    var parts = visitString.split(',');
+    List<int> scores = [int.parse(parts[0]), int.parse(parts[1]), int.parse(parts[2])];
+    bool busted = (parts[3] == 'true');
+    return Visit(score: scores, isBusted: busted);
+  }
 }

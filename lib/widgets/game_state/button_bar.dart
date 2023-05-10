@@ -21,7 +21,11 @@ class GameButtonBar extends StatelessWidget {
           if (currentGame.getGameOver()) ...[
             SizedBox(width: 6),
             _buildGameBarButton(currentGame.newGameSamePlayers, Colors.blue, 'Next Game')
-            ]
+            ],
+          if (currentGame.awaitingConfirmation()) ...[
+            SizedBox(width: 6),
+            _buildGameBarButton(currentGame.confirmTurn, Colors.blue, 'Confirm Score')
+          ]
         ],
       ),
     );
