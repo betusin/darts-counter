@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartboard/service/invite_service.dart';
 import 'package:dartboard/service/ioc_container.dart';
-import 'package:dartboard/widgets/handling_stream_builder.dart';
+import 'package:dartboard/widgets/handlers/handling_stream_builder.dart';
 import 'package:dartboard/widgets/invites/invite_from_list_item.dart';
 import 'package:flutter/material.dart';
 
@@ -27,12 +27,15 @@ class OnlineGameStartPage extends StatelessWidget {
             TextField(
               controller: textController,
             ),
-            ElevatedButton(
-              onPressed: () {
-                inviteController.sendInvite(textController.value.text);
-                textController.clear();
-              },
-              child: Text("Invite friend"),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ElevatedButton(
+                onPressed: () {
+                  inviteController.sendInvite(textController.value.text);
+                  textController.clear();
+                },
+                child: Text("Invite friend"),
+              ),
             ),
             Divider(),
             Text(
@@ -40,6 +43,7 @@ class OnlineGameStartPage extends StatelessWidget {
               style: TextStyle(fontSize: 20),
             ),
             _buildInvitesToYou(context),
+            Divider(),
             Text(
               "Invites from You",
               style: TextStyle(fontSize: 20),

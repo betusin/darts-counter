@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-const _AVATAR_SIZE = 50.0;
+const _AVATAR_SIZE = 55.0;
 
 class Avatar extends StatelessWidget {
-  final String name;
-  final String surname;
+  final String userHash;
 
-  const Avatar({super.key, required this.name, required this.surname});
+  const Avatar({super.key, required this.userHash});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => {Navigator.pushNamed(context, '/profile')},
+      onPressed: () => {context.push('/profile')},
       child: Container(
         width: _AVATAR_SIZE,
         height: _AVATAR_SIZE,
@@ -21,13 +21,11 @@ class Avatar extends StatelessWidget {
         ),
         child: Center(
           child: Text(
-            '${_getInitialFromString(name)}${_getInitialFromString(surname)}',
+            userHash,
             style: TextStyle(color: Colors.white),
           ),
         ),
       ),
     );
   }
-
-  String _getInitialFromString(String input) => input.isEmpty ? '' : input[0];
 }

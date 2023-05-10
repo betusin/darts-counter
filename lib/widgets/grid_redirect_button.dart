@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class GridRedirectButton extends StatelessWidget {
   final String text;
@@ -17,7 +18,7 @@ class GridRedirectButton extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: ElevatedButton(
-        onPressed: () => Navigator.pushNamed(context, routeName),
+        onPressed: () => context.push(routeName),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
