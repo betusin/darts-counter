@@ -1,6 +1,5 @@
 import 'package:dartboard/service/setup_user_service.dart';
 import 'package:dartboard/widgets/handlers/handling_future_builder.dart';
-import 'package:dartboard/widgets/profile/text_column.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -8,10 +7,7 @@ import '../../service/ioc_container.dart';
 import 'avatar.dart';
 
 class ProfileBar extends StatelessWidget {
-  final name;
-  final surname;
-
-  const ProfileBar({Key? key, this.name, this.surname}) : super(key: key);
+  const ProfileBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +20,13 @@ class ProfileBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Avatar(name: name, surname: surname),
-            _buildStatisticsButton(context),
             HandlingFutureBuilder(
               future: userController.getUserHashOfCurrentUser(),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                return TextColumn("User Hash", snapshot.data);
+                return Avatar(userHash: snapshot.data);
               },
-            )
+            ),
+            _buildStatisticsButton(context),
           ],
         ),
       ),

@@ -15,10 +15,7 @@ class MainPage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            ProfileBar(
-              name: "John",
-              surname: "Doe",
-            ),
+            ProfileBar(),
             _buildButtons(context),
           ],
         ),
