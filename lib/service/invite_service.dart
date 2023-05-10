@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartboard/model/status_enum.dart';
 import 'package:dartboard/service/ioc_container.dart';
 import 'package:dartboard/service/setup_user_service.dart';
 import 'package:dartboard/service/toast_service.dart';
@@ -22,7 +23,7 @@ class InviteService {
           "inviteFromUID": FirebaseAuth.instance.currentUser!.uid,
           "inviteToUID": receiverUID,
           "inviteTo": receiverHash,
-          "status": "pending",
+          "status": InviteStatus.pending,
         });
         _toastService.showSuccessToast("Invite sent to $receiverHash");
       });
@@ -30,14 +31,14 @@ class InviteService {
   }
 
   void acceptInvite(String inviteID) {
-    _inviteSetStatus(inviteID, "accepted");
+    _inviteSetStatus(inviteID, InviteStatus.accepted);
   }
 
   void rejectInvite(String inviteID) {
-    _inviteSetStatus(inviteID, "rejected");
+    _inviteSetStatus(inviteID, InviteStatus.rejected);
   }
 
-  void _inviteSetStatus(String inviteID, String status) {
+  void _inviteSetStatus(String inviteID, InviteStatus status) {
     FirebaseFirestore.instance
         .collection("invites")
         .doc(inviteID)
