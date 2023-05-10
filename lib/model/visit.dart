@@ -64,7 +64,7 @@ class Visit {
 
   @override
   String toString() {
-    return '$getFirst(),$getSecond(),$getThird(),${isBusted.toString()}';
+    return '${getFirst()},${getSecond()},${getThird()},${isBusted.toString()}';
   }
 
   Visit fromString(String visitString) {
