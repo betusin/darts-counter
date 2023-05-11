@@ -14,6 +14,12 @@ class Visit {
     return Visit(score: newList, isBusted: isBusted);
   }
 
+  Visit removeThrow() {
+    List<int> newList = List.from(score);
+    newList.removeLast();
+    return Visit(score: newList, isBusted: false);
+  }
+
   Visit bust() {
     return Visit(score: List.from(score), isBusted: true);
   }

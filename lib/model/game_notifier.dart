@@ -1,19 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartboard/model/online_game_service.dart';
+import 'package:dartboard/model/online_game.dart';
 import 'package:dartboard/model/visit.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../service/ioc_container.dart';
 import '../service/setup_user_service.dart';
 import 'game_service.dart';
-import 'local_game_service.dart';
+import 'local_game.dart';
 
 /*
 TODO finish support for online game
  */
 class GameNotifier extends ChangeNotifier {
   final _userService = get<SetupUserService>();
-  GameService currentGame = LocalGameService();
+  GameService currentGame = LocalGame(startingScore: 501);
 
   int numberOfPlayers = 2;
   List<String> playerNames = [];
@@ -23,7 +23,7 @@ class GameNotifier extends ChangeNotifier {
 
   void createNewOnlineGame({required String gameID, bool starting = false}) async {
 
-    currentGame = OnlineGameService(gameID: gameID, starting: starting, notifyCallback: notifyListeners);
+    currentGame = OnlineGame(gameID: gameID, starting: starting, notifyCallback: notifyListeners);
     onlineGameID = gameID;
     numberOfPlayers = 2;
     startingScore = 501;
@@ -40,7 +40,7 @@ class GameNotifier extends ChangeNotifier {
   }
 
   void createNewLocalGame({required int number, required List<String> names, int starting = 501}) {
-    currentGame = LocalGameService(players: number, startingScore: starting);
+    currentGame = LocalGame(players: number, startingScore: starting);
     numberOfPlayers = number;
     playerNames = names;
     startingScore = starting;
@@ -52,7 +52,7 @@ class GameNotifier extends ChangeNotifier {
     String pom = playerNames.removeLast();
     playerNames.insert(0, pom);
     victories.insert(0, victories.removeLast());
-    currentGame = LocalGameService(players: numberOfPlayers, startingScore: startingScore);
+    currentGame = LocalGame(players: numberOfPlayers, startingScore: startingScore);
     notifyListeners();
   }
 

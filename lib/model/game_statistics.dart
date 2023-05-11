@@ -44,29 +44,6 @@ class GameStatistics{
     );
   }
 
-  GameStatistics updateCheckoutsPossible() {
-    return GameStatistics(
-      thrown120: thrown120,
-      thrown140: thrown140,
-      thrown180: thrown180,
-      checkoutsPossible: (checkoutsPossible + 1),
-      checkoutsHit: checkoutsHit,
-      throws: throws,
-      allScore: allScore
-    );
-  }
-
-  GameStatistics updateCheckoutsHit() {
-    return GameStatistics(
-        thrown120: thrown120,
-        thrown140: thrown140,
-        thrown180: thrown180,
-        checkoutsPossible: checkoutsPossible,
-        checkoutsHit: (checkoutsHit + 1),
-        throws: throws,
-        allScore: allScore
-    );
-  }
 
   double getAverage() {
     return (throws == 0) ? 0.0 : (allScore / throws) * 3;
