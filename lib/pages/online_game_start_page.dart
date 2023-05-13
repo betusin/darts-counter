@@ -93,7 +93,7 @@ class OnlineGameStartPage extends StatelessWidget {
           final docs = data.docs;
 
           if (docs.length == 0) {
-            return Text("No invites yet");
+            return Text('No invites yet');
           }
 
           return ListView.separated(

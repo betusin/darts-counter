@@ -36,7 +36,7 @@ class ProfileBar extends StatelessWidget {
   TextButton _buildStatisticsButton(BuildContext context) {
     final color = Theme.of(context).colorScheme.onBackground;
     return TextButton(
-      onPressed: () => context.push("/statistics"),
+      onPressed: () => context.push('/statistics'),
       child: Column(
         children: [
           Icon(
@@ -45,7 +45,7 @@ class ProfileBar extends StatelessWidget {
             size: 36,
           ),
           Text(
-            "Statistics",
+            'Statistics',
             style: TextStyle(
               color: color,
             ),

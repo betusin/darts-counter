@@ -33,9 +33,9 @@ class ScoreCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("$currentScore", style: TextStyle(fontSize: 48)),
+                Text('$currentScore', style: TextStyle(fontSize: 48)),
                 CurrentVisitPanel(visit: currentVisit),
-                Text("Ø: ${currentAvg.toStringAsFixed(2)}",
+                Text('Ø: ${currentAvg.toStringAsFixed(2)}',
                     style: TextStyle(fontWeight: FontWeight.bold))
               ],
             ),

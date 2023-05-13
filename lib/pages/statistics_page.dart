@@ -24,8 +24,8 @@ class StatisticsPage extends StatelessWidget {
       '180s Thrown': '10',
       '140s Thrown': '37',
       '120s Thrown': '79',
-      "100+ Checkouts": "6",
-      "Checkout accuracy": "24%"
+      '100+ Checkouts': '6',
+      'Checkout accuracy': '24%'
     };
 
     final rows = dummyStatistics.entries.map((entry) {
@@ -36,9 +36,9 @@ class StatisticsPage extends StatelessWidget {
 
     return DataTable(
       columns: const [
-        DataColumn(label: Text("Statistic name")),
+        DataColumn(label: Text('Statistic name')),
         DataColumn(
-          label: Text("Value"),
+          label: Text('Value'),
           numeric: true,
         ),
       ],

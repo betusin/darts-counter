@@ -22,7 +22,7 @@ class InviteFromListItem extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        Text("Invite to  $inviteTo"),
+        Text('Invite to  $inviteTo'),
         Text(status),
         if (status == 'accepted')
           ElevatedButton(
@@ -35,7 +35,7 @@ class InviteFromListItem extends StatelessWidget {
               );
               Navigator.push(context, pageToPush);
             },
-            child: Text("Join game!"),
+            child: Text('Join game!'),
           ),
       ],
     );
