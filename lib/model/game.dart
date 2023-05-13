@@ -22,6 +22,8 @@ abstract class Game {
 
   int getCurrentIndex();
 
+  void reset();
+
   int calculateTotalDartsThrown(List<Visit> visits) {
     int total = 0;
     for (var visit in visits) {

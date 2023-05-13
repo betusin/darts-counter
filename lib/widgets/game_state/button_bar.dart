@@ -18,7 +18,7 @@ class GameButtonBar extends StatelessWidget {
           _buildGameBarButton(() {Navigator.pop(context);}, Colors.blue, 'Exit Game'),
           SizedBox(width: 6),
           Expanded(child: _buildGameBarButton(currentGame.stepBack, Colors.red, 'Undo')),
-          if (currentGame.getGameOver()) ...[
+          if (currentGame.getGameOver() && !currentGame.awaitingConfirmation()) ...[
             SizedBox(width: 6),
             _buildGameBarButton(currentGame.newGameSamePlayers, Colors.blue, 'Next Game')
             ],

@@ -13,7 +13,7 @@ class OnlineGame extends Game {
   final _gameService = get<GameService>();
   GameState state = GameState(visits: []);
   final String gameID;
-  final int myIndex;
+  int myIndex;
   final int startingScore;
   final Function notifyCallback;
   bool waitingConfirmation = false;
@@ -25,6 +25,8 @@ class OnlineGame extends Game {
     //start listening to the game stream
     _gameService.getGameStream(gameID).listen(
             (event) {
+              if (state.legEnded) return;
+              if (!event.exists) return;
               if (event.data() != null) {
                 GameState receivedState = event.data()!;
                 if (receivedState.currentPlayer == myIndex || receivedState.legEnded) {
@@ -39,7 +41,7 @@ class OnlineGame extends Game {
   void addNewScore(int score, bool isDouble) {
     if (state.currentPlayer != myIndex) return;
     if (state.legEnded) return;
-    if (state.visits[myIndex].last.isFull()) return;
+    if (state.visits[myIndex].last.isFull() || state.visits[myIndex].last.isBusted) return;
 
     Visit updatedVisit = state.visits[myIndex].last.addThrow(score);
     state.visits[myIndex].last = updatedVisit;
@@ -78,6 +80,13 @@ class OnlineGame extends Game {
     if (waitingConfirmation) waitingConfirmation = false; //revert confirmation
     if (state.legEnded) state = state.copyWithEnd(false); //revert win
     state.visits[myIndex].last = state.visits[myIndex].last.removeThrow(); //just remove one throw from my visit
+  }
+
+  @override
+  void reset() {
+    myIndex = _getOtherPlayerIndex();
+    state = GameState.initial(2);
+    _gameService.updateGameState(gameID, state);
   }
 
   @override

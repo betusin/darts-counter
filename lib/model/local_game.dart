@@ -61,6 +61,11 @@ class LocalGame extends Game {
   }
 
   @override
+  void reset() {
+    state = GameState.initial(numberOfPlayers);
+  }
+
+  @override
   int getCurrentScore(int playerIndex) {
     return startingScore - calculateTotalPointsThrown(state.visits[playerIndex]);
   }

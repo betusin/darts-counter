@@ -2,13 +2,13 @@ import 'package:dartboard/model/online_game.dart';
 import 'package:dartboard/model/visit.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../service/game_service.dart';
 import '../service/ioc_container.dart';
-import '../service/setup_user_service.dart';
 import 'game.dart';
 import 'local_game.dart';
 
 class GameNotifier extends ChangeNotifier {
-  final _userService = get<SetupUserService>();
+  final _gameService = get<GameService>();
   Game currentGame = LocalGame(startingScore: 501);
 
   int numberOfPlayers = 2;
@@ -24,13 +24,12 @@ class GameNotifier extends ChangeNotifier {
     startingScore = 501;
     victories = List.filled(2, 0, growable: true);
 
-    playerNames = ['ME', 'OPPONENT'];
-    _setPlayerNames();
+    playerNames = ['PLAYER1', 'PLAYER2'];
+    _setPlayerNames(gameID);
   }
 
-  void _setPlayerNames() async {  //TODO get opponents name
-    String myHash = await _userService.getUserHashOfCurrentUser();
-    playerNames[0] = myHash;
+  void _setPlayerNames(String gameID) async {
+    playerNames = await _gameService.getPlayerNames(gameID);
     notifyListeners();
   }
 
@@ -44,10 +43,9 @@ class GameNotifier extends ChangeNotifier {
 
   void newGameSamePlayers() {
     victories[currentGame.getWinnerIndex()] += 1;
-    String pom = playerNames.removeLast();
-    playerNames.insert(0, pom);
+    playerNames.insert(0, playerNames.removeLast());
     victories.insert(0, victories.removeLast());
-    currentGame = LocalGame(numberOfPlayers: numberOfPlayers, startingScore: startingScore);
+    currentGame.reset();
     notifyListeners();
   }
 

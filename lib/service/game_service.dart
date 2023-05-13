@@ -9,6 +9,26 @@ import 'ioc_container.dart';
 class GameService {
   final _userService = get<SetupUserService>();
 
+  Future<List<String>> getPlayerNames(String gameID) async {
+    //first game host starts, so return [host, receiver]
+    List<String> names = [];
+
+    //cycle until the names are found - this function can potencially run before the doc with the game and names is created
+    //maybe a better way of doing this, but couldnt figure it out
+    while (names.isEmpty) {
+      await FirebaseFirestore.instance.collection('games').doc(gameID).get().
+      then((doc) {
+        if (doc.exists) {
+          names.add(doc.get('hostHash'));
+          names.add(doc.get('receiverHash'));
+        }
+      });
+      await Future.delayed(Duration(microseconds: 300));
+    }
+
+    return names;
+  }
+
   void createGame(String inviteID, String hostHash) {
     _userService.getUserUID(hostHash).then((hostUID) {
       _userService.getUserHashOfCurrentUser().then((receiverHash) {
@@ -18,10 +38,10 @@ class GameService {
           'hostUID': hostUID,
           'receiverHash': receiverHash,
           'receiverUID': FirebaseAuth.instance.currentUser!.uid,
-          'gameState' : stateToJson(GameState.initial(2)),
-
         };
         FirebaseFirestore.instance.collection('games').doc(inviteID).set(data);
+        //and set the initial state
+        updateGameState(inviteID, GameState.initial(2));
       });
     });
   }
@@ -43,11 +63,14 @@ class GameService {
   }
 
   //JSON serialization and deserialization of game state
-  GameState stateFromJson(Map<String, dynamic> json) => GameState(
-      legEnded: json['gameState']['legEnded'] as bool,
-      currentPlayer: json['gameState']['currentPlayer'] as int,
-      visits: _deserializeVisits(json['gameState']['visits'] as Map<String, dynamic>)
-  );
+  GameState stateFromJson(Map<String, dynamic> json) {
+    if (json['gameState'] == null) return GameState.initial(2);
+    return GameState(
+        legEnded: json['gameState']['legEnded'] as bool,
+        currentPlayer: json['gameState']['currentPlayer'] as int,
+        visits: _deserializeVisits(json['gameState']['visits'] as Map<String, dynamic>)
+    );
+  }
 
   Map<String, dynamic> stateToJson(GameState state) => <String, dynamic>{
     'gameState': {
