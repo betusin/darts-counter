@@ -11,6 +11,12 @@ class GameState {
     required this.visits,
   });
 
+  GameState.initial(int numberOfPlayers) :
+        legEnded = false,
+        currentPlayer = 0,
+        visits = List.generate(numberOfPlayers, (index) => (index == 0) ? [Visit(score: [], isBusted: false)] : [])
+  ;
+
   GameState copyWithNewTurn(int nextPlayer) {
     return GameState(visits: visits, currentPlayer: nextPlayer);
   }

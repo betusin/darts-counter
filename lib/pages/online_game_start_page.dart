@@ -18,7 +18,7 @@ class OnlineGameStartPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Invite your friends"),
+        title: Text('Invite your friends'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -34,18 +34,18 @@ class OnlineGameStartPage extends StatelessWidget {
                   inviteController.sendInvite(textController.value.text);
                   textController.clear();
                 },
-                child: Text("Invite friend"),
+                child: Text('Invite friend'),
               ),
             ),
             Divider(),
             Text(
-              "Invites to You",
+              'Invites to You',
               style: TextStyle(fontSize: 20),
             ),
             _buildInvitesToYou(context),
             Divider(),
             Text(
-              "Invites from You",
+              'Invites from You',
               style: TextStyle(fontSize: 20),
             ),
             _buildInvitesFromYou(context),
@@ -63,7 +63,7 @@ class OnlineGameStartPage extends StatelessWidget {
           final docs = data.docs;
 
           if (docs.length == 0) {
-            return Text("No invites yet");
+            return Text('No invites yet');
           }
 
           return ListView.separated(

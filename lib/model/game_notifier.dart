@@ -1,19 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartboard/model/online_game.dart';
 import 'package:dartboard/model/visit.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../service/ioc_container.dart';
 import '../service/setup_user_service.dart';
-import 'game_service.dart';
+import 'game.dart';
 import 'local_game.dart';
 
-/*
-TODO finish support for online game
- */
 class GameNotifier extends ChangeNotifier {
   final _userService = get<SetupUserService>();
-  GameService currentGame = LocalGame(startingScore: 501);
+  Game currentGame = LocalGame(startingScore: 501);
 
   int numberOfPlayers = 2;
   List<String> playerNames = [];
@@ -21,9 +17,8 @@ class GameNotifier extends ChangeNotifier {
   List<int> victories = [];
   String onlineGameID = '';
 
-  void createNewOnlineGame({required String gameID, bool starting = false}) async {
-
-    currentGame = OnlineGame(gameID: gameID, starting: starting, notifyCallback: notifyListeners);
+  void createNewOnlineGame({required String gameID, int myIndex = 0}) async {
+    currentGame = OnlineGame(gameID: gameID, myIndex: myIndex, notifyCallback: notifyListeners);
     onlineGameID = gameID;
     numberOfPlayers = 2;
     startingScore = 501;
@@ -40,7 +35,7 @@ class GameNotifier extends ChangeNotifier {
   }
 
   void createNewLocalGame({required int number, required List<String> names, int starting = 501}) {
-    currentGame = LocalGame(players: number, startingScore: starting);
+    currentGame = LocalGame(numberOfPlayers: number, startingScore: starting);
     numberOfPlayers = number;
     playerNames = names;
     startingScore = starting;
@@ -52,7 +47,7 @@ class GameNotifier extends ChangeNotifier {
     String pom = playerNames.removeLast();
     playerNames.insert(0, pom);
     victories.insert(0, victories.removeLast());
-    currentGame = LocalGame(players: numberOfPlayers, startingScore: startingScore);
+    currentGame = LocalGame(numberOfPlayers: numberOfPlayers, startingScore: startingScore);
     notifyListeners();
   }
 
@@ -68,6 +63,7 @@ class GameNotifier extends ChangeNotifier {
 
   void confirmTurn() {
     currentGame.confirmTurn();
+    notifyListeners();
   }
 
   int getScore(int index) {

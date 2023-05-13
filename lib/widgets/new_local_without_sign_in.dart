@@ -11,10 +11,10 @@ class NewLocalWithoutSignIn extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text("Wanna play immediately?"),
+          Text('Wanna play immediately?'),
           ElevatedButton(
             onPressed: () => context.push('/game/local'),
-            child: Text("Play Local Game"),
+            child: Text('Play Local Game'),
           ),
         ],
       ),

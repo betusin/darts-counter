@@ -47,7 +47,7 @@ class _LocalGameStartState extends State<LocalGameStart> {
                       );
                       Navigator.push(context, pageToPush);
                     },
-                    child: Text("Start")),
+                    child: Text('Start')),
               ),
             ],
           ),

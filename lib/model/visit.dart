@@ -49,21 +49,21 @@ class Visit {
 
   String getFirst() {
     if (score.isEmpty) {
-      return "";
+      return '';
     }
     return score[0].toString();
   }
 
   String getSecond() {
     if (score.length < 2) {
-      return "";
+      return '';
     }
     return score[1].toString();
   }
 
   String getThird() {
     if (score.length < 3) {
-      return "";
+      return '';
     }
     return score[2].toString();
   }
@@ -75,7 +75,11 @@ class Visit {
 
   Visit fromString(String visitString) {
     var parts = visitString.split(',');
-    List<int> scores = [int.parse(parts[0]), int.parse(parts[1]), int.parse(parts[2])];
+    List<int> scores = [];
+    for (int i = 0; i < 3; i++) {
+      if (parts[i] == '') continue;
+      scores.add(int.parse(parts[i]));
+    }
     bool busted = (parts[3] == 'true');
     return Visit(score: scores, isBusted: busted);
   }

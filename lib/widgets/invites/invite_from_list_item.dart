@@ -30,7 +30,7 @@ class InviteFromListItem extends StatelessWidget {
               inviteController.deleteInvite(gameID);
               final pageToPush = MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return OnlineGamePage(gameID: gameID, starting: true);
+                  return OnlineGamePage(gameID: gameID, myIndex: 0);
                 },
               );
               Navigator.push(context, pageToPush);

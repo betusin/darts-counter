@@ -13,34 +13,34 @@ class SetupUserService {
   }
 
   Future<void> createInvitesForUser(String id) async {
-    FirebaseFirestore.instance.collection("users").doc(id).set({
-      "inviteHash": _generateUserHash(id),
+    FirebaseFirestore.instance.collection('users').doc(id).set({
+      'inviteHash': _generateUserHash(id),
     });
   }
 
   Future<String> getUserHash(String uid) {
     return FirebaseFirestore.instance
-        .collection("users")
+        .collection('users')
         .doc(uid)
         .get()
-        .then((doc) => doc.get("inviteHash"));
+        .then((doc) => doc.get('inviteHash'));
   }
 
   Future<String> getUserHashOfCurrentUser() {
     return FirebaseFirestore.instance
-        .collection("users")
+        .collection('users')
         .doc(FirebaseAuth.instance.currentUser!.uid)
         .get()
-        .then((doc) => doc.get("inviteHash"));
+        .then((doc) => doc.get('inviteHash'));
   }
 
   Future<String> getUserUID(String userHash) {
     return FirebaseFirestore.instance
-        .collection("users")
-        .where("inviteHash", isEqualTo: userHash)
+        .collection('users')
+        .where('inviteHash', isEqualTo: userHash)
         .get()
         .then((querySnapshot) {
-      var id = "";
+      var id = '';
       for (var docSnapshot in querySnapshot.docs) {
         id = docSnapshot.id;
       }

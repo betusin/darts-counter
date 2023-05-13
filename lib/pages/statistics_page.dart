@@ -8,7 +8,7 @@ class StatisticsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Your Statistics"),
+        title: Text('Your Statistics'),
       ),
       body: Column(
         children: [
@@ -21,9 +21,9 @@ class StatisticsPage extends StatelessWidget {
 
   DataTable _buildDataTable() {
     final Map<String, String> dummyStatistics = {
-      "180s Thrown": "10",
-      "140s Thrown": "37",
-      "120s Thrown": "79",
+      '180s Thrown': '10',
+      '140s Thrown': '37',
+      '120s Thrown': '79',
       "100+ Checkouts": "6",
       "Checkout accuracy": "24%"
     };

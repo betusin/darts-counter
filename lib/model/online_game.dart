@@ -1,74 +1,100 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartboard/model/game_service.dart';
+import 'package:dartboard/model/game.dart';
 import 'package:dartboard/model/game_state.dart';
 import 'package:dartboard/model/visit.dart';
+
+import '../service/game_service.dart';
+import '../service/ioc_container.dart';
 
 /*
 service controlling one online game (leg)
 only 2 players in online game supported
  */
-class OnlineGame implements GameService {
+class OnlineGame extends Game {
+  final _gameService = get<GameService>();
   GameState state = GameState(visits: []);
   final String gameID;
-  bool myTurn = false;
+  final int myIndex;
+  final int startingScore;
   final Function notifyCallback;
   bool waitingConfirmation = false;
 
-  OnlineGame({int startingScore = 501, required this.gameID, bool starting = false, required this.notifyCallback}){
-    state = GameState(
-      visits: List.generate(2, (_) => [const Visit(score: [], isBusted: false)]),
-      currentPlayer: starting ? 0 : 1,
-    );
-    if (!starting) {
-      _waitOpponentTurn();
-    }
+  OnlineGame({this.startingScore = 501, required this.gameID, required this.myIndex, required this.notifyCallback}){
+    //initial state
+    state = GameState.initial(2);
+
+    //start listening to the game stream
+    _gameService.getGameStream(gameID).listen(
+            (event) {
+              if (event.data() != null) {
+                GameState receivedState = event.data()!;
+                if (receivedState.currentPlayer == myIndex || receivedState.legEnded) {
+                  state = receivedState;
+                  notifyCallback();
+                }
+              }
+            });
   }
 
-  //TODO
   @override
   void addNewScore(int score, bool isDouble) {
-    if (state.currentPlayer != 0) return;
+    if (state.currentPlayer != myIndex) return;
+    if (state.legEnded) return;
+    if (state.visits[myIndex].last.isFull()) return;
 
+    Visit updatedVisit = state.visits[myIndex].last.addThrow(score);
+    state.visits[myIndex].last = updatedVisit;
+    //handle win
+    if (startingScore - calculateTotalPointsThrown(state.visits[myIndex]) == 0 && isDouble) {
+      state = state.copyWithEnd(true);
+      waitingConfirmation = true;
+      return;
+    }
+    //handle bust
+    if (startingScore - calculateTotalPointsThrown(state.visits[myIndex]) <= 1) {
+      state.visits[myIndex].last = updatedVisit.bust();
+      waitingConfirmation = true;
+      return;
+    }
+    if (updatedVisit.isFull()) {
+      waitingConfirmation = true;
+    }
   }
 
   @override
   void confirmTurn() {
-
+    if (!state.legEnded) {
+      state = state.copyWithNewTurn(_getOtherPlayerIndex());
+      state.visits[_getOtherPlayerIndex()].add(const Visit(score: [], isBusted: false));
+    }
+    _gameService.updateGameState(gameID, state);
+    waitingConfirmation = false;
   }
 
-  void _endTurn() async {
-
-  }
-
-  void _waitOpponentTurn() async {
-
-  }
-
-  void _processOpponentTurn(String opponentsScoreString) async {
-
-  }
-
-  //TODO
   @override
   void stepBack() {
-    if (state.currentPlayer != 0) return;
-
+    if (state.currentPlayer != myIndex) return; //do nothing if not my turn
+    if (state.visits[myIndex].last.isEmpty()) return; //do nothing if my turn is empty
+    if (state.legEnded && !waitingConfirmation) return; //i won and i confirmed it so do nothing
+    if (waitingConfirmation) waitingConfirmation = false; //revert confirmation
+    if (state.legEnded) state = state.copyWithEnd(false); //revert win
+    state.visits[myIndex].last = state.visits[myIndex].last.removeThrow(); //just remove one throw from my visit
   }
 
-  //TODO
   @override
   int getCurrentScore(int playerIndex) {
-    return 999;
+    return startingScore - calculateTotalPointsThrown(state.visits[playerIndex]);
   }
 
-  //TODO
   @override
   double getCurrentAverage(int playerIndex) {
-    return 6.9;
+    int dartsThrown = calculateTotalDartsThrown(state.visits[playerIndex]);
+    if (dartsThrown == 0) return 0.0;
+    return calculateTotalPointsThrown(state.visits[playerIndex]) / dartsThrown * 3;
   }
 
   @override
   Visit getCurrentVisit(int index) {
+    if (state.visits[index].isEmpty) return const Visit(score: [], isBusted: false);
     return state.visits[index].last;
   }
 
@@ -77,10 +103,9 @@ class OnlineGame implements GameService {
     return state.currentPlayer == index;
   }
 
-  //TODO
   @override
   int getCurrentPlayerScore() {
-    return 999;
+    return startingScore - calculateTotalPointsThrown(state.visits[state.currentPlayer]);
   }
 
   @override
@@ -88,10 +113,9 @@ class OnlineGame implements GameService {
     return state.legEnded;
   }
 
-  //TODO
   @override
   int getWinnerIndex() {
-    return 0;
+    return state.visits.indexWhere((element) => startingScore - calculateTotalPointsThrown(element) == 0);
   }
 
   @override
@@ -102,5 +126,9 @@ class OnlineGame implements GameService {
   @override
   bool awaitingConfirmation() {
     return waitingConfirmation;
+  }
+
+  int _getOtherPlayerIndex() {
+    return (myIndex + 1) % 2;
   }
 }

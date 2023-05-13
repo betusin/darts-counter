@@ -10,7 +10,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Main Page"),
+        title: Text('Main Page'),
       ),
       body: Center(
         child: Column(
@@ -29,23 +29,23 @@ class MainPage extends StatelessWidget {
         crossAxisCount: 2,
         children: const [
           GridRedirectButton(
-            routeName: "/game/local",
-            text: "New Local Game",
+            routeName: '/game/local',
+            text: 'New Local Game',
             iconData: Icons.add_box_outlined,
           ),
           GridRedirectButton(
-            routeName: "/game/online/start",
-            text: "New Online Game",
+            routeName: '/game/online/start',
+            text: 'New Online Game',
             iconData: Icons.add_box,
           ),
           GridRedirectButton(
-            routeName: "/settings",
-            text: "Settings",
+            routeName: '/settings',
+            text: 'Settings',
             iconData: Icons.settings,
           ),
           GridRedirectButton(
-            routeName: "/exit",
-            text: "Exit App",
+            routeName: '/exit',
+            text: 'Exit App',
             iconData: Icons.exit_to_app,
           ),
         ],

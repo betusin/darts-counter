@@ -50,7 +50,7 @@ var appRoutes = GoRouter(
       builder: (context, state) {
         return ProfileScreen(
           appBar: AppBar(
-            title: Text("Profile"),
+            title: Text('Profile'),
           ),
           actions: [
             SignedOutAction((context) {
@@ -84,7 +84,7 @@ var appRoutes = GoRouter(
       path: '/exit',
       builder: (context, state) {
         SystemNavigator.pop();
-        return Text("Exiting App");
+        return Text('Exiting App');
       },
     ),
   ],

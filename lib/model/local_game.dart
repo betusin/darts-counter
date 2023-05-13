@@ -1,21 +1,17 @@
-import 'package:dartboard/model/game_service.dart';
+import 'package:dartboard/model/game.dart';
 import 'package:dartboard/model/game_state.dart';
 import 'package:dartboard/model/visit.dart';
 
 /*
 service controlling one local game (leg)
  */
-class LocalGame implements GameService{
+class LocalGame extends Game {
   GameState state = GameState(visits: []);
-  int numberOfPlayers = 2;
+  final int numberOfPlayers;
   final int startingScore;
 
-  LocalGame({int players = 2, required this.startingScore}){
-    state = GameState(
-        visits: List.generate(players, (_) => []),
-    );
-    state.visits[0].add(const Visit(score: [], isBusted: false));
-    numberOfPlayers = players;
+  LocalGame({this.numberOfPlayers = 2, required this.startingScore}){
+    state = GameState.initial(numberOfPlayers);
   }
 
   @override
@@ -25,12 +21,12 @@ class LocalGame implements GameService{
     Visit updatedVisit = state.visits[current].last.addThrow(score);
     state.visits[current].last = updatedVisit;
     //handle win
-    if (startingScore - _calculateTotalPointsThrown(current) == 0 && isDouble) {
+    if (startingScore - calculateTotalPointsThrown(state.visits[current]) == 0 && isDouble) {
       state = state.copyWithEnd(true);
       return;
     }
     //handle bust
-    if (startingScore - _calculateTotalPointsThrown(current) <= 1) {
+    if (startingScore - calculateTotalPointsThrown(state.visits[current]) <= 1) {
       Visit bustedVisit = updatedVisit.bust();
       state.visits[current].last = bustedVisit;
       endTurn();
@@ -66,14 +62,14 @@ class LocalGame implements GameService{
 
   @override
   int getCurrentScore(int playerIndex) {
-    return startingScore - _calculateTotalPointsThrown(playerIndex);
+    return startingScore - calculateTotalPointsThrown(state.visits[playerIndex]);
   }
 
   @override
   double getCurrentAverage(int playerIndex) {
-    int dartsThrown = _calculateTotalDartsThrown(playerIndex);
+    int dartsThrown = calculateTotalDartsThrown(state.visits[playerIndex]);
     if (dartsThrown == 0) return 0.0;
-    return _calculateTotalPointsThrown(playerIndex) / dartsThrown * 3;
+    return calculateTotalPointsThrown(state.visits[playerIndex]) / dartsThrown * 3;
   }
 
   @override
@@ -89,7 +85,7 @@ class LocalGame implements GameService{
 
   @override
   int getCurrentPlayerScore() {
-    return startingScore - _calculateTotalPointsThrown(state.currentPlayer);
+    return startingScore - calculateTotalPointsThrown(state.visits[state.currentPlayer]);
   }
 
   @override
@@ -99,7 +95,7 @@ class LocalGame implements GameService{
 
   @override
   int getWinnerIndex() {
-    return state.visits.indexWhere((element) => startingScore - _calculateTotalPointsThrown(state.visits.indexOf(element)) == 0);
+    return state.visits.indexWhere((element) => startingScore - calculateTotalPointsThrown(element) == 0);
   }
 
   @override
@@ -115,26 +111,6 @@ class LocalGame implements GameService{
     return (state.currentPlayer - 1) % numberOfPlayers;
   }
 
-  int _calculateTotalPointsThrown(int index) {
-    int total = 0;
-      for (var visit in state.visits[index]) {
-        if (!visit.isBusted) {
-          total += visit.getTotal();
-        }
-      }
-    return total;
-  }
-
-  int _calculateTotalDartsThrown(int index) {
-    int total = 0;
-    for (var visit in state.visits[index]) {
-      if (!visit.isEmpty()) {
-        total += visit.getDarts();
-      }
-    }
-    return total;
-  }
-
   bool _allVisitsEmpty() {
     bool empty = true;
     for (var visits in state.visits) {
@@ -144,15 +120,5 @@ class LocalGame implements GameService{
       }
     }
     return empty;
-  }
-  
-  @override
-  bool awaitingConfirmation() {
-    return false;
-  }
-
-  @override
-  void confirmTurn() {
-    return;
   }
 }

@@ -11,75 +11,59 @@ class InviteService {
   Future<void> sendInvite(String receiverHash) async {
     _userService.getUserUID(receiverHash).then((receiverUID) {
       if (receiverUID.isEmpty) {
-        _toastService.showErrorToast("User $receiverHash not found!");
+        _toastService.showErrorToast('User $receiverHash not found!');
         return;
       }
 
       _userService.getUserHashOfCurrentUser().then((senderHash) {
-        FirebaseFirestore.instance.collection("invites").doc().set({
-          "validUntil": DateTime.now().add(Duration(minutes: 30)),
-          "inviteFrom": senderHash,
-          "inviteFromUID": FirebaseAuth.instance.currentUser!.uid,
-          "inviteToUID": receiverUID,
-          "inviteTo": receiverHash,
-          "status": "pending",
+        FirebaseFirestore.instance.collection('invites').doc().set({
+          'validUntil': DateTime.now().add(Duration(minutes: 30)),
+          'inviteFrom': senderHash,
+          'inviteFromUID': FirebaseAuth.instance.currentUser!.uid,
+          'inviteToUID': receiverUID,
+          'inviteTo': receiverHash,
+          'status': 'pending',
         });
-        _toastService.showSuccessToast("Invite sent to $receiverHash");
+        _toastService.showSuccessToast('Invite sent to $receiverHash');
       });
     });
   }
 
   void acceptInvite(String inviteID) {
-    _inviteSetStatus(inviteID, "accepted");
+    _inviteSetStatus(inviteID, 'accepted');
   }
 
   void rejectInvite(String inviteID) {
-    _inviteSetStatus(inviteID, "rejected");
+    _inviteSetStatus(inviteID, 'rejected');
   }
 
   void deleteInvite(String inviteID) {
-    FirebaseFirestore.instance.collection("invites").doc(inviteID).delete();
+    FirebaseFirestore.instance.collection('invites').doc(inviteID).delete();
   }
 
   void _inviteSetStatus(String inviteID, String status) {
     FirebaseFirestore.instance
-        .collection("invites")
+        .collection('invites')
         .doc(inviteID)
-        .set({"status": status}, SetOptions(merge: true));
-    _toastService.showSuccessToast("Invite successfully $status");
+        .set({'status': status}, SetOptions(merge: true));
+    _toastService.showSuccessToast('Invite successfully $status');
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> get invitesTo {
     return FirebaseFirestore.instance
-        .collection("invites")
-        .where("validUntil", isGreaterThanOrEqualTo: DateTime.now())
-        .where("status", isEqualTo: "pending")
-        .where("inviteToUID", isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+        .collection('invites')
+        .where('validUntil', isGreaterThanOrEqualTo: DateTime.now())
+        .where('status', isEqualTo: 'pending')
+        .where('inviteToUID', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .snapshots();
   }
 
   Stream<QuerySnapshot<Map<String, dynamic>>> get invitesFrom {
     return FirebaseFirestore.instance
-        .collection("invites")
-        .where("validUntil", isGreaterThanOrEqualTo: DateTime.now())
-        .where("inviteFromUID",
+        .collection('invites')
+        .where('validUntil', isGreaterThanOrEqualTo: DateTime.now())
+        .where('inviteFromUID',
             isEqualTo: FirebaseAuth.instance.currentUser!.uid)
         .snapshots();
-  }
-
-  void createGame(String inviteID, String hostHash) {
-    _userService.getUserUID(hostHash).then((hostUID) {
-      _userService.getUserHashOfCurrentUser().then((receiverHash) {
-        var data = {
-          "startedAt": DateTime.now(),
-          "hostHash": hostHash,
-          "hostUID": hostUID,
-          "receiverHash": receiverHash,
-          "receiverUID": FirebaseAuth.instance.currentUser!.uid,
-          "newScores" : ''
-        };
-        FirebaseFirestore.instance.collection("games").doc(inviteID).set(data);
-      });
-    });
   }
 }
