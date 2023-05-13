@@ -52,8 +52,8 @@ class OnlineGame extends Game {
   @override
   void confirmTurn() {
     if (!state.legEnded) {
-      state = state.copyWithNewTurn(getNextPlayer());
-      state.visits[getNextPlayer()].add(const Visit(score: [], isBusted: false));
+      state = state.copyWithNewTurn(_getOtherPlayerIndex());
+      state.visits[_getOtherPlayerIndex()].add(const Visit(score: [], isBusted: false));
     }
     _gameService.updateGameState(gameID, state);
     waitingConfirmation = false;
@@ -64,14 +64,20 @@ class OnlineGame extends Game {
     if (state.currentPlayer != myIndex) return; //do nothing if not my turn
     if (state.visits[myIndex].last.isEmpty()) return; //do nothing if my turn is empty
     if (state.legEnded && !waitingConfirmation) return; //i won and i confirmed it so do nothing
-    if (waitingConfirmation) waitingConfirmation = false; //revert confirmation
-    if (state.legEnded) state = state.copyWithEnd(false); //revert win
-    state.visits[myIndex].last = state.visits[myIndex].last.removeThrow(); //just remove one throw from my visit
+
+    if (waitingConfirmation) { //revert confirmation
+      waitingConfirmation = false;
+    }
+    if (state.legEnded) { //revert win
+      state = state.copyWithEnd(false);
+    }
+    //just remove one throw from my visit
+    state.visits[myIndex].last = state.visits[myIndex].last.removeThrow();
   }
 
   @override
   void reset() {
-    myIndex = getNextPlayer();
+    myIndex = _getOtherPlayerIndex();
     state = GameState.initial(2);
     _gameService.updateGameState(gameID, state);
   }
@@ -91,5 +97,9 @@ class OnlineGame extends Game {
   @override
   bool awaitingConfirmation() {
     return waitingConfirmation;
+  }
+
+  int _getOtherPlayerIndex() {
+    return (myIndex + 1) % numberOfPlayers;
   }
 }
