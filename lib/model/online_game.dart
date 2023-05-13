@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartboard/model/game.dart';
 import 'package:dartboard/model/game_state.dart';
 import 'package:dartboard/model/visit.dart';
@@ -6,35 +7,21 @@ import '../service/game_service.dart';
 import '../service/ioc_container.dart';
 
 /*
-service controlling one online game (leg)
-only 2 players in online game supported
+only 2 players in online game supported and only mode is 501
  */
 class OnlineGame extends Game {
   final _gameService = get<GameService>();
-  GameState state = GameState(visits: []);
   final String gameID;
-  int myIndex;
-  final int startingScore;
   final Function notifyCallback;
+  int myIndex;
   bool waitingConfirmation = false;
 
-  OnlineGame({this.startingScore = 501, required this.gameID, required this.myIndex, required this.notifyCallback}){
+  OnlineGame({super.numberOfPlayers = 2, super.startingScore = 501, required this.gameID, required this.myIndex, required this.notifyCallback}){
     //initial state
     state = GameState.initial(2);
 
     //start listening to the game stream
-    _gameService.getGameStream(gameID).listen(
-            (event) {
-              if (state.legEnded) return;
-              if (!event.exists) return;
-              if (event.data() != null) {
-                GameState receivedState = event.data()!;
-                if (receivedState.currentPlayer == myIndex || receivedState.legEnded) {
-                  state = receivedState;
-                  notifyCallback();
-                }
-              }
-            });
+    _gameService.getGameStream(gameID).listen((event) => _handleIncomingEvent(event));
   }
 
   @override
@@ -65,8 +52,8 @@ class OnlineGame extends Game {
   @override
   void confirmTurn() {
     if (!state.legEnded) {
-      state = state.copyWithNewTurn(_getOtherPlayerIndex());
-      state.visits[_getOtherPlayerIndex()].add(const Visit(score: [], isBusted: false));
+      state = state.copyWithNewTurn(getNextPlayer());
+      state.visits[getNextPlayer()].add(const Visit(score: [], isBusted: false));
     }
     _gameService.updateGameState(gameID, state);
     waitingConfirmation = false;
@@ -84,60 +71,25 @@ class OnlineGame extends Game {
 
   @override
   void reset() {
-    myIndex = _getOtherPlayerIndex();
+    myIndex = getNextPlayer();
     state = GameState.initial(2);
     _gameService.updateGameState(gameID, state);
   }
 
-  @override
-  int getCurrentScore(int playerIndex) {
-    return startingScore - calculateTotalPointsThrown(state.visits[playerIndex]);
-  }
-
-  @override
-  double getCurrentAverage(int playerIndex) {
-    int dartsThrown = calculateTotalDartsThrown(state.visits[playerIndex]);
-    if (dartsThrown == 0) return 0.0;
-    return calculateTotalPointsThrown(state.visits[playerIndex]) / dartsThrown * 3;
-  }
-
-  @override
-  Visit getCurrentVisit(int index) {
-    if (state.visits[index].isEmpty) return const Visit(score: [], isBusted: false);
-    return state.visits[index].last;
-  }
-
-  @override
-  bool isMyTurn(int index) {
-    return state.currentPlayer == index;
-  }
-
-  @override
-  int getCurrentPlayerScore() {
-    return startingScore - calculateTotalPointsThrown(state.visits[state.currentPlayer]);
-  }
-
-  @override
-  bool getLegEnded() {
-    return state.legEnded;
-  }
-
-  @override
-  int getWinnerIndex() {
-    return state.visits.indexWhere((element) => startingScore - calculateTotalPointsThrown(element) == 0);
-  }
-
-  @override
-  int getCurrentIndex() {
-    return state.currentPlayer;
+  void _handleIncomingEvent(DocumentSnapshot<GameState> event) {
+    if (state.legEnded) return;
+    if (!event.exists) return;
+    if (event.data() != null) {
+      GameState receivedState = event.data()!;
+      if (receivedState.currentPlayer == myIndex || receivedState.legEnded) {
+        state = receivedState;
+        notifyCallback();
+      }
+    }
   }
 
   @override
   bool awaitingConfirmation() {
     return waitingConfirmation;
-  }
-
-  int _getOtherPlayerIndex() {
-    return (myIndex + 1) % 2;
   }
 }
