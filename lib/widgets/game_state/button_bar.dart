@@ -18,30 +18,27 @@ class GameButtonBar extends StatelessWidget {
           _buildGameBarButton(() {
             Navigator.pop(context);
           }, Colors.blue, 'Exit Game'),
-          SizedBox(width: 6),
           Expanded(
               child: _buildGameBarButton(
                   currentGame.stepBack, Colors.red, 'Undo')),
-          if (currentGame.getGameOver() &&
-              !currentGame.awaitingConfirmation()) ...[
-            SizedBox(width: 6),
+          if (currentGame.getGameOver() && !currentGame.awaitingConfirmation())
             _buildGameBarButton(
-                currentGame.newGameSamePlayers, Colors.blue, 'Next Game')
-          ],
-          if (currentGame.awaitingConfirmation()) ...[
-            SizedBox(width: 6),
+                currentGame.newGameSamePlayers, Colors.blue, 'Next Game'),
+          if (currentGame.awaitingConfirmation())
             _buildGameBarButton(
-                currentGame.confirmTurn, Colors.blue, 'Confirm Score')
-          ]
+                currentGame.confirmTurn, Colors.blue, 'Confirm Score'),
         ],
       ),
     );
   }
 
   Widget _buildGameBarButton(VoidCallback callback, Color col, String text) {
-    return ElevatedButton(
-        onPressed: callback,
-        style: ElevatedButton.styleFrom(backgroundColor: col),
-        child: Text(text));
+    return Padding(
+      padding: const EdgeInsets.all(3),
+      child: ElevatedButton(
+          onPressed: callback,
+          style: ElevatedButton.styleFrom(backgroundColor: col),
+          child: Text(text)),
+    );
   }
 }
