@@ -4,7 +4,8 @@ class HandlingStreamBuilder<T> extends StatelessWidget {
   final Stream<T> stream;
   final Widget Function(BuildContext context, T data) builder;
 
-  const HandlingStreamBuilder({super.key, required this.stream, required this.builder});
+  const HandlingStreamBuilder(
+      {super.key, required this.stream, required this.builder});
 
   @override
   Widget build(BuildContext context) {

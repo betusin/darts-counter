@@ -5,13 +5,17 @@ import '../model/game_notifier.dart';
 import 'constants.dart';
 
 class HighlightingButton extends StatelessWidget {
-
   final Color backgroundColor;
   final int value;
   final bool isCircle;
   final bool isDouble;
 
-  const HighlightingButton({super.key, required this.backgroundColor, required this.value, this.isDouble = false, this.isCircle = false});
+  const HighlightingButton(
+      {super.key,
+      required this.backgroundColor,
+      required this.value,
+      this.isDouble = false,
+      this.isCircle = false});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class HighlightingButton extends StatelessWidget {
         shape: isCircle ? MaterialStateProperty.all(CircleBorder()) : null,
         backgroundColor: MaterialStateProperty.all(backgroundColor),
         overlayColor: MaterialStateProperty.resolveWith<Color?>(
-              (Set<MaterialState> states) {
+          (Set<MaterialState> states) {
             if (states.contains(MaterialState.pressed)) {
               return highlightYellow;
             }

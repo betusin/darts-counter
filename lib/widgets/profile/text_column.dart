@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class TextColumn extends StatelessWidget {
   final textName;
   final textValue;
+
   const TextColumn(this.textName, this.textValue, {Key? key}) : super(key: key);
 
   @override

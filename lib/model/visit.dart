@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+
 /*
 class representing one visit of a player (one turn) -> three darts thrown
  */
@@ -32,8 +33,8 @@ class Visit {
     return score.sum;
   }
 
-  int getLast(){
-    if (score.isEmpty){
+  int getLast() {
+    if (score.isEmpty) {
       return 0;
     }
     return score.last;

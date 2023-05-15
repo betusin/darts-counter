@@ -5,7 +5,8 @@ const Color dartboardRed = Color(0xffe3292e);
 const Color dartboardWhite = Color(0xfff9dfbc);
 const Color dartboardBlack = Colors.black;
 const Color highlightYellow = Color(0xbdffe545);
-const Color dartboardBackground = Colors.grey;   //placeholder, just so we can see there is zero around the board
+const Color dartboardBackground = Colors
+    .grey; //placeholder, just so we can see there is zero around the board
 
 // TODO maybe calculate these values to percentage of screen width ?
 // now it will probably look very weird on a big screen (tablet) - maybe not

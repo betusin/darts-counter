@@ -16,30 +16,41 @@ class OnlineGame extends Game {
   int myIndex;
   bool waitingConfirmation = false;
 
-  OnlineGame({super.numberOfPlayers = 2, super.startingScore = 501, required this.gameID, required this.myIndex, required this.notifyCallback}){
+  OnlineGame(
+      {super.numberOfPlayers = 2,
+      super.startingScore = 501,
+      required this.gameID,
+      required this.myIndex,
+      required this.notifyCallback}) {
     //initial state
     state = GameState.initial(2);
 
     //start listening to the game stream
-    _gameService.getGameStream(gameID).listen((event) => _handleIncomingEvent(event));
+    _gameService
+        .getGameStream(gameID)
+        .listen((event) => _handleIncomingEvent(event));
   }
 
   @override
   void addNewScore(int score, bool isDouble) {
     if (state.currentPlayer != myIndex) return;
     if (state.legEnded) return;
-    if (state.visits[myIndex].last.isFull() || state.visits[myIndex].last.isBusted) return;
+    if (state.visits[myIndex].last.isFull() ||
+        state.visits[myIndex].last.isBusted) return;
 
     Visit updatedVisit = state.visits[myIndex].last.addThrow(score);
     state.visits[myIndex].last = updatedVisit;
     //handle win
-    if (startingScore - calculateTotalPointsThrown(state.visits[myIndex]) == 0 && isDouble) {
+    if (startingScore - calculateTotalPointsThrown(state.visits[myIndex]) ==
+            0 &&
+        isDouble) {
       state = state.copyWithEnd(true);
       waitingConfirmation = true;
       return;
     }
     //handle bust
-    if (startingScore - calculateTotalPointsThrown(state.visits[myIndex]) <= 1) {
+    if (startingScore - calculateTotalPointsThrown(state.visits[myIndex]) <=
+        1) {
       state.visits[myIndex].last = updatedVisit.bust();
       waitingConfirmation = true;
       return;
@@ -53,7 +64,8 @@ class OnlineGame extends Game {
   void confirmTurn() {
     if (!state.legEnded) {
       state = state.copyWithNewTurn(_getOtherPlayerIndex());
-      state.visits[_getOtherPlayerIndex()].add(const Visit(score: [], isBusted: false));
+      state.visits[_getOtherPlayerIndex()]
+          .add(const Visit(score: [], isBusted: false));
     }
     _gameService.updateGameState(gameID, state);
     waitingConfirmation = false;
@@ -62,13 +74,17 @@ class OnlineGame extends Game {
   @override
   void stepBack() {
     if (state.currentPlayer != myIndex) return; //do nothing if not my turn
-    if (state.visits[myIndex].last.isEmpty()) return; //do nothing if my turn is empty
-    if (state.legEnded && !waitingConfirmation) return; //i won and i confirmed it so do nothing
+    if (state.visits[myIndex].last.isEmpty())
+      return; //do nothing if my turn is empty
+    if (state.legEnded && !waitingConfirmation)
+      return; //i won and i confirmed it so do nothing
 
-    if (waitingConfirmation) { //revert confirmation
+    if (waitingConfirmation) {
+      //revert confirmation
       waitingConfirmation = false;
     }
-    if (state.legEnded) { //revert win
+    if (state.legEnded) {
+      //revert win
       state = state.copyWithEnd(false);
     }
     //just remove one throw from my visit

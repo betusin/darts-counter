@@ -22,10 +22,7 @@ class ScoreCard extends StatelessWidget {
     final nameTagColor = isMyTurn ? Colors.green : Colors.green[100];
 
     return Container(
-      decoration: BoxDecoration(
-        color: cardColor,
-        border: Border.all(width: 2)
-      ),
+      decoration: BoxDecoration(color: cardColor, border: Border.all(width: 2)),
       child: Column(
         children: [
           _buildNameContainer(playerName, victories, cardColor!, nameTagColor!),
@@ -45,12 +42,11 @@ class ScoreCard extends StatelessWidget {
     );
   }
 
-  Widget _buildNameContainer(String name, String victories, Color victoriesColor, Color nameTagColor) {
+  Widget _buildNameContainer(
+      String name, String victories, Color victoriesColor, Color nameTagColor) {
     return Container(
       decoration: BoxDecoration(
-        color: nameTagColor,
-        border: Border(bottom: BorderSide(width: 2))
-      ),
+          color: nameTagColor, border: Border(bottom: BorderSide(width: 2))),
       height: 30,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,10 +55,13 @@ class ScoreCard extends StatelessWidget {
             width: 30,
             height: 30,
             decoration: BoxDecoration(
-                color: victoriesColor,
-                border: Border(right: BorderSide(width: 2)),
+              color: victoriesColor,
+              border: Border(right: BorderSide(width: 2)),
             ),
-            child: Center(child: Text(victories, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
+            child: Center(
+                child: Text(victories,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold))),
           ),
           Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
           SizedBox(width: 30)

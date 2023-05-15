@@ -23,7 +23,8 @@ class CheckoutBar extends StatelessWidget {
                 currentScore > 1 &&
                 !bogeyNumbers.contains(currentScore))
               ..._buildContainers(currentScore),
-            if (currentGame.getGameOver()) _buildWinnerText('${currentGame.getWinnerName()} WON'),
+            if (currentGame.getGameOver())
+              _buildWinnerText('${currentGame.getWinnerName()} WON'),
           ],
         ),
       ),
@@ -49,15 +50,14 @@ class CheckoutBar extends StatelessWidget {
             child: Text(
           checkout,
           style: TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-              fontWeight: FontWeight.w900),
+              color: Colors.black, fontSize: 20, fontWeight: FontWeight.w900),
         )),
       ),
     );
   }
 
   Widget _buildWinnerText(String winnerName) {
-    return Text(winnerName, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
+    return Text(winnerName,
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold));
   }
 }

@@ -11,17 +11,18 @@ class GameState {
     required this.visits,
   });
 
-  GameState.initial(int numberOfPlayers) :
-        legEnded = false,
+  GameState.initial(int numberOfPlayers)
+      : legEnded = false,
         currentPlayer = 0,
-        visits = List.generate(numberOfPlayers, (index) => (index == 0) ? [Visit(score: [], isBusted: false)] : [])
-  ;
+        visits = List.generate(numberOfPlayers,
+            (index) => (index == 0) ? [Visit(score: [], isBusted: false)] : []);
 
   GameState copyWithNewTurn(int nextPlayer) {
     return GameState(visits: visits, currentPlayer: nextPlayer);
   }
 
   GameState copyWithEnd(bool ended) {
-    return GameState(visits: visits, legEnded: ended, currentPlayer: currentPlayer);
+    return GameState(
+        visits: visits, legEnded: ended, currentPlayer: currentPlayer);
   }
 }

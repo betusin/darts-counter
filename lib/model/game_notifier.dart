@@ -18,7 +18,8 @@ class GameNotifier extends ChangeNotifier {
   String onlineGameID = '';
 
   void createNewOnlineGame({required String gameID, int myIndex = 0}) async {
-    currentGame = OnlineGame(gameID: gameID, myIndex: myIndex, notifyCallback: notifyListeners);
+    currentGame = OnlineGame(
+        gameID: gameID, myIndex: myIndex, notifyCallback: notifyListeners);
     onlineGameID = gameID;
     numberOfPlayers = 2;
     startingScore = 501;
@@ -33,7 +34,8 @@ class GameNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void createNewLocalGame({required int number, required List<String> names, int starting = 501}) {
+  void createNewLocalGame(
+      {required int number, required List<String> names, int starting = 501}) {
     currentGame = LocalGame(numberOfPlayers: number, startingScore: starting);
     numberOfPlayers = number;
     playerNames = names;

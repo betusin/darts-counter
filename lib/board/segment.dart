@@ -26,7 +26,11 @@ class Segment extends StatelessWidget {
       child: Container(
         height: size,
         width: size,
-        child: HighlightingButton(backgroundColor: color, value: value, isDouble: isDouble,),
+        child: HighlightingButton(
+          backgroundColor: color,
+          value: value,
+          isDouble: isDouble,
+        ),
       ),
     );
   }

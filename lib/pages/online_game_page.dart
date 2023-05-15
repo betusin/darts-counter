@@ -9,7 +9,8 @@ class OnlineGamePage extends StatelessWidget {
   final String gameID;
   final int myIndex;
 
-  const OnlineGamePage({Key? key, required this.gameID, required this.myIndex}) : super(key: key);
+  const OnlineGamePage({Key? key, required this.gameID, required this.myIndex})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
