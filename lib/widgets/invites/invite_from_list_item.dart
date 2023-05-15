@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../pages/online_game_page.dart';
-import '../../service/invite_service.dart';
-import '../../service/ioc_container.dart';
 
 class InviteFromListItem extends StatelessWidget {
   final String status;
@@ -18,7 +16,6 @@ class InviteFromListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var inviteController = get<InviteService>();
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -27,7 +24,6 @@ class InviteFromListItem extends StatelessWidget {
         if (status == 'accepted')
           ElevatedButton(
             onPressed: () {
-              inviteController.deleteInvite(gameID);
               final pageToPush = MaterialPageRoute(
                 builder: (BuildContext context) {
                   return OnlineGamePage(gameID: gameID, myIndex: 0);

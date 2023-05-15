@@ -4,6 +4,7 @@ import 'package:dartboard/model/game_state.dart';
 import 'package:dartboard/model/visit.dart';
 
 import '../service/game_service.dart';
+import '../service/invite_service.dart';
 import '../service/ioc_container.dart';
 
 /*
@@ -42,6 +43,7 @@ class OnlineGame extends Game {
     state.visits[myIndex].last = updatedVisit;
     //handle win
     if (isWinningThrow(state.visits[myIndex], isDouble)) {
+      get<InviteService>().deleteInvite(gameID);
       state = state.copyWithEnd(true);
       waitingConfirmation = true;
       return;
