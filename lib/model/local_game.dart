@@ -17,15 +17,12 @@ class LocalGame extends Game {
     int current = state.currentPlayer;
     Visit updatedVisit = state.visits[current].last.addThrow(score);
     state.visits[current].last = updatedVisit;
-    if (startingScore - calculateTotalPointsThrown(state.visits[current]) ==
-            0 &&
-        isDouble) {
+    if (isWinningThrow(state.visits[current], isDouble)) {
       //win
       state = state.copyWithEnd(true);
       return;
     }
-    if (startingScore - calculateTotalPointsThrown(state.visits[current]) <=
-        1) {
+    if (isBustedThrow(state.visits[current])) {
       //bust
       Visit bustedVisit = updatedVisit.bust();
       state.visits[current].last = bustedVisit;

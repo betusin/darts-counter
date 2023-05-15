@@ -41,16 +41,13 @@ class OnlineGame extends Game {
     Visit updatedVisit = state.visits[myIndex].last.addThrow(score);
     state.visits[myIndex].last = updatedVisit;
     //handle win
-    if (startingScore - calculateTotalPointsThrown(state.visits[myIndex]) ==
-            0 &&
-        isDouble) {
+    if (isWinningThrow(state.visits[myIndex], isDouble)) {
       state = state.copyWithEnd(true);
       waitingConfirmation = true;
       return;
     }
     //handle bust
-    if (startingScore - calculateTotalPointsThrown(state.visits[myIndex]) <=
-        1) {
+    if (isBustedThrow(state.visits[myIndex])) {
       state.visits[myIndex].last = updatedVisit.bust();
       waitingConfirmation = true;
       return;

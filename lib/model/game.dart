@@ -120,4 +120,12 @@ abstract class Game {
     }
     return stats;
   }
+
+  bool isBustedThrow(List<Visit> visit) {
+    return startingScore - calculateTotalPointsThrown(visit) <= 1;
+  }
+
+  bool isWinningThrow(List<Visit> visit, bool isDouble) {
+    return startingScore - calculateTotalPointsThrown(visit) == 0 && isDouble;
+  }
 }
