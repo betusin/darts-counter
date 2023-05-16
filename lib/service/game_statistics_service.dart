@@ -13,20 +13,19 @@ const RECEIVER_INDEX = 1;
 class GameStatisticsService {
   final GameService gameService = get<GameService>();
 
-  Future<List<GameStatistics>> getAllStatisticsForCurrentPlayer() async {
+  Future<GameStatistics> getAllStatisticsForCurrentPlayer() async {
     var playerID = FirebaseAuth.instance.currentUser!.uid;
 
     print("Getting statistics for player $playerID");
 
-    List<GameStatistics> allStatistics = [];
+    GameStatistics gameStatistics = GameStatistics();
 
     await gameService.getAllHostGamesOfPlayer(playerID).then((playerHostGames) {
       for (var doc in playerHostGames.docs) {
         GameState state = doc.data();
         List<Visit> visits = state.visits[HOST_INDEX];
 
-        GameStatistics gameStatistics = _calculateStatisticsForOneGame(visits);
-        allStatistics.add(gameStatistics);
+        gameStatistics = _calculateStatisticsForOneGame(visits, gameStatistics);
       }
     });
 
@@ -37,18 +36,18 @@ class GameStatisticsService {
         GameState state = doc.data();
         List<Visit> visits = state.visits[HOST_INDEX];
 
-        GameStatistics gameStatistics = _calculateStatisticsForOneGame(visits);
-        allStatistics.add(gameStatistics);
+        gameStatistics = _calculateStatisticsForOneGame(visits, gameStatistics);
       }
     });
 
-    return allStatistics;
+    print("resulting game stats: $gameStatistics");
+
+    return gameStatistics;
   }
 
-  GameStatistics _calculateStatisticsForOneGame(List<Visit> visits) {
+  GameStatistics _calculateStatisticsForOneGame(
+      List<Visit> visits, GameStatistics stats) {
     int overallScore = 501; // TODO need to save this for a game
-
-    GameStatistics stats = GameStatistics();
 
     for (Visit visit in visits) {
       //complicated stuff for checkouts possible
@@ -62,6 +61,7 @@ class GameStatisticsService {
         overallScore += visit.getTotal();
         continue;
       }
+
       int score = visit.getTotal();
       if (score == 180) stats.thrown180 += 1;
       if (score >= 140) stats.thrown140 += 1;
@@ -75,12 +75,17 @@ class GameStatisticsService {
       }
     }
 
+    stats.averages.add(_getGameAverage(visits));
+
+    print(stats);
     return stats;
   }
 
   bool _isWinner(List<Visit> visits, int startingScore) {
     return startingScore - _calculateTotalPointsThrown(visits) == 0;
   }
+
+  // TODO these three methods are in game, probably move to service and reuse here?
 
   int _calculateTotalPointsThrown(List<Visit> visits) {
     int total = 0;
@@ -90,5 +95,21 @@ class GameStatisticsService {
       }
     }
     return total;
+  }
+
+  int _calculateTotalDartsThrown(List<Visit> visits) {
+    int total = 0;
+    for (var visit in visits) {
+      if (!visit.isEmpty()) {
+        total += visit.getDarts();
+      }
+    }
+    return total;
+  }
+
+  double _getGameAverage(List<Visit> visits) {
+    int dartsThrown = _calculateTotalDartsThrown(visits);
+    if (dartsThrown == 0) return 0.0;
+    return _calculateTotalPointsThrown(visits) / dartsThrown * 3;
   }
 }

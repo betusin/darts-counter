@@ -1,14 +1,19 @@
+import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/game_statistics.dart';
+
 class StatisticsGraph extends StatelessWidget {
-  const StatisticsGraph({Key? key}) : super(key: key);
+  final GameStatistics statistics;
+
+  const StatisticsGraph({Key? key, required this.statistics}) : super(key: key);
 
   LineChartData get sampleData => LineChartData(
         lineBarsData: lineBarsData1,
         minX: 0,
-        maxX: 14,
-        maxY: 100,
+        maxX: statistics.averages.length.toDouble(),
+        maxY: statistics.averages.max,
         minY: 0,
       );
 
@@ -23,16 +28,14 @@ class StatisticsGraph extends StatelessWidget {
         isStrokeCapRound: true,
         dotData: FlDotData(show: false),
         belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(1, 1),
-          FlSpot(3, 20),
-          FlSpot(5, 40),
-          FlSpot(7, 30),
-          FlSpot(10, 80),
-          FlSpot(12, 55),
-          FlSpot(13, 45),
-        ],
+        spots: getSpots,
       );
+
+  get getSpots =>
+      [FlSpot(0, 0)] +
+      statistics.averages
+          .mapIndexed((index, avg) => FlSpot(index.toDouble(), avg))
+          .toList();
 
   @override
   Widget build(BuildContext context) {

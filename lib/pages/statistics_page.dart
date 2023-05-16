@@ -19,36 +19,18 @@ class StatisticsPage extends StatelessWidget {
         future: get<GameStatisticsService>().getAllStatisticsForCurrentPlayer(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
           return Column(
-            children: _printStatistics(snapshot.data),
+            children: [
+              StatisticsGraph(statistics: snapshot.data),
+              _buildDataTable(snapshot.data),
+            ],
           );
         },
       ),
     );
   }
 
-  List<Text> _printStatistics(List<GameStatistics> allStatistics) {
-    return allStatistics.map((stat) => Text(stat.toString())).toList();
-  }
-
-  Widget _buildStatistics(GameStatistics statistics) {
-    return Column(
-      children: [
-        StatisticsGraph(),
-        _buildDataTable(statistics),
-      ],
-    );
-  }
-
   DataTable _buildDataTable(GameStatistics statistics) {
-    final Map<String, String> statisticMap = {
-      '180s Thrown': statistics.thrown180.toString(),
-      '140s Thrown': statistics.thrown140.toString(),
-      '120s Thrown': statistics.thrown120.toString(),
-      '100+ Checkouts': '6',
-      'Checkout accuracy': '24%'
-    };
-
-    final rows = statisticMap.entries.map((entry) {
+    final rows = statistics.toMap().entries.map((entry) {
       return DataRow(
         cells: [
           DataCell(Text(entry.key)),
