@@ -1,4 +1,5 @@
 import 'package:dartboard/service/game_service.dart';
+import 'package:dartboard/service/game_statistics_service.dart';
 import 'package:dartboard/service/invite_service.dart';
 import 'package:dartboard/service/setup_user_service.dart';
 import 'package:dartboard/service/statistic_service.dart';
@@ -23,6 +24,9 @@ class IoCContainer {
     );
     get.registerSingleton(
       GameService(),
+    );
+    get.registerSingleton(
+      GameStatisticsService(),
     );
   }
 }
