@@ -6,7 +6,9 @@ import 'package:dartboard/model/visit.dart';
 service controlling one local game (leg)
  */
 class LocalGame extends Game {
-  LocalGame({super.numberOfPlayers = 2, required super.startingScore}) {
+  LocalGame({
+    super.numberOfPlayers = 2,
+  }) {
     state = GameState.initial(numberOfPlayers);
   }
 

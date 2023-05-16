@@ -6,6 +6,8 @@ import '../model/game_state.dart';
 import '../model/visit.dart';
 import 'ioc_container.dart';
 
+const STARTING_SCORE = 501;
+
 class GameService {
   final _userService = get<SetupUserService>();
 
@@ -41,10 +43,11 @@ class GameService {
           'hostUID': hostUID,
           'receiverHash': receiverHash,
           'receiverUID': FirebaseAuth.instance.currentUser!.uid,
+          'startingScore': STARTING_SCORE, // TODO set score when sending invite
         };
         FirebaseFirestore.instance.collection('games').doc(inviteID).set(data);
         //and set the initial state
-        updateGameState(inviteID, GameState.initial(2));
+        updateGameState(inviteID, GameState.initial(2, STARTING_SCORE));
       });
     });
   }
@@ -96,10 +99,11 @@ class GameService {
 
   //JSON serialization and deserialization of game state
   GameState stateFromJson(Map<String, dynamic> json) {
-    if (json['gameState'] == null) return GameState.initial(2);
+    if (json['gameState'] == null) return GameState.initial(2, STARTING_SCORE);
     return GameState(
         legEnded: json['gameState']['legEnded'] as bool,
         currentPlayer: json['gameState']['currentPlayer'] as int,
+        startingScore: json['gameState']['startingScore'] as int,
         visits: _deserializeVisits(
             json['gameState']['visits'] as Map<String, dynamic>));
   }
@@ -108,6 +112,7 @@ class GameService {
         'gameState': {
           'legEnded': state.legEnded,
           'currentPlayer': state.currentPlayer,
+          'startingScore': state.startingScore,
           'visits': _serializeVisits(state)
         }
       };

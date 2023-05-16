@@ -25,7 +25,8 @@ class GameStatisticsService {
         GameState state = doc.data();
         List<Visit> visits = state.visits[HOST_INDEX];
 
-        GameStatistics gameStatistics = _calculateStatisticsForOneGame(visits);
+        GameStatistics gameStatistics =
+            _calculateStatisticsForOneGame(visits, state.startingScore);
         allStatistics.add(gameStatistics);
       }
     });
@@ -37,7 +38,8 @@ class GameStatisticsService {
         GameState state = doc.data();
         List<Visit> visits = state.visits[HOST_INDEX];
 
-        GameStatistics gameStatistics = _calculateStatisticsForOneGame(visits);
+        GameStatistics gameStatistics =
+            _calculateStatisticsForOneGame(visits, state.startingScore);
         allStatistics.add(gameStatistics);
       }
     });
@@ -45,9 +47,8 @@ class GameStatisticsService {
     return allStatistics;
   }
 
-  GameStatistics _calculateStatisticsForOneGame(List<Visit> visits) {
-    int overallScore = 501; // TODO need to save this for a game
-
+  GameStatistics _calculateStatisticsForOneGame(
+      List<Visit> visits, int overallScore) {
     GameStatistics stats = GameStatistics();
 
     for (Visit visit in visits) {

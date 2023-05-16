@@ -4,9 +4,8 @@ import 'package:dartboard/model/visit.dart';
 abstract class Game {
   GameState state = GameState(visits: []);
   final int numberOfPlayers;
-  final int startingScore;
 
-  Game({required this.numberOfPlayers, required this.startingScore});
+  Game({required this.numberOfPlayers});
 
   void addNewScore(int score, bool isDouble);
 
@@ -15,7 +14,7 @@ abstract class Game {
   void reset();
 
   int getCurrentScore(int playerIndex) {
-    return startingScore -
+    return state.startingScore -
         calculateTotalPointsThrown(state.visits[playerIndex]);
   }
 
@@ -39,7 +38,7 @@ abstract class Game {
   }
 
   int getCurrentPlayerScore() {
-    return startingScore -
+    return state.startingScore -
         calculateTotalPointsThrown(state.visits[state.currentPlayer]);
   }
 
@@ -48,8 +47,8 @@ abstract class Game {
   }
 
   int getWinnerIndex() {
-    return state.visits.indexWhere(
-        (element) => startingScore - calculateTotalPointsThrown(element) == 0);
+    return state.visits.indexWhere((element) =>
+        state.startingScore - calculateTotalPointsThrown(element) == 0);
   }
 
   int getCurrentIndex() {
@@ -93,10 +92,11 @@ abstract class Game {
   }
 
   bool isBustedThrow(List<Visit> visit) {
-    return startingScore - calculateTotalPointsThrown(visit) <= 1;
+    return state.startingScore - calculateTotalPointsThrown(visit) <= 1;
   }
 
   bool isWinningThrow(List<Visit> visit, bool isDouble) {
-    return startingScore - calculateTotalPointsThrown(visit) == 0 && isDouble;
+    return state.startingScore - calculateTotalPointsThrown(visit) == 0 &&
+        isDouble;
   }
 }
