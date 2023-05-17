@@ -7,9 +7,9 @@ class Settings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings"),
+        title: Text('Settings'),
       ),
-      body: Center(child: Text("To be implemented")),
+      body: Center(child: Text('To be implemented')),
     );
   }
 }

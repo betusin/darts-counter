@@ -1,4 +1,4 @@
-import 'package:dartboard/widgets/statistics_graph.dart';
+import 'package:dartboard/widgets/statistics/statistics_graph.dart';
 import 'package:flutter/material.dart';
 
 class StatisticsPage extends StatelessWidget {
@@ -8,7 +8,7 @@ class StatisticsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Your Statistics"),
+        title: Text('Your Statistics'),
       ),
       body: Column(
         children: [
@@ -21,11 +21,11 @@ class StatisticsPage extends StatelessWidget {
 
   DataTable _buildDataTable() {
     final Map<String, String> dummyStatistics = {
-      "180s Thrown": "10",
-      "140s Thrown": "37",
-      "120s Thrown": "79",
-      "100+ Checkouts": "6",
-      "Checkout accuracy": "24%"
+      '180s Thrown': '10',
+      '140s Thrown': '37',
+      '120s Thrown': '79',
+      '100+ Checkouts': '6',
+      'Checkout accuracy': '24%'
     };
 
     final rows = dummyStatistics.entries.map((entry) {
@@ -36,9 +36,9 @@ class StatisticsPage extends StatelessWidget {
 
     return DataTable(
       columns: const [
-        DataColumn(label: Text("Statistic name")),
+        DataColumn(label: Text('Statistic name')),
         DataColumn(
-          label: Text("Value"),
+          label: Text('Value'),
           numeric: true,
         ),
       ],

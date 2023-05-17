@@ -1,16 +1,18 @@
-import 'package:dartboard/widgets/text_row.dart';
+import 'package:dartboard/service/setup_user_service.dart';
+import 'package:dartboard/widgets/handlers/handling_future_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../service/ioc_container.dart';
 import 'avatar.dart';
 
 class ProfileBar extends StatelessWidget {
-  final name;
-  final surname;
-
-  const ProfileBar({Key? key, this.name, this.surname}) : super(key: key);
+  const ProfileBar({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var userController = get<SetupUserService>();
+
     return Container(
       color: Theme.of(context).colorScheme.background,
       child: Padding(
@@ -18,15 +20,13 @@ class ProfileBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Avatar(name: name, surname: surname),
+            HandlingFutureBuilder(
+              future: userController.getUserHashOfCurrentUser(),
+              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                return Avatar(userHash: snapshot.data);
+              },
+            ),
             _buildStatisticsButton(context),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextRow("Name", name),
-                TextRow("Surname", surname),
-              ],
-            )
           ],
         ),
       ),
@@ -36,7 +36,7 @@ class ProfileBar extends StatelessWidget {
   TextButton _buildStatisticsButton(BuildContext context) {
     final color = Theme.of(context).colorScheme.onBackground;
     return TextButton(
-      onPressed: () => Navigator.pushNamed(context, "/statistics"),
+      onPressed: () => context.push('/statistics'),
       child: Column(
         children: [
           Icon(
@@ -45,7 +45,7 @@ class ProfileBar extends StatelessWidget {
             size: 36,
           ),
           Text(
-            "Statistics",
+            'Statistics',
             style: TextStyle(
               color: color,
             ),

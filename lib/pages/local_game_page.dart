@@ -10,12 +10,17 @@ class LocalGamePage extends StatelessWidget {
   final List<String> names;
   final int startingScore;
 
-  const LocalGamePage({super.key, required this.numberOfPlayers, required this.names, this.startingScore = 501});
+  const LocalGamePage(
+      {super.key,
+      required this.numberOfPlayers,
+      required this.names,
+      this.startingScore = 501});
 
   @override
   Widget build(BuildContext context) {
     final currentGame = context.read<GameNotifier>();
-    currentGame.createNewLocalGame(number: numberOfPlayers, names: names, starting: startingScore);
+    currentGame.createNewLocalGame(
+        number: numberOfPlayers, names: names, starting: startingScore);
     return Scaffold(
       body: SafeArea(
         child: Column(

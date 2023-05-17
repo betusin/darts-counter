@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class NewLocalWithoutSignIn extends StatelessWidget {
   const NewLocalWithoutSignIn({Key? key}) : super(key: key);
@@ -10,10 +11,10 @@ class NewLocalWithoutSignIn extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Text("Wanna play immediately?"),
+          Text('Wanna play immediately?'),
           ElevatedButton(
-            onPressed: () => Navigator.pushNamed(context, '/game/local'),
-            child: Text("Play Local Game"),
+            onPressed: () => context.push('/game/local'),
+            child: Text('Play Local Game'),
           ),
         ],
       ),

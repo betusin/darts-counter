@@ -39,7 +39,7 @@ class BorderPainter extends CustomPainter {
     canvas.drawCircle(
         Offset.zero, bullsEyeDiameter / 2, paint); //around inner bullseye
 
-    //texts "double" and "triple" in the upper segment
+    //texts 'double' and 'triple' in the upper segment
     _textPainter.text = TextSpan(text: 'DOUBLE', style: textInsideBoardStyle);
     _textPainter.layout();
     _textPainter.paint(canvas,
