@@ -7,6 +7,8 @@ class GameStatistics {
   int checkoutsHit = 0;
   List<double> averages = [];
 
+  get checkoutPercentage => checkoutsHit / checkoutsPossible;
+
   Map<String, String> toMap() {
     return {
       '180s Thrown': thrown180.toString(),
@@ -15,6 +17,7 @@ class GameStatistics {
       'tonPlusCheckouts': tonPlusCheckouts.toString(),
       'checkoutsPossible': checkoutsPossible.toString(),
       'checkoutsHit': checkoutsHit.toString(),
+      'checkoutPercentage': checkoutPercentage.toString(),
     };
   }
 
