@@ -47,7 +47,9 @@ class GameStatisticsService {
 
   GameStatistics _calculateStatisticsForOneGame(
       List<Visit> visits, GameStatistics stats) {
-    int overallScore = 501; // TODO need to save this for a game
+    int startingScore = 501; // TODO need to save this for a game
+    int overallScore = startingScore;
+    int dartsThrown = 0;
 
     for (Visit visit in visits) {
       //complicated stuff for checkouts possible
@@ -57,6 +59,11 @@ class GameStatisticsService {
           stats.checkoutsPossible += 1;
         }
       }
+
+      if (!visit.isEmpty()) {
+        dartsThrown += visit.getDarts();
+      }
+
       if (visit.isBusted) {
         overallScore += visit.getTotal();
         continue;
@@ -68,48 +75,21 @@ class GameStatisticsService {
       if (score >= 120) stats.thrown120 += 1;
     }
 
-    if (_isWinner(visits, overallScore)) {
+    if (overallScore == 0) {
       stats.checkoutsHit += 1;
       if (visits.last.getTotal() >= 100) {
         stats.tonPlusCheckouts += 1;
       }
     }
 
-    stats.averages.add(_getGameAverage(visits));
+    stats.averages
+        .add(_getGameAverage(dartsThrown, startingScore - overallScore));
 
-    print(stats);
     return stats;
   }
 
-  bool _isWinner(List<Visit> visits, int startingScore) {
-    return startingScore - _calculateTotalPointsThrown(visits) == 0;
-  }
-
-  // TODO these three methods are in game, probably move to service and reuse here?
-
-  int _calculateTotalPointsThrown(List<Visit> visits) {
-    int total = 0;
-    for (var visit in visits) {
-      if (!visit.isBusted) {
-        total += visit.getTotal();
-      }
-    }
-    return total;
-  }
-
-  int _calculateTotalDartsThrown(List<Visit> visits) {
-    int total = 0;
-    for (var visit in visits) {
-      if (!visit.isEmpty()) {
-        total += visit.getDarts();
-      }
-    }
-    return total;
-  }
-
-  double _getGameAverage(List<Visit> visits) {
-    int dartsThrown = _calculateTotalDartsThrown(visits);
+  double _getGameAverage(int dartsThrown, int totalPointsThrown) {
     if (dartsThrown == 0) return 0.0;
-    return _calculateTotalPointsThrown(visits) / dartsThrown * 3;
+    return totalPointsThrown / dartsThrown * 3;
   }
 }
