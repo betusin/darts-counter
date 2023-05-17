@@ -15,6 +15,15 @@ class StatisticsGraph extends StatelessWidget {
         maxX: statistics.averages.length.toDouble(),
         maxY: statistics.averages.max,
         minY: statistics.averages.min,
+        gridData: gridData,
+        borderData: borderData,
+      );
+
+  FlGridData get gridData => FlGridData(show: false);
+
+  FlBorderData get borderData => FlBorderData(
+        show: true,
+        border: Border.all(color: Colors.blue, width: 2),
       );
 
   List<LineChartBarData> get lineBarsData1 => [
@@ -26,7 +35,7 @@ class StatisticsGraph extends StatelessWidget {
         barWidth: 4,
         color: Colors.blue,
         isStrokeCapRound: true,
-        dotData: FlDotData(show: false),
+        dotData: FlDotData(show: true),
         belowBarData: BarAreaData(show: false),
         spots: getSpots,
       );
