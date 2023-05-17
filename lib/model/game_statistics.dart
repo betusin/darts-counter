@@ -15,9 +15,9 @@ class GameStatistics {
       '140s Thrown': thrown140.toString(),
       '120s Thrown': thrown120.toString(),
       'tonPlusCheckouts': tonPlusCheckouts.toString(),
-      'checkoutsPossible': checkoutsPossible.toString(),
-      'checkoutsHit': checkoutsHit.toString(),
-      'checkoutPercentage': checkoutPercentage.toString(),
+      'Checkouts Possible': checkoutsPossible.toString(),
+      'Checkouts Hit': checkoutsHit.toString(),
+      'Checkout Percentage': checkoutPercentage.toString(),
     };
   }
 
