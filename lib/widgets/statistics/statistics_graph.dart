@@ -11,10 +11,10 @@ class StatisticsGraph extends StatelessWidget {
 
   LineChartData get sampleData => LineChartData(
         lineBarsData: lineBarsData1,
-        minX: 0,
+        minX: 1,
         maxX: statistics.averages.length.toDouble(),
         maxY: statistics.averages.max,
-        minY: 0,
+        minY: statistics.averages.min,
       );
 
   List<LineChartBarData> get lineBarsData1 => [
@@ -31,11 +31,9 @@ class StatisticsGraph extends StatelessWidget {
         spots: getSpots,
       );
 
-  get getSpots =>
-      [FlSpot(0, 0)] +
-      statistics.averages
-          .mapIndexed((index, avg) => FlSpot(index.toDouble(), avg))
-          .toList();
+  get getSpots => statistics.averages
+      .mapIndexed((index, avg) => FlSpot(index.toDouble() + 1, avg))
+      .toList();
 
   @override
   Widget build(BuildContext context) {
