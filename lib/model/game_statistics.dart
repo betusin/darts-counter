@@ -11,13 +11,13 @@ class GameStatistics {
 
   Map<String, String> toMap() {
     return {
-      '180s Thrown': thrown180.toString(),
-      '140s Thrown': thrown140.toString(),
-      '120s Thrown': thrown120.toString(),
-      'tonPlusCheckouts': tonPlusCheckouts.toString(),
-      'Checkouts Possible': checkoutsPossible.toString(),
+      '180 Thrown': thrown180.toString(),
+      '140+ Thrown': thrown140.toString(),
+      '120+ Thrown': thrown120.toString(),
+      '100+ Checkouts': tonPlusCheckouts.toString(),
+      'Checkouts Percentage': checkoutPercentage.toString(),
       'Checkouts Hit': checkoutsHit.toString(),
-      'Checkout Percentage': checkoutPercentage.toString(),
+      'Checkout Possible': checkoutsPossible.toString(),
     };
   }
 
