@@ -18,13 +18,29 @@ class StatisticsPage extends StatelessWidget {
       body: HandlingFutureBuilder(
         future: get<GameStatisticsService>().getAllStatisticsForCurrentPlayer(),
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-          return Column(
-            children: [
-              StatisticsGraph(statistics: snapshot.data),
-              _buildDataTable(snapshot.data),
-            ],
-          );
+          GameStatistics gameStatistics = snapshot.data;
+
+          return gameStatistics.isEmpty()
+              ? _buildTextNoGames()
+              : Column(
+                  children: [
+                    StatisticsGraph(statistics: gameStatistics),
+                    _buildDataTable(gameStatistics),
+                  ],
+                );
         },
+      ),
+    );
+  }
+
+  Widget _buildTextNoGames() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Text(
+          "No game has been played yet, therefore no statistics to display here.",
+          style: TextStyle(fontSize: 20),
+        ),
       ),
     );
   }

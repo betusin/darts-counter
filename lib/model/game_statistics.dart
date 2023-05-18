@@ -9,6 +9,10 @@ class GameStatistics {
 
   get checkoutPercentage => checkoutsHit / checkoutsPossible;
 
+  bool isEmpty() {
+    return averages.isEmpty;
+  }
+
   Map<String, String> toMap() {
     return {
       '180 Thrown': thrown180.toString(),
