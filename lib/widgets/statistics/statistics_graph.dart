@@ -13,6 +13,7 @@ class StatisticsGraph extends StatelessWidget {
 
   LineChartData get sampleData => LineChartData(
         lineBarsData: lineBarsData1,
+        lineTouchData: lineTouchData,
         minX: 0,
         maxX: getAveragesCount.toDouble(),
         maxY: statistics.averages.max,
@@ -31,6 +32,13 @@ class StatisticsGraph extends StatelessWidget {
   List<LineChartBarData> get lineBarsData1 => [
         lineChartBarData1_1,
       ];
+
+  LineTouchData get lineTouchData => LineTouchData(
+        touchTooltipData: LineTouchTooltipData(
+          tooltipBgColor: Colors.white,
+          tooltipBorder: BorderSide(color: Colors.blue),
+        ),
+      );
 
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
         isCurved: true,
