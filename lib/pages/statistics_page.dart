@@ -41,9 +41,9 @@ class StatisticsPage extends StatelessWidget {
 
     return DataTable(
       columns: const [
-        DataColumn(label: Text('Statistic name')),
+        DataColumn(label: Text('')),
         DataColumn(
-          label: Text('Value'),
+          label: Text(''),
           numeric: true,
         ),
       ],
