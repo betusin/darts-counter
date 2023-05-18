@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 
 import '../../model/game_statistics.dart';
 
+const MAX_SIZE_X_DISPLAYED = 50;
+
 class StatisticsGraph extends StatelessWidget {
   final GameStatistics statistics;
 
@@ -11,10 +13,10 @@ class StatisticsGraph extends StatelessWidget {
 
   LineChartData get sampleData => LineChartData(
         lineBarsData: lineBarsData1,
-        minX: 1,
-        maxX: statistics.averages.length.toDouble(),
+        minX: 0,
+        maxX: getAveragesCount.toDouble(),
         maxY: statistics.averages.max,
-        minY: statistics.averages.min,
+        minY: 0,
         gridData: gridData,
         borderData: borderData,
       );
@@ -40,9 +42,17 @@ class StatisticsGraph extends StatelessWidget {
         spots: getSpots,
       );
 
-  get getSpots => statistics.averages
-      .mapIndexed((index, avg) => FlSpot(index.toDouble() + 1, avg))
+  get getSpots => ([0.0] + statistics.averages)
+      .reversed
+      .take(getAveragesCount + 1)
+      .toList()
+      .reversed
+      .mapIndexed((index, avg) => FlSpot(index.toDouble(), avg))
       .toList();
+
+  get getAveragesCount => statistics.averages.length > MAX_SIZE_X_DISPLAYED
+      ? MAX_SIZE_X_DISPLAYED
+      : statistics.averages.length;
 
   @override
   Widget build(BuildContext context) {
