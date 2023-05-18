@@ -3,6 +3,7 @@ import 'package:dartboard/service/invite_service.dart';
 import 'package:dartboard/service/ioc_container.dart';
 import 'package:dartboard/widgets/handlers/handling_stream_builder.dart';
 import 'package:dartboard/widgets/invites/invite_from_list_item.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/invites/invite_list_item.dart';
@@ -15,6 +16,8 @@ class OnlineGameStartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textController = TextEditingController();
+    final username = FirebaseAuth.instance.currentUser!.displayName;
+    print("username $username");
 
     return Scaffold(
       appBar: AppBar(
