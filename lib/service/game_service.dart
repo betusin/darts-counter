@@ -49,6 +49,26 @@ class GameService {
     });
   }
 
+  void saveLocalGame(int playerIndex, GameState state) {
+    print("Player index: $playerIndex");
+
+    // TODO apply index of player
+
+    _userService.getUserHashOfCurrentUser().then((hostHash) {
+      var data = {
+        'startedAt': DateTime.now(),
+        'hostHash': hostHash,
+        'hostUID': FirebaseAuth.instance.currentUser!.uid,
+        'receiverHash': '',
+        'receiverUID': '',
+      };
+      var docRef = FirebaseFirestore.instance.collection('games').doc();
+      print("Game saved (ID: ${docRef.id})");
+
+      docRef.set(data).then((value) => updateGameState(docRef.id, state));
+    });
+  }
+
   void updateGameState(String gameID, GameState state) {
     var reference = FirebaseFirestore.instance
         .collection('games')
