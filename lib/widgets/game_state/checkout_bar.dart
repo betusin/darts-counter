@@ -1,3 +1,4 @@
+import 'package:dartboard/model/local_game.dart';
 import 'package:dartboard/widgets/game_state/checkout_routes.dart';
 import 'package:dartboard/widgets/game_state/save_statistics_dialog.dart';
 import 'package:flutter/material.dart';
@@ -57,27 +58,32 @@ class CheckoutBar extends StatelessWidget {
   }
 
   Widget _buildWinnerText(BuildContext context, GameNotifier currentGame) {
-    return Row(
-      children: [
-        Text(
-          '${currentGame.getWinnerName()} WON',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    List<Widget> children = [
+      Text(
+        '${currentGame.getWinnerName()} WON',
+        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      )
+    ];
+
+    if (currentGame.currentGame is LocalGame) {
+      children.add(Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ElevatedButton(
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (_) {
+                return SaveStatisticsDialog(currentGame: currentGame);
+              },
+            );
+          },
+          child: Text("Save statistics"),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ElevatedButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (_) {
-                  return SaveStatisticsDialog(currentGame: currentGame);
-                },
-              );
-            },
-            child: Text("Save statistics"),
-          ),
-        )
-      ],
+      ));
+    }
+
+    return Row(
+      children: children,
     );
   }
 }
