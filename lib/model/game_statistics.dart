@@ -7,7 +7,8 @@ class GameStatistics {
   int checkoutsHit = 0;
   List<double> averages = [];
 
-  get checkoutPercentage => checkoutsHit / checkoutsPossible;
+  double get checkoutPercentage =>
+      (checkoutsHit == 0) ? 0.0 : checkoutsHit / checkoutsPossible;
 
   bool isEmpty() {
     return averages.isEmpty;
