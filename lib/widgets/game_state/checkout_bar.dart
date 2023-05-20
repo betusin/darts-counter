@@ -13,7 +13,6 @@ class CheckoutBar extends StatelessWidget {
     final currentGame = context.watch<GameNotifier>();
     final currentScore = currentGame.getCurrentScore();
     return Container(
-      height: 40,
       color: Colors.blue[50],
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 6.0),
@@ -64,16 +63,19 @@ class CheckoutBar extends StatelessWidget {
           '${currentGame.getWinnerName()} WON',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
-        ElevatedButton(
-          onPressed: () {
-            showDialog(
-              context: context,
-              builder: (_) {
-                return SaveStatisticsDialog(currentGame: currentGame);
-              },
-            );
-          },
-          child: Text("Save statistics"),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (_) {
+                  return SaveStatisticsDialog(currentGame: currentGame);
+                },
+              );
+            },
+            child: Text("Save statistics"),
+          ),
         )
       ],
     );
