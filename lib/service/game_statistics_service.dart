@@ -1,4 +1,5 @@
-import 'package:dartboard/model/game_state.dart';
+import 'package:collection/collection.dart';
+import 'package:dartboard/model/firebase_game.dart';
 import 'package:dartboard/model/visit.dart';
 import 'package:dartboard/service/game_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -6,9 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../model/game_statistics.dart';
 import '../widgets/game_state/checkout_routes.dart';
 import 'ioc_container.dart';
-
-const HOST_INDEX = 0; // host always start the game
-const RECEIVER_INDEX = 1;
 
 class GameStatisticsService {
   final GameService gameService = get<GameService>();
@@ -20,23 +18,17 @@ class GameStatisticsService {
 
     GameStatistics gameStatistics = GameStatistics();
 
-    await gameService.getAllHostGamesOfPlayer(playerID).then((playerHostGames) {
-      for (var doc in playerHostGames.docs) {
-        GameState state = doc.data();
-        List<Visit> visits = state.visits[HOST_INDEX];
+    await gameService.getAllGamesOfCurrentPlayer().then((playerGames) {
+      for (var doc in playerGames.docs) {
+        FirebaseGame game = doc.data();
 
-        gameStatistics = _calculateStatisticsForOneGame(visits, gameStatistics);
-      }
-    });
-
-    await gameService
-        .getAllReceiverGamesOfPlayer(playerID)
-        .then((playerReceiverGames) {
-      for (var doc in playerReceiverGames.docs) {
-        GameState state = doc.data();
-        List<Visit> visits = state.visits[HOST_INDEX];
-
-        gameStatistics = _calculateStatisticsForOneGame(visits, gameStatistics);
+        game.playerUIDs.forEachIndexed((index, element) {
+          if (element == playerID) {
+            List<Visit> visits = game.gameState.visits[index];
+            gameStatistics =
+                _calculateStatisticsForOneGame(visits, gameStatistics);
+          }
+        });
       }
     });
 

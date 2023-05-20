@@ -56,8 +56,7 @@ class _SaveStatisticsDialogState extends State<SaveStatisticsDialog> {
         ),
         ElevatedButton(
           onPressed: () {
-            get<GameService>().saveLocalGame(
-                playerIndex, widget.currentGame.currentGame.state);
+            get<GameService>().saveLocalGame(playerIndex, widget.currentGame);
             Navigator.of(context).pop();
           },
           child: Text("Save statistics"),
