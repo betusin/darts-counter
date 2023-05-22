@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dartboard/model/firebase_game.dart';
+import 'package:dartboard/model/game_notifier.dart';
 import 'package:dartboard/service/setup_user_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -20,10 +22,13 @@ class GameService {
           .collection('games')
           .doc(gameID)
           .get()
-          .then((doc) {
+          .then((doc) async {
         if (doc.exists) {
-          names.add(doc.get('hostHash'));
-          names.add(doc.get('receiverHash'));
+          var players = doc.get('playerUIDs');
+          for (var playerUID in players) {
+            var playerHash = await _userService.getUserHash(playerUID);
+            names.add(playerHash);
+          }
         }
       });
       await Future.delayed(Duration(microseconds: 300));
@@ -35,18 +40,52 @@ class GameService {
   void createGame(String inviteID, String hostHash) {
     _userService.getUserUID(hostHash).then((hostUID) {
       _userService.getUserHashOfCurrentUser().then((receiverHash) {
+        var players = [hostUID, FirebaseAuth.instance.currentUser!.uid];
+
         var data = {
           'startedAt': DateTime.now(),
-          'hostHash': hostHash,
-          'hostUID': hostUID,
-          'receiverHash': receiverHash,
-          'receiverUID': FirebaseAuth.instance.currentUser!.uid,
+          'playerUIDs': players,
         };
         FirebaseFirestore.instance.collection('games').doc(inviteID).set(data);
         //and set the initial state
         updateGameState(inviteID, GameState.initial(2));
       });
     });
+  }
+
+  Future<void> saveLocalGame(int indexToSaveStats, GameNotifier game) async {
+    print("Player index: $indexToSaveStats");
+
+    var players =
+        await _generatePlayersOfLocalGame(indexToSaveStats, game.playerNames);
+
+    _userService.getUserHashOfCurrentUser().then((hostHash) {
+      var data = {
+        'startedAt': DateTime.now(),
+        'playerUIDs': players,
+      };
+      var docRef = FirebaseFirestore.instance.collection('games').doc();
+      print("Game saved (ID: ${docRef.id})");
+
+      docRef
+          .set(data)
+          .then((value) => updateGameState(docRef.id, game.currentGame.state));
+    });
+  }
+
+  List<String> _generatePlayersOfLocalGame(
+      int indexToSaveStats, List<String> playerNames) {
+    List<String> players = [];
+
+    playerNames.asMap().forEach((index, playerName) {
+      if (index == indexToSaveStats) {
+        players.add(FirebaseAuth.instance.currentUser!.uid);
+      } else {
+        players.add("");
+      }
+    });
+
+    return players;
   }
 
   void updateGameState(String gameID, GameState state) {
@@ -71,28 +110,32 @@ class GameService {
         .snapshots();
   }
 
-  Future<QuerySnapshot<GameState>> getAllHostGamesOfPlayer(String playerID) {
+  Future<QuerySnapshot<FirebaseGame>> getAllGamesOfCurrentPlayer() {
+    var playerID = FirebaseAuth.instance.currentUser!.uid;
+
     return FirebaseFirestore.instance
         .collection('games')
-        .where('hostUID', isEqualTo: playerID)
+        .where('playerUIDs', arrayContains: playerID)
         .withConverter(
-          fromFirestore: (snapshot, _) => stateFromJson(snapshot.data()!),
-          toFirestore: (model, _) => stateToJson(model),
+          fromFirestore: (snapshot, _) => gameFromJson(snapshot.data()!),
+          toFirestore: (model, _) => gameToJson(model),
         )
         .get();
   }
 
-  Future<QuerySnapshot<GameState>> getAllReceiverGamesOfPlayer(
-      String playerID) {
-    return FirebaseFirestore.instance
-        .collection('games')
-        .where('receiverUID', isEqualTo: playerID)
-        .withConverter(
-          fromFirestore: (snapshot, _) => stateFromJson(snapshot.data()!),
-          toFirestore: (model, _) => stateToJson(model),
-        )
-        .get();
+  //JSON serialization and deserialization of game
+  FirebaseGame gameFromJson(Map<String, dynamic> json) {
+    return FirebaseGame(
+      gameState: stateFromJson(json),
+      playerUIDs:
+          List<String>.from(json['playerUIDs'].map((e) => e.toString())),
+    );
   }
+
+  Map<String, dynamic> gameToJson(FirebaseGame game) => <String, dynamic>{
+        'gameState': stateToJson(game.gameState),
+        'playerUIDs': game.playerUIDs,
+      };
 
   //JSON serialization and deserialization of game state
   GameState stateFromJson(Map<String, dynamic> json) {
