@@ -1,15 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dartboard/service/statistic_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-import 'ioc_container.dart';
-
 class SetupUserService {
-  final statisticController = get<StatisticService>();
-
   Future<void> createCollectionsForUser(String id) async {
     createInvitesForUser(id);
-    statisticController.setEmptyStatisticsForUser(id);
   }
 
   Future<void> createInvitesForUser(String id) async {

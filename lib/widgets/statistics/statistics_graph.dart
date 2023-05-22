@@ -1,38 +1,66 @@
+import 'package:collection/collection.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
+import '../../model/game_statistics.dart';
+
+const MAX_SIZE_X_DISPLAYED = 50;
+
 class StatisticsGraph extends StatelessWidget {
-  const StatisticsGraph({Key? key}) : super(key: key);
+  final GameStatistics statistics;
+
+  const StatisticsGraph({Key? key, required this.statistics}) : super(key: key);
 
   LineChartData get sampleData => LineChartData(
         lineBarsData: lineBarsData1,
+        lineTouchData: lineTouchData,
         minX: 0,
-        maxX: 14,
-        maxY: 100,
+        maxX: getAveragesCount.toDouble(),
+        maxY: statistics.averages.max,
         minY: 0,
+        gridData: gridData,
+        borderData: borderData,
+      );
+
+  FlGridData get gridData => FlGridData(show: false);
+
+  FlBorderData get borderData => FlBorderData(
+        show: true,
+        border: Border.all(color: Colors.blue, width: 2),
       );
 
   List<LineChartBarData> get lineBarsData1 => [
         lineChartBarData1_1,
       ];
 
+  LineTouchData get lineTouchData => LineTouchData(
+        touchTooltipData: LineTouchTooltipData(
+          tooltipBgColor: Colors.white,
+          tooltipBorder: BorderSide(color: Colors.blue),
+        ),
+      );
+
   LineChartBarData get lineChartBarData1_1 => LineChartBarData(
         isCurved: true,
         barWidth: 4,
         color: Colors.blue,
         isStrokeCapRound: true,
-        dotData: FlDotData(show: false),
+        dotData: FlDotData(show: true),
         belowBarData: BarAreaData(show: false),
-        spots: const [
-          FlSpot(1, 1),
-          FlSpot(3, 20),
-          FlSpot(5, 40),
-          FlSpot(7, 30),
-          FlSpot(10, 80),
-          FlSpot(12, 55),
-          FlSpot(13, 45),
-        ],
+        spots: getSpots,
       );
+
+  get getSpots => ([0.0] + statistics.averages)
+      .reversed
+      .take(getAveragesCount + 1)
+      .toList()
+      .reversed
+      .mapIndexed((index, avg) => FlSpot(index.toDouble(), avg))
+      .toList();
+
+  get getAveragesCount => statistics.averages.length > MAX_SIZE_X_DISPLAYED
+      ? MAX_SIZE_X_DISPLAYED
+      : statistics.averages.length;
 
   @override
   Widget build(BuildContext context) {

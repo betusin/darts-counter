@@ -1,7 +1,5 @@
 import 'package:dartboard/model/game_state.dart';
-import 'package:dartboard/model/game_statistics.dart';
 import 'package:dartboard/model/visit.dart';
-import 'package:dartboard/widgets/game_state/checkout_routes.dart';
 
 abstract class Game {
   GameState state = GameState(visits: []);
@@ -92,33 +90,6 @@ abstract class Game {
 
   void confirmTurn() {
     return;
-  }
-
-  GameStatistics calculatePlayersStatistics(int index) {
-    GameStatistics stats = GameStatistics();
-    int overallScore = startingScore;
-    for (Visit visit in state.visits[index]) {
-      //complicated stuff for checkouts possible
-      for (int hit in visit.score) {
-        overallScore -= hit;
-        if (oneDartCheckouts.contains(overallScore))
-          stats.checkoutsPossible += 1;
-      }
-      if (visit.isBusted) {
-        overallScore += visit.getTotal();
-        continue;
-      }
-      int score = visit.getTotal();
-      if (score == 180) stats.thrown180 += 1;
-      if (score >= 140) stats.thrown140 += 1;
-      if (score >= 120) stats.thrown120 += 1;
-    }
-    if (getWinnerIndex() == index) {
-      stats.checkoutsHit += 1;
-      if (state.visits[index].last.getTotal() >= 100)
-        stats.tonPlusCheckouts += 1;
-    }
-    return stats;
   }
 
   bool isBustedThrow(List<Visit> visit) {

@@ -71,6 +71,29 @@ class GameService {
         .snapshots();
   }
 
+  Future<QuerySnapshot<GameState>> getAllHostGamesOfPlayer(String playerID) {
+    return FirebaseFirestore.instance
+        .collection('games')
+        .where('hostUID', isEqualTo: playerID)
+        .withConverter(
+          fromFirestore: (snapshot, _) => stateFromJson(snapshot.data()!),
+          toFirestore: (model, _) => stateToJson(model),
+        )
+        .get();
+  }
+
+  Future<QuerySnapshot<GameState>> getAllReceiverGamesOfPlayer(
+      String playerID) {
+    return FirebaseFirestore.instance
+        .collection('games')
+        .where('receiverUID', isEqualTo: playerID)
+        .withConverter(
+          fromFirestore: (snapshot, _) => stateFromJson(snapshot.data()!),
+          toFirestore: (model, _) => stateToJson(model),
+        )
+        .get();
+  }
+
   //JSON serialization and deserialization of game state
   GameState stateFromJson(Map<String, dynamic> json) {
     if (json['gameState'] == null) return GameState.initial(2);

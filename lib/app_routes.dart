@@ -14,16 +14,18 @@ import 'package:go_router/go_router.dart';
 
 var appRoutes = GoRouter(
   redirect: (BuildContext context, GoRouterState state) {
-    if (FirebaseAuth.instance.currentUser != null) {
-      return null;
-    } else if (state.location != '/game/local' &&
-        state.location != '/game/local/start') {
-      return '/sign-in';
+    if (FirebaseAuth.instance.currentUser == null) {
+      if (state.location != '/game/local' &&
+          state.location != '/game/local/start') {
+        return '/sign-in';
+      }
     }
+    return null;
   },
   initialLocation: '/',
   routes: [
     GoRoute(
+      name: '/sign-in',
       path: '/sign-in',
       builder: (context, state) {
         return SignInScreen(
@@ -54,7 +56,7 @@ var appRoutes = GoRouter(
           ),
           actions: [
             SignedOutAction((context) {
-              Navigator.pushReplacementNamed(context, '/sign-in');
+              context.pushReplacementNamed('/sign-in');
             }),
           ],
         );
