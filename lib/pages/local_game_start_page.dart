@@ -1,7 +1,7 @@
 import 'package:dartboard/pages/local_game_page.dart';
+import 'package:dartboard/widgets/redirect_game_btn.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../widgets/app_bar/custom_app_bar.dart';
 
@@ -65,11 +65,9 @@ class _LocalGameStartState extends State<LocalGameStart> {
                 ),
               ),
               if (FirebaseAuth.instance.currentUser != null)
-                OutlinedButton(
-                  onPressed: () {
-                    context.push('/game/online/start');
-                  },
-                  child: Text("Start online game"),
+                RedirectGameButton(
+                  location: '/game/online/start',
+                  text_game_mode: 'online',
                 ),
             ],
           ),

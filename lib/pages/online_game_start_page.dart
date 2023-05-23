@@ -4,10 +4,10 @@ import 'package:dartboard/service/ioc_container.dart';
 import 'package:dartboard/widgets/handlers/handling_stream_builder.dart';
 import 'package:dartboard/widgets/invites/invite_from_list_item.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 import '../widgets/app_bar/custom_app_bar.dart';
 import '../widgets/invites/invite_list_item.dart';
+import '../widgets/redirect_game_btn.dart';
 
 class OnlineGameStartPage extends StatelessWidget {
   var inviteController = get<InviteService>();
@@ -52,11 +52,9 @@ class OnlineGameStartPage extends StatelessWidget {
               style: TextStyle(fontSize: 20),
             ),
             _buildInvitesFromYou(context),
-            OutlinedButton(
-              onPressed: () {
-                context.push('/game/local');
-              },
-              child: Text("Start local game"),
+            RedirectGameButton(
+              location: '/game/local',
+              text_game_mode: 'local',
             ),
           ],
         ),
