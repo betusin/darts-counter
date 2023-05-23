@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../widgets/custom_app_bar.dart';
+import '../widgets/app_bar/custom_app_bar.dart';
 
 /*
 page where ppl will set the names, number of players and starting score
