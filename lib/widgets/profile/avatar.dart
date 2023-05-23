@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import '../../service/ioc_container.dart';
 import '../handlers/handling_future_builder.dart';
 
+const PROFILE_LOCATION = '/profile';
+
 class Avatar extends StatelessWidget {
   const Avatar({super.key});
 
@@ -13,12 +15,17 @@ class Avatar extends StatelessWidget {
     var userController = get<SetupUserService>();
 
     return TextButton(
-      onPressed: () => {context.push('/profile')},
+      onPressed: () {
+        if (GoRouter.of(context).location != PROFILE_LOCATION) {
+          context.push(PROFILE_LOCATION);
+        }
+      },
       child: Container(
         decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(25)),
+          shape: BoxShape.rectangle,
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(25),
+        ),
         child: Center(
           child: HandlingFutureBuilder(
             future: userController.getUserHashOfCurrentUser(),
