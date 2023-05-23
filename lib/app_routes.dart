@@ -54,7 +54,8 @@ var appRoutes = GoRouter(
         return ProfileScreen(
           appBar: CustomAppBar(
             title: Text('Profile'),
-          ) as AppBar,
+            context: context,
+          ),
           actions: [
             SignedOutAction((context) {
               context.pushReplacementNamed('/sign-in');

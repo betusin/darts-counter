@@ -15,6 +15,7 @@ class StatisticsPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         title: Text('Your Statistics'),
+        context: context,
       ),
       body: HandlingFutureBuilder(
         future: get<GameStatisticsService>().getAllStatisticsForCurrentPlayer(),

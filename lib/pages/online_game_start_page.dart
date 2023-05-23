@@ -20,6 +20,7 @@ class OnlineGameStartPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         title: Text('Invite your friends'),
+        context: context,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

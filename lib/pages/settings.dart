@@ -10,6 +10,7 @@ class Settings extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         title: Text('Settings'),
+        context: context,
       ),
       body: Center(child: Text('To be implemented')),
     );

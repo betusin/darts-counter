@@ -11,6 +11,7 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         title: Text('Main Page'),
+        context: context,
       ),
       body: Center(
         child: Column(

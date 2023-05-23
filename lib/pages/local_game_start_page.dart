@@ -25,6 +25,7 @@ class _LocalGameStartState extends State<LocalGameStart> {
     return Scaffold(
       appBar: CustomAppBar(
         title: Text('New Local Game'),
+        context: context,
       ),
       body: SingleChildScrollView(
         physics: ScrollPhysics(),
