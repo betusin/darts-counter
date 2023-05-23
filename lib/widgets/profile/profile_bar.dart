@@ -1,9 +1,6 @@
-import 'package:dartboard/service/setup_user_service.dart';
-import 'package:dartboard/widgets/handlers/handling_future_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../service/ioc_container.dart';
 import 'avatar.dart';
 
 class ProfileBar extends StatelessWidget {
@@ -11,8 +8,6 @@ class ProfileBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var userController = get<SetupUserService>();
-
     return Container(
       color: Theme.of(context).colorScheme.background,
       child: Padding(
@@ -20,12 +15,7 @@ class ProfileBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            HandlingFutureBuilder(
-              future: userController.getUserHashOfCurrentUser(),
-              builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-                return Avatar(userHash: snapshot.data);
-              },
-            ),
+            Avatar(),
             _buildStatisticsButton(context),
           ],
         ),

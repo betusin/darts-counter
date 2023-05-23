@@ -1,15 +1,19 @@
+import 'package:dartboard/service/setup_user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../service/ioc_container.dart';
+import '../handlers/handling_future_builder.dart';
 
 const _AVATAR_SIZE = 55.0;
 
 class Avatar extends StatelessWidget {
-  final String userHash;
-
-  const Avatar({super.key, required this.userHash});
+  const Avatar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var userController = get<SetupUserService>();
+
     return TextButton(
       onPressed: () => {context.push('/profile')},
       child: Container(
@@ -20,9 +24,14 @@ class Avatar extends StatelessWidget {
           color: Colors.blue,
         ),
         child: Center(
-          child: Text(
-            userHash,
-            style: TextStyle(color: Colors.white),
+          child: HandlingFutureBuilder(
+            future: userController.getUserHashOfCurrentUser(),
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+              return Text(
+                snapshot.data,
+                style: TextStyle(color: Colors.white),
+              );
+            },
           ),
         ),
       ),
