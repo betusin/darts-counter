@@ -1,5 +1,7 @@
 import 'package:dartboard/pages/local_game_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../widgets/custom_app_bar.dart';
 
@@ -62,6 +64,13 @@ class _LocalGameStartState extends State<LocalGameStart> {
                   ),
                 ),
               ),
+              if (FirebaseAuth.instance.currentUser != null)
+                OutlinedButton(
+                  onPressed: () {
+                    context.push('/game/online/start');
+                  },
+                  child: Text("Start online game"),
+                ),
             ],
           ),
         ),
