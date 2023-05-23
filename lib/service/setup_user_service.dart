@@ -38,7 +38,6 @@ class SetupUserService {
       for (var docSnapshot in querySnapshot.docs) {
         id = docSnapshot.id;
       }
-      // TODO handle if inviteHash not found
       return id;
     });
   }
