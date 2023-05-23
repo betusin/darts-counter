@@ -29,49 +29,61 @@ class _LocalGameStartState extends State<LocalGameStart> {
         title: Text('New Local Game'),
         context: context,
       ),
-      body: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(bottom: 6.0),
-                child: _buildGameModeDropdown(),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 6.0),
-                child: _buildPlayersDropdown(),
-              ),
-              ..._buildPlayerCards(),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    final pageToPush = MaterialPageRoute(
-                      builder: (BuildContext context) {
-                        return LocalGamePage(
-                            numberOfPlayers: playerNumberValue,
-                            names: playerNames.sublist(0, playerNumberValue),
-                            startingScore: int.parse(gameModeValue));
-                      },
-                    );
-                    Navigator.push(context, pageToPush);
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Text('Start game'),
+      body: Column(
+        children: [
+          SingleChildScrollView(
+            physics: ScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Column(
+                children: [
+                  Column(
+                    children: [],
                   ),
-                ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 6.0),
+                    child: _buildGameModeDropdown(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 6.0),
+                    child: _buildPlayersDropdown(),
+                  ),
+                  ..._buildPlayerCards(),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        final pageToPush = MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return LocalGamePage(
+                                numberOfPlayers: playerNumberValue,
+                                names:
+                                    playerNames.sublist(0, playerNumberValue),
+                                startingScore: int.parse(gameModeValue));
+                          },
+                        );
+                        Navigator.push(context, pageToPush);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text('Start game'),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              if (FirebaseAuth.instance.currentUser != null)
-                RedirectGameButton(
-                  location: '/game/online/start',
-                  text_game_mode: 'online',
-                ),
-            ],
+            ),
           ),
-        ),
+          Spacer(),
+          if (FirebaseAuth.instance.currentUser != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: RedirectGameButton(
+                location: '/game/online/start',
+                text_game_mode: 'online',
+              ),
+            ),
+        ],
       ),
     );
   }
