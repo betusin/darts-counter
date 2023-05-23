@@ -30,27 +30,34 @@ class _LocalGameStartState extends State<LocalGameStart> {
           padding: const EdgeInsets.all(6.0),
           child: Column(
             children: [
-              _buildGameModeDropdown(),
-              SizedBox(height: 6),
-              _buildPlayersDropdown(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 6.0),
+                child: _buildGameModeDropdown(),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 6.0),
+                child: _buildPlayersDropdown(),
+              ),
               ..._buildPlayerCards(),
-              SizedBox(height: 6),
-              SizedBox(
-                width: 200,
-                height: 80,
+              Padding(
+                padding: const EdgeInsets.all(12.0),
                 child: ElevatedButton(
-                    onPressed: () {
-                      final pageToPush = MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return LocalGamePage(
-                              numberOfPlayers: playerNumberValue,
-                              names: playerNames.sublist(0, playerNumberValue),
-                              startingScore: int.parse(gameModeValue));
-                        },
-                      );
-                      Navigator.push(context, pageToPush);
-                    },
-                    child: Text('Start')),
+                  onPressed: () {
+                    final pageToPush = MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return LocalGamePage(
+                            numberOfPlayers: playerNumberValue,
+                            names: playerNames.sublist(0, playerNumberValue),
+                            startingScore: int.parse(gameModeValue));
+                      },
+                    );
+                    Navigator.push(context, pageToPush);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text('Start game'),
+                  ),
+                ),
               ),
             ],
           ),
@@ -129,8 +136,10 @@ class _LocalGameStartState extends State<LocalGameStart> {
   List<Widget> _buildPlayerCards() {
     List<Widget> nameSetters = [];
     for (int i = 0; i < playerNumberValue; i++) {
-      nameSetters.add(SizedBox(height: 6));
-      nameSetters.add(_buildNameSetter(i));
+      nameSetters.add(Padding(
+        padding: const EdgeInsets.only(bottom: 6.0),
+        child: _buildNameSetter(i),
+      ));
     }
     return nameSetters;
   }
