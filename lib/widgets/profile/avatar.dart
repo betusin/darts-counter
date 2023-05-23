@@ -5,8 +5,6 @@ import 'package:go_router/go_router.dart';
 import '../../service/ioc_container.dart';
 import '../handlers/handling_future_builder.dart';
 
-const _AVATAR_SIZE = 55.0;
-
 class Avatar extends StatelessWidget {
   const Avatar({super.key});
 
@@ -17,19 +15,20 @@ class Avatar extends StatelessWidget {
     return TextButton(
       onPressed: () => {context.push('/profile')},
       child: Container(
-        width: _AVATAR_SIZE,
-        height: _AVATAR_SIZE,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.blue,
-        ),
+            shape: BoxShape.rectangle,
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(25)),
         child: Center(
           child: HandlingFutureBuilder(
             future: userController.getUserHashOfCurrentUser(),
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              return Text(
-                snapshot.data,
-                style: TextStyle(color: Colors.white),
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  snapshot.data,
+                  style: TextStyle(color: Colors.blue),
+                ),
               );
             },
           ),

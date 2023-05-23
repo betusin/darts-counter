@@ -5,6 +5,7 @@ import 'package:dartboard/pages/settings.dart';
 import 'package:dartboard/pages/statistics_page.dart';
 import 'package:dartboard/service/setup_user_service.dart';
 import 'package:dartboard/service/ioc_container.dart';
+import 'package:dartboard/widgets/custom_app_bar.dart';
 import 'package:dartboard/widgets/new_local_without_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_ui_auth/firebase_ui_auth.dart';
@@ -51,9 +52,9 @@ var appRoutes = GoRouter(
       path: '/profile',
       builder: (context, state) {
         return ProfileScreen(
-          appBar: AppBar(
+          appBar: CustomAppBar(
             title: Text('Profile'),
-          ),
+          ) as AppBar,
           actions: [
             SignedOutAction((context) {
               context.pushReplacementNamed('/sign-in');

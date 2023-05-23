@@ -1,7 +1,7 @@
 import 'package:dartboard/widgets/grid_redirect_button.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/profile/profile_bar.dart';
+import '../widgets/custom_app_bar.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -9,13 +9,12 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppBar(
         title: Text('Main Page'),
       ),
       body: Center(
         child: Column(
           children: [
-            ProfileBar(),
             _buildButtons(context),
           ],
         ),

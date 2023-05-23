@@ -5,6 +5,7 @@ import 'package:dartboard/widgets/statistics/statistics_graph.dart';
 import 'package:flutter/material.dart';
 
 import '../service/ioc_container.dart';
+import '../widgets/custom_app_bar.dart';
 
 class StatisticsPage extends StatelessWidget {
   const StatisticsPage({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class StatisticsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppBar(
         title: Text('Your Statistics'),
       ),
       body: HandlingFutureBuilder(

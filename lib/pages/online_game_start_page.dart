@@ -5,6 +5,7 @@ import 'package:dartboard/widgets/handlers/handling_stream_builder.dart';
 import 'package:dartboard/widgets/invites/invite_from_list_item.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/custom_app_bar.dart';
 import '../widgets/invites/invite_list_item.dart';
 
 class OnlineGameStartPage extends StatelessWidget {
@@ -17,7 +18,7 @@ class OnlineGameStartPage extends StatelessWidget {
     final textController = TextEditingController();
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppBar(
         title: Text('Invite your friends'),
       ),
       body: Padding(

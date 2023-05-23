@@ -1,6 +1,8 @@
 import 'package:dartboard/pages/local_game_page.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/custom_app_bar.dart';
+
 /*
 page where ppl will set the names, number of players and starting score
  */
@@ -21,7 +23,7 @@ class _LocalGameStartState extends State<LocalGameStart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppBar(
         title: Text('New Local Game'),
       ),
       body: SingleChildScrollView(
