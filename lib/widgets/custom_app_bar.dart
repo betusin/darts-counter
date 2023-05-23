@@ -1,4 +1,5 @@
 import 'package:dartboard/widgets/profile/avatar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,7 +17,8 @@ class CustomAppBar extends AppBar {
           key: key,
           title: title,
           actions: [
-            if (GoRouter.of(context).location != STATISTICS_LOCATION)
+            if (GoRouter.of(context).location != STATISTICS_LOCATION &&
+                FirebaseAuth.instance.currentUser != null)
               IconButton(
                 onPressed: () {
                   context.push(STATISTICS_LOCATION);
@@ -26,7 +28,7 @@ class CustomAppBar extends AppBar {
                   size: 36,
                 ),
               ),
-            Avatar(),
+            if (FirebaseAuth.instance.currentUser != null) Avatar(),
           ],
         );
 }
