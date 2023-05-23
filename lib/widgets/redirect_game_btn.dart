@@ -15,6 +15,9 @@ class RedirectGameButton extends StatelessWidget {
       onPressed: () {
         context.push(location);
       },
+      style: OutlinedButton.styleFrom(
+        side: BorderSide(color: Colors.blue),
+      ),
       child: Text("Start $text_game_mode game"),
     );
   }
