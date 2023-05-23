@@ -34,7 +34,7 @@ class OnlineGameStartPage extends StatelessWidget {
                   inviteController.sendInvite(textController.value.text);
                   textController.clear();
                 },
-                child: Text('Invite friend'),
+                child: Text('Invite the friend'),
               ),
             ),
             Divider(),
