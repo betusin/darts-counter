@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/app_bar/custom_app_bar.dart';
+
 class Settings extends StatelessWidget {
   const Settings({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppBar(
         title: Text('Settings'),
+        context: context,
       ),
       body: Center(child: Text('To be implemented')),
     );

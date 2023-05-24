@@ -20,7 +20,7 @@ class GameStatistics {
       '140+ Thrown': thrown140.toString(),
       '120+ Thrown': thrown120.toString(),
       '100+ Checkouts': tonPlusCheckouts.toString(),
-      'Checkouts Percentage': checkoutPercentage.toString(),
+      'Checkouts Percentage': checkoutPercentage.toStringAsFixed(2),
       'Checkouts Hit': checkoutsHit.toString(),
       'Checkout Possible': checkoutsPossible.toString(),
     };

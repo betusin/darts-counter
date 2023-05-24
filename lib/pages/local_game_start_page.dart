@@ -1,5 +1,9 @@
 import 'package:dartboard/pages/local_game_page.dart';
+import 'package:dartboard/widgets/redirect_game_btn.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/app_bar/custom_app_bar.dart';
 
 /*
 page where ppl will set the names, number of players and starting score
@@ -21,40 +25,65 @@ class _LocalGameStartState extends State<LocalGameStart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppBar(
         title: Text('New Local Game'),
+        context: context,
       ),
-      body: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.all(6.0),
-          child: Column(
-            children: [
-              _buildGameModeDropdown(),
-              SizedBox(height: 6),
-              _buildPlayersDropdown(),
-              ..._buildPlayerCards(),
-              SizedBox(height: 6),
-              SizedBox(
-                width: 200,
-                height: 80,
-                child: ElevatedButton(
-                    onPressed: () {
-                      final pageToPush = MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return LocalGamePage(
-                              numberOfPlayers: playerNumberValue,
-                              names: playerNames.sublist(0, playerNumberValue),
-                              startingScore: int.parse(gameModeValue));
-                        },
-                      );
-                      Navigator.push(context, pageToPush);
-                    },
-                    child: Text('Start')),
+      body: Column(
+        children: [
+          SingleChildScrollView(
+            physics: ScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: Column(
+                children: [
+                  Column(
+                    children: [],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 6.0),
+                    child: _buildGameModeDropdown(),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 6.0),
+                    child: _buildPlayersDropdown(),
+                  ),
+                  ..._buildPlayerCards(),
+                  Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        final pageToPush = MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return LocalGamePage(
+                                numberOfPlayers: playerNumberValue,
+                                names:
+                                    playerNames.sublist(0, playerNumberValue),
+                                startingScore: int.parse(gameModeValue));
+                          },
+                        );
+                        Navigator.push(context, pageToPush);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Text('Start game'),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+          Spacer(),
+          if (FirebaseAuth.instance.currentUser != null)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8.0),
+              child: RedirectGameButton(
+                location: '/game/online/start',
+                text_game_mode: 'online',
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -129,8 +158,10 @@ class _LocalGameStartState extends State<LocalGameStart> {
   List<Widget> _buildPlayerCards() {
     List<Widget> nameSetters = [];
     for (int i = 0; i < playerNumberValue; i++) {
-      nameSetters.add(SizedBox(height: 6));
-      nameSetters.add(_buildNameSetter(i));
+      nameSetters.add(Padding(
+        padding: const EdgeInsets.only(bottom: 6.0),
+        child: _buildNameSetter(i),
+      ));
     }
     return nameSetters;
   }

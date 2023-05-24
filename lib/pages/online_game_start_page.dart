@@ -5,7 +5,9 @@ import 'package:dartboard/widgets/handlers/handling_stream_builder.dart';
 import 'package:dartboard/widgets/invites/invite_from_list_item.dart';
 import 'package:flutter/material.dart';
 
+import '../widgets/app_bar/custom_app_bar.dart';
 import '../widgets/invites/invite_list_item.dart';
+import '../widgets/redirect_game_btn.dart';
 
 class OnlineGameStartPage extends StatelessWidget {
   var inviteController = get<InviteService>();
@@ -17,8 +19,9 @@ class OnlineGameStartPage extends StatelessWidget {
     final textController = TextEditingController();
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppBar(
         title: Text('Invite your friends'),
+        context: context,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -34,7 +37,7 @@ class OnlineGameStartPage extends StatelessWidget {
                   inviteController.sendInvite(textController.value.text);
                   textController.clear();
                 },
-                child: Text('Invite friend'),
+                child: Text('Invite the friend'),
               ),
             ),
             Divider(),
@@ -49,6 +52,10 @@ class OnlineGameStartPage extends StatelessWidget {
               style: TextStyle(fontSize: 20),
             ),
             _buildInvitesFromYou(context),
+            RedirectGameButton(
+              location: '/game/local',
+              text_game_mode: 'local',
+            ),
           ],
         ),
       ),
